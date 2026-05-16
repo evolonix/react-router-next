@@ -92,6 +92,22 @@ body {
   margin: 0;
 }
 
+/* Shiki dual-theme output: highlighter is created with defaultColor: false,
+   so each token only emits --shiki-light / --shiki-dark CSS variables.
+   light-dark() picks the matching value based on color-scheme so a theme
+   toggle doesn't require re-highlighting. */
+.shiki,
+.shiki span {
+  color: light-dark(var(--shiki-light), var(--shiki-dark));
+}
+
+.shiki {
+  background-color: light-dark(
+    var(--shiki-light-bg),
+    var(--shiki-dark-bg)
+  );
+}
+
 #root {
   max-width: var(--container-6xl);
   margin: 0 auto;

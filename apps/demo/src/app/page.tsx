@@ -1,303 +1,82 @@
-import { generate as generateMarketingAbout } from "virtual:react-router-next/(marketing)/about";
-import { generate as generateMarketingPricing } from "virtual:react-router-next/(marketing)/pricing";
-import { generate as generateDashboard } from "virtual:react-router-next/dashboard";
-import { generate as generateDashboardBroken } from "virtual:react-router-next/dashboard/broken";
-import { generate as generateDashboardOther } from "virtual:react-router-next/dashboard/other";
-import { generate as generateDashboardSettings } from "virtual:react-router-next/dashboard/settings";
-import { generate as generateDoc } from "virtual:react-router-next/docs/[...slug]";
-import { generate as generateFile } from "virtual:react-router-next/files/[[...slug]]";
-import { generate as generateInbox } from "virtual:react-router-next/inbox";
-import { generate as generateMessage } from "virtual:react-router-next/inbox/[id]";
-import { generate as generateNotes } from "virtual:react-router-next/notes";
-import { generate as generateNote } from "virtual:react-router-next/notes/[noteId]";
-import { generate as generatePhotos } from "virtual:react-router-next/photos";
-import { generate as generatePhoto } from "virtual:react-router-next/photos/[id]";
-import { generate as generatePosts } from "virtual:react-router-next/posts";
-import { generate as generatePost } from "virtual:react-router-next/posts/[postId]";
-import { Card } from "../components/ui/card";
-import { Code, FilePath } from "../components/ui/code";
-import { Divider } from "../components/ui/divider";
+import { CategoryCard } from "../components/ui/category-card";
 import { Heading } from "../components/ui/heading";
+import { Hero } from "../components/ui/hero";
 import { NavLink } from "../components/ui/nav";
-import { PageHeader } from "../components/ui/page-header";
 import { Stack } from "../components/ui/stack";
-import { Text } from "../components/ui/text";
+import {
+  CATEGORY_LABEL,
+  CATEGORY_ORDER,
+  FEATURE_ENTRIES,
+  type FeatureCategory,
+} from "../lib/feature-catalog";
 
-type Section = {
-  title: string;
-  feature: string;
-  files: string[];
-  links: { to: string; label: string }[];
+const CATEGORY_BLURB: Record<FeatureCategory, string> = {
+  "get-started":
+    "Get oriented with the file and folder conventions powering the router.",
+  routing:
+    "Pattern-match URLs with groups, dynamic segments, and catch-alls.",
+  "data-loading":
+    "Loaders, suspense, and the imperative pending hook in one place.",
+  boundaries:
+    "Per-segment loading, error, and not-found boundaries — including slot-scoped ones.",
+  "advanced-layouts":
+    "Parallel slots, intercepting routes at three depths, and per-nav templates.",
+  "type-safe-urls":
+    "Auto-generated RouteProps, useRouteParams, and a typed URL builder per route.",
 };
 
-const SECTIONS: Section[] = [
-  {
-    title: "Layout + pages inside a route group",
-    feature: "(group), (group)/layout.tsx",
-    files: [
-      "(marketing)/layout.tsx",
-      "(marketing)/about/page.tsx",
-      "(marketing)/pricing/page.tsx",
-    ],
-    links: [
-      { to: generateMarketingAbout(), label: generateMarketingAbout() },
-      { to: generateMarketingPricing(), label: generateMarketingPricing() },
-    ],
-  },
-  {
-    title: "Nested layout + loader + loading",
-    feature: "layout.tsx, loader.ts, loading.tsx",
-    files: [
-      "posts/layout.tsx",
-      "posts/loader.ts",
-      "posts/loading.tsx",
-      "posts/page.tsx",
-    ],
-    links: [{ to: generatePosts(), label: generatePosts() }],
-  },
-  {
-    title: "Dynamic segment + per-route loader + error boundary",
-    feature: "[postId], loader.ts, error.tsx",
-    files: [
-      "posts/[postId]/loader.ts",
-      "posts/[postId]/error.tsx",
-      "posts/[postId]/page.tsx",
-    ],
-    links: [
-      {
-        to: generatePost({ postId: "1" }),
-        label: generatePost({ postId: "1" }),
-      },
-      {
-        to: generatePost({ postId: "2" }),
-        label: generatePost({ postId: "2" }),
-      },
-      {
-        to: generatePost({ postId: "999" }),
-        label: generatePost({ postId: "999" }),
-      },
-    ],
-  },
-  {
-    title: "Suspense via a hook (no loader)",
-    feature: "loading.tsx + use(), no loader.ts",
-    files: [
-      "notes/layout.tsx",
-      "notes/loading.tsx",
-      "notes/page.tsx",
-      "notes/[noteId]/page.tsx",
-      "notes/_lib/use-notes.ts",
-    ],
-    links: [
-      { to: generateNotes(), label: generateNotes() },
-      {
-        to: generateNote({ noteId: "a" }),
-        label: generateNote({ noteId: "a" }),
-      },
-    ],
-  },
-  {
-    title: "Catch-all segment",
-    feature: "[...slug]",
-    files: ["docs/[...slug]/page.tsx"],
-    links: [
-      {
-        to: generateDoc({ slug: ["intro"] }),
-        label: generateDoc({ slug: ["intro"] }),
-      },
-      {
-        to: generateDoc({ slug: ["api", "v2", "reference"] }),
-        label: generateDoc({ slug: ["api", "v2", "reference"] }),
-      },
-      {
-        to: generateDoc({ slug: [] }),
-        label: `${generateDoc({ slug: [] })} (bare /docs — required catch-all 404s)`,
-      },
-    ],
-  },
-  {
-    title: "Optional catch-all segment",
-    feature: "[[...slug]]",
-    files: ["files/[[...slug]]/page.tsx"],
-    links: [
-      { to: generateFile({ slug: undefined }), label: "/files (no slug)" },
-      { to: generateFile({ slug: ["readme"] }), label: "/files/readme" },
-      {
-        to: generateFile({ slug: ["src", "app", "page.tsx"] }),
-        label: "/files/src/app/page.tsx",
-      },
-    ],
-  },
-  {
-    title: "Parallel routes (named slot props)",
-    feature: "@slot/, default.tsx",
-    files: [
-      "dashboard/layout.tsx",
-      "dashboard/page.tsx",
-      "dashboard/settings/page.tsx",
-      "dashboard/@analytics/page.tsx",
-      "dashboard/@analytics/settings/page.tsx",
-      "dashboard/@analytics/default.tsx",
-    ],
-    links: [
-      { to: generateDashboard(), label: generateDashboard() },
-      { to: generateDashboardSettings(), label: generateDashboardSettings() },
-      { to: generateDashboardOther(), label: generateDashboardOther() },
-    ],
-  },
-  {
-    title:
-      "Intercepting routes in a parallel slot + template + _private folder",
-    feature: "@slot/, (.)x, template.tsx, _components/",
-    files: [
-      "photos/layout.tsx",
-      "photos/page.tsx",
-      "photos/[id]/page.tsx",
-      "photos/[id]/template.tsx",
-      "photos/@modal/(.)[id]/page.tsx",
-      "photos/@modal/default.tsx",
-      "photos/_components/dialog.tsx",
-    ],
-    links: [
-      { to: generatePhotos(), label: generatePhotos() },
-      {
-        to: generatePhoto({ id: "1" }),
-        label: `${generatePhoto({ id: "1" })} (refresh = full page)`,
-      },
-    ],
-  },
-  {
-    title: "loading.tsx + error.tsx in a parallel slot",
-    feature: "@slot/loading.tsx, @slot/error.tsx",
-    files: [
-      "dashboard/@notifications/page.tsx",
-      "dashboard/@notifications/default.tsx",
-      "dashboard/@notifications/loading.tsx",
-      "dashboard/@notifications/error.tsx",
-      "dashboard/@notifications/broken/page.tsx",
-      "dashboard/broken/page.tsx",
-      "dashboard/_lib/use-notifications.ts",
-    ],
-    links: [
-      {
-        to: generateDashboard(),
-        label: `${generateDashboard()} (slot loading)`,
-      },
-      {
-        to: generateDashboardBroken(),
-        label: `${generateDashboardBroken()} (slot error)`,
-      },
-    ],
-  },
-  {
-    title: "loading.tsx + error.tsx in an intercepted route",
-    feature: "@slot/(.)x/loading.tsx, @slot/(.)x/error.tsx, [id]/error.tsx",
-    files: [
-      "inbox/layout.tsx",
-      "inbox/page.tsx",
-      "inbox/[id]/page.tsx",
-      "inbox/[id]/error.tsx",
-      "inbox/@modal/default.tsx",
-      "inbox/@modal/(.)[id]/page.tsx",
-      "inbox/@modal/(.)[id]/loading.tsx",
-      "inbox/@modal/(.)[id]/error.tsx",
-      "inbox/_components/dialog.tsx",
-      "inbox/_lib/use-message.ts",
-    ],
-    links: [
-      { to: generateInbox(), label: generateInbox() },
-      {
-        to: generateMessage({ id: "1" }),
-        label: `${generateMessage({ id: "1" })} (refresh = full page)`,
-      },
-      {
-        to: generateMessage({ id: "999" }),
-        label: `${generateMessage({ id: "999" })} (modal error, refresh = leaf error)`,
-      },
-    ],
-  },
-  {
-    title: "Root error.tsx as a fallback for nested routes",
-    feature: "error.tsx (root)",
-    files: ["error.tsx", "notes/[noteId]/page.tsx", "notes/_lib/use-notes.ts"],
-    links: [
-      {
-        to: generateNote({ noteId: "missing" }),
-        label: `${generateNote({ noteId: "missing" })} (useNote throws — no notes/error.tsx, bubbles to root)`,
-      },
-    ],
-  },
-  {
-    title: "Root not-found",
-    feature: "not-found.tsx (root)",
-    files: ["not-found.tsx"],
-    links: [{ to: "/no-such-route", label: "/no-such-route" }],
-  },
-  {
-    title: "Per-segment not-found + notFound() helper",
-    feature: "posts/not-found.tsx, notFound()",
-    files: ["posts/not-found.tsx", "posts/[postId]/loader.ts"],
-    links: [
-      {
-        to: generatePost({ postId: "missing" }),
-        label: "/posts/missing (calls notFound())",
-      },
-      {
-        to: "/posts/some/deep/unmatched/path",
-        label: "/posts/some/deep/unmatched/path (segment splat)",
-      },
-    ],
-  },
-];
-
 export default function Home() {
+  const grouped = CATEGORY_ORDER.map((cat) => ({
+    cat,
+    entries: FEATURE_ENTRIES.filter((e) => e.category === cat),
+  }));
+
   return (
     <Stack gap="lg">
-      <PageHeader
-        title="React Router Next Demo"
-        description={
+      <Hero
+        title="React Router Next"
+        tagline="Next.js-style filesystem routing on top of React Router 7. Every demo below maps to a real feature implemented in @evolonix/react-router-next."
+        actions={
           <>
-            Next.js-style filesystem routing for React Router 7. Every link
-            below exercises a feature implemented in{" "}
-            <FilePath>src/lib/AppRouter.tsx</FilePath>.
+            <NavLink
+              to="/conventions"
+              className="rounded border border-border bg-background px-4 py-2 no-underline hover:bg-muted/40"
+            >
+              File conventions
+            </NavLink>
+            <NavLink
+              to="/folders"
+              className="rounded border border-border bg-background px-4 py-2 no-underline hover:bg-muted/40"
+            >
+              Folder conventions
+            </NavLink>
+            <NavLink
+              to="/posts"
+              tone="primary"
+              className="rounded border border-accent-foreground/40 bg-accent px-4 py-2 no-underline"
+            >
+              Jump into a demo →
+            </NavLink>
           </>
         }
       />
-      <Stack gap="lg">
-        {SECTIONS.map((s) => (
-          <Card key={s.title} as="section">
-            <Stack gap="sm">
-              <Heading level={4}>{s.title}</Heading>
-              <Text size="xs" tone="muted" transform="uppercase">
-                {s.feature}
-              </Text>
-              <Stack as="ul" gap="xs" className="list-none p-0 m-0">
-                {s.files.map((f) => (
-                  <li key={f}>
-                    <Text as="span" size="xs" tone="muted">
-                      <Code variant="plain" className="break-all">
-                        src/app/{f}
-                      </Code>
-                    </Text>
-                  </li>
-                ))}
-              </Stack>
-              <Divider />
-              <Text size="sm" weight="semibold">
-                Links to try it out:
-              </Text>
-              <Stack as="ul" gap="xs" className="list-none p-0 m-0">
-                {s.links.map((l) => (
-                  <li key={l.to}>
-                    <NavLink to={l.to} size="sm">
-                      {l.label}
-                    </NavLink>
-                  </li>
-                ))}
-              </Stack>
-            </Stack>
-          </Card>
-        ))}
+
+      <Stack gap="sm">
+        <Heading level={3}>Browse by category</Heading>
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
+          {grouped.map(({ cat, entries }) => (
+            <CategoryCard
+              key={cat}
+              label={CATEGORY_LABEL[cat]}
+              description={CATEGORY_BLURB[cat]}
+              primaryHref={entries[0]?.routes[0]?.href ?? "/"}
+              entries={entries.map((e) => ({
+                name: e.name,
+                href: e.routes[0]!.href,
+              }))}
+            />
+          ))}
+        </div>
       </Stack>
     </Stack>
   );

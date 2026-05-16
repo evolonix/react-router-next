@@ -1,52 +1,60 @@
+import { useState } from "react";
 import { Outlet, ScrollRestoration } from "react-router";
-import { generate as generateMarketingAbout } from "virtual:react-router-next/(marketing)/about";
-import { generate as generateMarketingPricing } from "virtual:react-router-next/(marketing)/pricing";
-import { generate as generateHome } from "virtual:react-router-next/_root";
-import { generate as generateDashboard } from "virtual:react-router-next/dashboard";
-import { generate as generateDoc } from "virtual:react-router-next/docs/[...slug]";
-import { generate as generateFile } from "virtual:react-router-next/files/[[...slug]]";
-import { generate as generateInbox } from "virtual:react-router-next/inbox";
-import { generate as generateNotes } from "virtual:react-router-next/notes";
-import { generate as generatePhotos } from "virtual:react-router-next/photos";
-import { generate as generatePosts } from "virtual:react-router-next/posts";
 import { ThemeToggle } from "../components/theme-provider";
-import { Container } from "../components/ui/container";
-import { NavLink, TopNav } from "../components/ui/nav";
+import { FeatureCallout } from "../components/ui/feature-callout";
+import { Sidebar, SidebarDrawer } from "../components/ui/sidebar";
 import { RouteProgress } from "../components/ui/route-progress";
 
-const NAV_LINKS: { to: string; label: string }[] = [
-  { to: generateMarketingAbout(), label: "About" },
-  { to: generateMarketingPricing(), label: "Pricing" },
-  { to: generatePosts(), label: "Posts" },
-  { to: generateNotes(), label: "Notes" },
-  { to: generateDoc({ slug: ["intro"] }), label: "Docs" },
-  { to: generateFile({ slug: undefined }), label: "Files" },
-  { to: generateDashboard(), label: "Dashboard" },
-  { to: generatePhotos(), label: "Photos" },
-  { to: generateInbox(), label: "Inbox" },
-];
-
 export default function RootLayout() {
+  const [drawerOpen, setDrawerOpen] = useState(false);
   return (
     <div className="flex min-h-screen flex-col">
       <ScrollRestoration />
       <RouteProgress />
-      <TopNav
-        brand={
-          <NavLink to={generateHome()} tone="default" weight="semibold">
-            React Router Next Demo
-          </NavLink>
-        }
-        links={NAV_LINKS.map((l) => (
-          <NavLink key={l.to} to={l.to} tone="muted" size="sm">
-            {l.label}
-          </NavLink>
-        ))}
-        actions={<ThemeToggle />}
-      />
-      <Container as="main" size="lg" className="py-6 sm:py-8">
-        <Outlet />
-      </Container>
+      <div className="flex flex-1">
+        <Sidebar footer={<ThemeToggle />} />
+        <SidebarDrawer
+          open={drawerOpen}
+          onClose={() => setDrawerOpen(false)}
+          footer={<ThemeToggle />}
+        />
+        <div className="flex min-w-0 flex-1 flex-col">
+          <header className="sticky top-0 z-10 flex items-center gap-3 border-b border-border bg-background/90 px-4 py-3 backdrop-blur lg:hidden">
+            <button
+              type="button"
+              aria-label="Open menu"
+              aria-expanded={drawerOpen}
+              onClick={() => setDrawerOpen(true)}
+              className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-border bg-background text-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              <svg
+                aria-hidden
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="h-4 w-4"
+              >
+                <line x1="4" y1="7" x2="20" y2="7" />
+                <line x1="4" y1="12" x2="20" y2="12" />
+                <line x1="4" y1="17" x2="20" y2="17" />
+              </svg>
+            </button>
+            <span className="text-sm font-semibold text-foreground">
+              React Router Next
+            </span>
+            <div className="ml-auto">
+              <ThemeToggle />
+            </div>
+          </header>
+          <main className="min-w-0 flex-1 px-4 py-6 sm:px-6 lg:px-8">
+            <FeatureCallout />
+            <Outlet />
+          </main>
+        </div>
+      </div>
     </div>
   );
 }
