@@ -32,9 +32,13 @@ type Section = {
 
 const SECTIONS: Section[] = [
   {
-    title: "Static pages inside a route group",
-    feature: "(group)",
-    files: ["(marketing)/about/page.tsx", "(marketing)/pricing/page.tsx"],
+    title: "Layout + pages inside a route group",
+    feature: "(group), (group)/layout.tsx",
+    files: [
+      "(marketing)/layout.tsx",
+      "(marketing)/about/page.tsx",
+      "(marketing)/pricing/page.tsx",
+    ],
     links: [
       { to: generateMarketingAbout(), label: generateMarketingAbout() },
       { to: generateMarketingPricing(), label: generateMarketingPricing() },
@@ -187,15 +191,17 @@ const SECTIONS: Section[] = [
   },
   {
     title: "loading.tsx + error.tsx in an intercepted route",
-    feature: "@slot/(.)x/loading.tsx, @slot/(.)x/error.tsx",
+    feature: "@slot/(.)x/loading.tsx, @slot/(.)x/error.tsx, [id]/error.tsx",
     files: [
       "inbox/layout.tsx",
       "inbox/page.tsx",
       "inbox/[id]/page.tsx",
+      "inbox/[id]/error.tsx",
       "inbox/@modal/default.tsx",
       "inbox/@modal/(.)[id]/page.tsx",
       "inbox/@modal/(.)[id]/loading.tsx",
       "inbox/@modal/(.)[id]/error.tsx",
+      "inbox/_components/dialog.tsx",
       "inbox/_lib/use-message.ts",
     ],
     links: [
@@ -206,7 +212,18 @@ const SECTIONS: Section[] = [
       },
       {
         to: generateMessage({ id: "999" }),
-        label: `${generateMessage({ id: "999" })} (modal error)`,
+        label: `${generateMessage({ id: "999" })} (modal error, refresh = leaf error)`,
+      },
+    ],
+  },
+  {
+    title: "Root error.tsx as a fallback for nested routes",
+    feature: "error.tsx (root)",
+    files: ["error.tsx", "notes/[noteId]/page.tsx", "notes/_lib/use-notes.ts"],
+    links: [
+      {
+        to: generateNote({ noteId: "missing" }),
+        label: `${generateNote({ noteId: "missing" })} (useNote throws — no notes/error.tsx, bubbles to root)`,
       },
     ],
   },
