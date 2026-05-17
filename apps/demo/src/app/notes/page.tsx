@@ -12,8 +12,8 @@ export default function NotesIndex() {
       <Text>
         Loaded {notes.length} notes via the <FilePath>useNotes()</FilePath> hook
         in <FilePath>src/app/notes/_lib/use-notes.ts</FilePath>. The hook
-        suspends on a cached promise; the same <FilePath>loading.tsx</FilePath>{" "}
-        that covers router loaders catches it.
+        suspends on a cached promise; the injected{" "}
+        <FilePath>loading.tsx</FilePath> renders as the Suspense fallback.
       </Text>
       <ul className="m-0 p-0 list-none divide-y divide-border">
         {notes.map((n) => (

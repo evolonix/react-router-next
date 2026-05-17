@@ -3,6 +3,7 @@ import { matchPath, useLocation } from "react-router";
 import { cn } from "../../lib/cn";
 import {
   CATEGORY_LABEL,
+  FEATURE_PARAM,
   findEntryForPath,
   type FeatureEntry,
 } from "../../lib/feature-catalog";
@@ -23,7 +24,9 @@ function readGlobalHidden(): boolean {
 
 function readPerRouteDismissed(entryId: string): boolean {
   try {
-    return window.sessionStorage.getItem(`${PER_ROUTE_PREFIX}${entryId}`) === "1";
+    return (
+      window.sessionStorage.getItem(`${PER_ROUTE_PREFIX}${entryId}`) === "1"
+    );
   } catch {
     return false;
   }
@@ -54,10 +57,11 @@ function writeGlobalHidden() {
  * button can re-show banners without a page reload.
  */
 export function FeatureCallout({ className }: { className?: string }) {
-  const { pathname } = useLocation();
+  const { pathname, search } = useLocation();
+  const featureId = new URLSearchParams(search).get(FEATURE_PARAM);
   const entry = useMemo<FeatureEntry | null>(
-    () => findEntryForPath(pathname, matchPath),
-    [pathname],
+    () => findEntryForPath(pathname, matchPath, featureId),
+    [pathname, featureId],
   );
 
   const [hidden, setHidden] = useState(() => {
@@ -68,16 +72,20 @@ export function FeatureCallout({ className }: { className?: string }) {
 
   const [openFile, setOpenFile] = useState<string | null>(null);
 
-  useEffect(() => {
-    // Re-evaluate dismissal when the route (and thus the entry) changes.
-    if (!entry) return;
-    if (readGlobalHidden() || readPerRouteDismissed(entry.id)) {
-      setHidden(true);
-    } else {
-      setHidden(false);
-      setOpenFile(null);
+  // Re-evaluate dismissal when the route (and thus the entry) changes.
+  const currentEntryId = entry?.id ?? null;
+  const [processedEntryId, setProcessedEntryId] = useState(currentEntryId);
+  if (currentEntryId !== processedEntryId) {
+    setProcessedEntryId(currentEntryId);
+    if (entry) {
+      if (readGlobalHidden() || readPerRouteDismissed(entry.id)) {
+        setHidden(true);
+      } else {
+        setHidden(false);
+        setOpenFile(null);
+      }
     }
-  }, [entry]);
+  }
 
   useEffect(() => {
     function onReset() {

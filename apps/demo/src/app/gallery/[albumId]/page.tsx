@@ -28,8 +28,8 @@ export default function AlbumPage({ params }: RouteProps) {
         <Heading level={3}>{album.title}</Heading>
         <Text size="sm" tone="muted">
           Click a photo. The album's <FilePath>@modal</FilePath> slot pairs with
-          the <FilePath>(.)[photoId]</FilePath> interceptor to overlay the
-          photo without unmounting the grid. Or visit the{" "}
+          the <FilePath>(.)[photoId]</FilePath> interceptor to overlay the photo
+          without unmounting the grid. Or visit the{" "}
           <NavLink to={generateFeed({ albumId: album.id })} size="sm">
             feed view
           </NavLink>{" "}

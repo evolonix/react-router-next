@@ -5,7 +5,7 @@ import { Text } from "./text";
 type CategoryCardProps = {
   label: string;
   description: string;
-  entries: { name: string; href: string }[];
+  entries: { id: string; name: string; href: string }[];
   primaryHref: string;
 };
 
@@ -30,7 +30,7 @@ export function CategoryCard({
       </Text>
       <Stack as="ul" gap="xs" className="mt-3 list-none p-0">
         {entries.slice(0, 4).map((e) => (
-          <li key={e.href}>
+          <li key={e.id}>
             <NavLink to={e.href} size="sm" tone="muted">
               {e.name}
             </NavLink>

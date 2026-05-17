@@ -30,17 +30,11 @@ const FILE_CONVENTIONS: FileConvention[] = [
       "Useful for entry animations, instrumentation, or any per-nav reset.",
   },
   {
-    name: "loader.ts",
-    purpose:
-      "React Router data loader (named or default export). Attached to the segment's `page.tsx`.",
-    notes: "Returns a value retrievable via `useLoaderData()`.",
-  },
-  {
     name: "loading.tsx",
     purpose:
-      "Renders while a child loader runs OR while a descendant suspends.",
+      "Renders while React Router transitions OR while a descendant suspends.",
     notes:
-      "Single file handles both React Router's navigation state and React Suspense.",
+      "Acts as both a `useNavigation()`-aware fallback and a React Suspense boundary.",
   },
   {
     name: "error.tsx",

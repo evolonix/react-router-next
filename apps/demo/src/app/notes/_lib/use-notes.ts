@@ -5,8 +5,8 @@ export type Note = { id: string; title: string; body: string };
 const NOTES: Note[] = [
   {
     id: "a",
-    title: "No loader, just a hook",
-    body: "This page has no loader.ts. The hook below throws a promise; LoadingBoundary's <Suspense> catches it and renders loading.tsx.",
+    title: "Suspense-driven data",
+    body: "The hook below throws a cached promise; the injected LoadingBoundary's <Suspense> catches it and renders loading.tsx.",
   },
   {
     id: "b",

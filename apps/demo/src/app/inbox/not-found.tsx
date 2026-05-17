@@ -5,21 +5,21 @@ import { Heading } from "../../components/ui/heading";
 import { NavLink } from "../../components/ui/nav";
 import { Stack } from "../../components/ui/stack";
 import { Text } from "../../components/ui/text";
-import { generate as generatePosts } from "virtual:react-router-next/posts";
+import { generate as generateInbox } from "virtual:react-router-next/inbox";
 
-export default function PostsNotFound() {
+export default function InboxNotFound() {
   const location = useLocation();
   return (
     <Card padding="lg" align="center">
       <Stack gap="sm" align="center">
-        <Heading level={2}>Post not found</Heading>
+        <Heading level={2}>Message not found</Heading>
         <Text tone="muted">
-          No post matches <FilePath>{location.pathname}</FilePath>. This page
-          comes from <FilePath>src/app/posts/not-found.tsx</FilePath> — the
+          No message matches <FilePath>{location.pathname}</FilePath>. This page
+          comes from <FilePath>src/app/inbox/not-found.tsx</FilePath> — the
           nearest <FilePath>not-found.tsx</FilePath> wins, so the section nav
           stays mounted.
         </Text>
-        <NavLink to={generatePosts()}>Back to posts</NavLink>
+        <NavLink to={generateInbox()}>Back to inbox</NavLink>
       </Stack>
     </Card>
   );

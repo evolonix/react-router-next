@@ -7,14 +7,14 @@ import {
   CATEGORY_LABEL,
   CATEGORY_ORDER,
   FEATURE_ENTRIES,
+  featureLinkHref,
   type FeatureCategory,
 } from "../lib/feature-catalog";
 
 const CATEGORY_BLURB: Record<FeatureCategory, string> = {
   "get-started":
     "Get oriented with the file and folder conventions powering the router.",
-  routing:
-    "Pattern-match URLs with groups, dynamic segments, and catch-alls.",
+  routing: "Pattern-match URLs with groups, dynamic segments, and catch-alls.",
   "data-loading":
     "Loaders, suspense, and the imperative pending hook in one place.",
   boundaries:
@@ -69,10 +69,11 @@ export default function Home() {
               key={cat}
               label={CATEGORY_LABEL[cat]}
               description={CATEGORY_BLURB[cat]}
-              primaryHref={entries[0]?.routes[0]?.href ?? "/"}
+              primaryHref={entries[0] ? featureLinkHref(entries[0]) : "/"}
               entries={entries.map((e) => ({
+                id: e.id,
                 name: e.name,
-                href: e.routes[0]!.href,
+                href: featureLinkHref(e),
               }))}
             />
           ))}

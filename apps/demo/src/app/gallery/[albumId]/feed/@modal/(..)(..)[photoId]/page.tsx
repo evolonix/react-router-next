@@ -48,8 +48,8 @@ export default function FeedPhotoModal({ params }: RouteProps) {
               gallery/[albumId]/feed/@modal/(..)(..)[photoId]/page.tsx
             </FilePath>
             . <FilePath>(..)(..)</FilePath> pops the slot and{" "}
-            <FilePath>feed/</FilePath>, landing on the same photo route as
-            the album view's modal.
+            <FilePath>feed/</FilePath>, landing on the same photo route as the
+            album view's modal.
           </Text>
         </Stack>
       </div>

@@ -102,10 +102,7 @@ body {
 }
 
 .shiki {
-  background-color: light-dark(
-    var(--shiki-light-bg),
-    var(--shiki-dark-bg)
-  );
+  background-color: light-dark(var(--shiki-light-bg), var(--shiki-dark-bg));
 }
 
 #root {

@@ -13,11 +13,8 @@ import {
 
 export default function TypedRouteExample({ params }: RouteProps) {
   // params is { example: string } via the virtual module — no string literal needed.
-  const generic = useRouteParams<"typed-routes/[example]">();
-  const functional = parseRouteParams(
-    "typed-routes/[example]",
-    useParams(),
-  );
+  const generic = useRouteParams("typed-routes/[example]");
+  const functional = parseRouteParams("typed-routes/[example]", useParams());
 
   return (
     <Stack gap="md">
@@ -28,8 +25,8 @@ export default function TypedRouteExample({ params }: RouteProps) {
         <Text size="sm" tone="muted">
           Importing <FilePath>RouteProps</FilePath> from{" "}
           <FilePath>virtual:react-router-next/typed-routes/[example]</FilePath>{" "}
-          gives a component prop type inferred from the URL pattern. No
-          generic argument required.
+          gives a component prop type inferred from the URL pattern. No generic
+          argument required.
         </Text>
         <Code variant="plain" className="block whitespace-pre">
           {`function Page({ params }: RouteProps) {
@@ -44,8 +41,7 @@ export default function TypedRouteExample({ params }: RouteProps) {
         <Heading level={4}>useRouteParams (generic form)</Heading>
         <Text size="sm" tone="muted">
           When you need params away from a page component, pass the route
-          literal as the generic. The string lookup mirrors the filesystem
-          path.
+          literal as the generic. The string lookup mirrors the filesystem path.
         </Text>
         <Code variant="plain" className="block">
           {`useRouteParams<"typed-routes/[example]">() = ${JSON.stringify(generic)}`}
@@ -55,9 +51,9 @@ export default function TypedRouteExample({ params }: RouteProps) {
       <Stack gap="sm">
         <Heading level={4}>parseRouteParams (functional form)</Heading>
         <Text size="sm" tone="muted">
-          Useful inside loaders, where hooks aren't available. Pass the route
-          literal plus React Router's raw <FilePath>useParams()</FilePath>{" "}
-          output.
+          Useful inside utility code and suspending hooks, where component hooks
+          aren't available. Pass the route literal plus React Router's raw{" "}
+          <FilePath>useParams()</FilePath> output.
         </Text>
         <Code variant="plain" className="block">
           {`parseRouteParams("typed-routes/[example]", useParams()) = ${JSON.stringify(functional)}`}

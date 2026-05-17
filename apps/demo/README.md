@@ -32,20 +32,10 @@ src/app/
 ├── (marketing)/                          # Route GROUP — invisible to URL
 │   ├── about/page.tsx                    # /about
 │   └── pricing/page.tsx                  # /pricing
-├── posts/                                # LAYOUT + LOADER + LOADING + PER-SEGMENT NOT-FOUND
-│   ├── layout.tsx                        # Section header, wraps children in <Outlet />
-│   ├── loader.ts                         # List loader (600 ms delay); exports Post + POSTS
-│   ├── loading.tsx                       # Skeleton shown during sibling navigation
-│   ├── not-found.tsx                     # Segment-scoped 404 — wins over root for /posts/...
-│   ├── page.tsx                          # /posts list
-│   └── [postId]/                         # DYNAMIC + ERROR
-│       ├── loader.ts                     # Per-post loader; throws on /posts/999, calls notFound() on unknown ids
-│       ├── error.tsx                     # Errors caught here keep parent layouts mounted
-│       └── page.tsx                      # /posts/:postId
-├── notes/                                # LOADING via SUSPENSE (no loader)
+├── notes/                                # LAYOUT + SUSPENSE DATA FETCHING + LOADING
 │   ├── _lib/use-notes.ts                 # useNotes()/useNote() — promise cache + use()
-│   ├── layout.tsx                        # Section header
-│   ├── loading.tsx                       # Skeleton shown while a hook suspends
+│   ├── layout.tsx                        # Section header, wraps children in <Outlet />
+│   ├── loading.tsx                       # Skeleton — Suspense fallback while a hook suspends
 │   ├── page.tsx                          # /notes — useNotes() suspends on mount
 │   └── [noteId]/page.tsx                 # /notes/:noteId — useNote(id) suspends per id
 ├── docs/[...slug]/page.tsx               # CATCH-ALL — matched value at params["*"]
@@ -77,13 +67,16 @@ src/app/
 │   │   └── (.)[id]/page.tsx              # modal interceptor — rendered on PUSH/REPLACE
 │   └── _components/                      # PRIVATE folder — never routes
 │       └── dialog.tsx                    # importable helper module
-└── inbox/                                # INTERCEPTED MODAL WITH SLOT-SCOPED LOADING + ERROR
+└── inbox/                                # INTERCEPTED MODAL WITH PER-SEGMENT NOT-FOUND + SLOT-SCOPED LOADING + ERROR
     ├── _components/dialog.tsx            # Dialog shell shared by the interceptor's page/loading/error
     ├── _lib/use-message.ts               # useMessage() — promise cache + use(); throws for id 999, notFound() otherwise
     ├── data.ts                           # MESSAGES seed data
     ├── layout.tsx                        # function ({ modal }) — renders <Outlet /> then {modal}
+    ├── not-found.tsx                     # Segment-scoped 404 — wins over root for /inbox/...
     ├── page.tsx                          # /inbox list (stays mounted behind the modal)
-    ├── [id]/page.tsx                     # /inbox/:id full-page fallback (shown on refresh)
+    ├── [id]/
+    │   ├── error.tsx                     # full-page error boundary — keeps the inbox layout mounted
+    │   └── page.tsx                      # /inbox/:id full-page fallback (shown on refresh)
     └── @modal/                           # parallel slot — invisible to URL
         ├── default.tsx                   # null fallback when no message is selected
         └── (.)[id]/                      # modal interceptor — rendered on PUSH/REPLACE
@@ -94,16 +87,15 @@ src/app/
 
 ## File conventions
 
-| File                       | Purpose                                                      | Maps to                                                                                                                                                                                                                 |
-| -------------------------- | ------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `page.tsx`                 | Leaf route element                                           | route's `element` (or `index: true` child if siblings/layout exist)                                                                                                                                                     |
-| `layout.tsx`               | Wraps children via `<Outlet />`                              | parent route's `element`. With sibling `@slot/` folders, the layout also receives each slot as a named prop alongside the outlet.                                                                                       |
-| `template.tsx`             | Like `layout.tsx` but remounts on every navigation           | wrapper inside the layout (or as the route element if no layout) keyed on `useLocation().pathname`                                                                                                                      |
-| `default.tsx`              | Slot fallback (only inside a `@slot/` directory)             | rendered in that slot when the URL doesn't match any of the slot's explicit pages                                                                                                                                       |
-| `loader.ts` / `loader.tsx` | React Router loader (named export `loader`, or default)      | route's `loader`                                                                                                                                                                                                        |
-| `loading.tsx`              | Skeleton/fallback during navigation or while a hook suspends | injected boundary that renders the fallback when `useNavigation().state === "loading"`, and also wraps `<Outlet />` in a `<Suspense>` so suspending hooks (`use()`, React Query suspense, etc.) reuse the same fallback |
-| `error.tsx`                | Error boundary                                               | route's `errorElement` (read with `useRouteError()`)                                                                                                                                                                    |
-| `not-found.tsx`            | 404 boundary, scoped to the segment it lives in              | the segment gains a `{ path: "*" }` child; `notFound()` throws bypass any `error.tsx` and render the nearest ancestor `not-found.tsx`                                                                                   |
+| File            | Purpose                                                      | Maps to                                                                                                                                                                                                                 |
+| --------------- | ------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `page.tsx`      | Leaf route element                                           | route's `element` (or `index: true` child if siblings/layout exist)                                                                                                                                                     |
+| `layout.tsx`    | Wraps children via `<Outlet />`                              | parent route's `element`. With sibling `@slot/` folders, the layout also receives each slot as a named prop alongside the outlet.                                                                                       |
+| `template.tsx`  | Like `layout.tsx` but remounts on every navigation           | wrapper inside the layout (or as the route element if no layout) keyed on `useLocation().pathname`                                                                                                                      |
+| `default.tsx`   | Slot fallback (only inside a `@slot/` directory)             | rendered in that slot when the URL doesn't match any of the slot's explicit pages                                                                                                                                       |
+| `loading.tsx`   | Skeleton/fallback during navigation or while a hook suspends | injected boundary that renders the fallback when `useNavigation().state === "loading"`, and also wraps `<Outlet />` in a `<Suspense>` so suspending hooks (`use()`, React Query suspense, etc.) reuse the same fallback |
+| `error.tsx`     | Error boundary                                               | route's `errorElement` (read with `useRouteError()`)                                                                                                                                                                    |
+| `not-found.tsx` | 404 boundary, scoped to the segment it lives in              | the segment gains a `{ path: "*" }` child; `notFound()` throws bypass any `error.tsx` and render the nearest ancestor `not-found.tsx`                                                                                   |
 
 ## Segment conventions
 
@@ -127,7 +119,7 @@ src/app/
 
 | Route literal       | Returned shape                   |
 | ------------------- | -------------------------------- |
-| `posts/[postId]`    | `{ postId: string }`             |
+| `inbox/[id]`        | `{ id: string }`                 |
 | `docs/[...slug]`    | `{ slug: string[] }`             |
 | `files/[[...slug]]` | `{ slug?: string[] }`            |
 | `(marketing)/about` | `{}` (groups contribute nothing) |
@@ -135,47 +127,45 @@ src/app/
 Pages and layouts also receive their parsed params as a `params` prop — the router wraps each page/layout component and injects them. Each route folder gets its own virtual module that re-exports a pre-bound `RouteProps` type, so you don't have to repeat the route literal:
 
 ```tsx
-import type { RouteProps } from "virtual:react-router-next/posts/[postId]";
+import type { RouteProps } from "virtual:react-router-next/inbox/[id]";
 
-export default function PostPage({ params }: RouteProps) {
-  // params: { postId: string }
+export default function MessagePage({ params }: RouteProps) {
+  // params: { id: string }
 }
 ```
 
 The prop is always passed, but components that don't need it can keep a no-arg signature (`function HomePage() { ... }`) — the extra prop is simply ignored. The `useRouteParams` hook remains available for components that prefer the hook style.
 
-Loaders use the same runtime extractor:
+Utility code and suspending hooks use the same runtime extractor (where component hooks aren't available):
 
 ```ts
 import { parseRouteParams } from "react-router-next";
+import { useParams, use } from "react-router";
 
-export const loader: LoaderFunction = ({ params }) => {
-  const { postId } = parseRouteParams("posts/[postId]", params);
-  // postId: string
-};
+export function useMessage() {
+  const { id } = parseRouteParams("inbox/[id]", useParams());
+  // id: string
+  return use(messageCache.get(id) ?? cacheNew(id));
+}
 ```
 
-The route literal isn't validated against the actual mounted route — passing `"posts/[wrongName]"` will compile but yield `undefined` at runtime.
+The route literal isn't validated against the actual mounted route — passing `"inbox/[wrongName]"` will compile but yield `undefined` at runtime.
 
 ## Caveats
 
 - **Catch-all parameters lose their name at the RR layer.** React Router's splat token is always `*`, so a folder named `[...slug]` produces `params["*"]` — not `params.slug`. `useRouteParams` re-keys this and splits it into a `string[]` to match Next.js; reach for `useParams()` directly only if you need the raw RR shape.
 
-- **`loading.tsx` is visible only during sibling navigation under the same layout.** RR7's data router keeps the old UI mounted while new loaders run, so a deeper loading boundary doesn't render until _after_ the transition completes. Going `/posts/1 → /posts/2` shows it; going `/ → /posts/1` does not. The root layout compensates with a thin pulsing bar driven by `useNavigation()` so the initial transition is still visible.
+- **`loading.tsx` doubles as a navigation fallback and a Suspense boundary.** The injected wrapper renders the fallback when `useNavigation().state === "loading"` _and_ wraps `<Outlet />` in a `<Suspense fallback={<Loading />}>`. A page suspends by calling `use()` on a cached promise — `/notes` and `/inbox` are wired this way; `useNotes()` / `useMessage()` throw a cached promise on first render and `loading.tsx` catches it. The root layout adds a thin pulsing bar driven by `useNavigation()` so cross-layout transitions are still visible (deeper loading boundaries don't render until after the transition completes).
 
-- **`loading.tsx` also doubles as a Suspense boundary.** The injected wrapper renders the fallback when `useNavigation().state === "loading"` _and_ wraps `<Outlet />` in a `<Suspense fallback={<Loading />}>`. A route with no `loader.ts` can still show the same skeleton by suspending inside the page — `use(promise)`, React Query's suspense mode, etc. The `/notes` section is wired this way; `useNotes()` throws a cached promise on first render and `loading.tsx` catches it.
-
-- **`error.tsx` replaces the route's element in place.** A per-route `error.tsx` (e.g. at `posts/[postId]/error.tsx`) only swaps the leaf — root and section layouts stay mounted. A root-level `error.tsx` would replace the _root layout_ (header included) on any unhandled error, so this demo doesn't add one and lets RR's default fallback show for non-leaf failures. Try `/posts/999` to see scoped error handling.
-
-- **Loaders attach to the page leaf, not the layout.** A `loader.ts` file at directory `X` provides data for `X/page.tsx` (read with `useLoaderData()`). If you want a layout to fetch its own data, put a loader on a route that owns the layout — currently the impl doesn't do that automatically. (Adding it would mean attaching the loader to the layout's route and using `useRouteLoaderData(id)` in the page, with explicit route IDs.)
+- **`error.tsx` replaces the route's element in place.** A per-route `error.tsx` (e.g. at `inbox/[id]/error.tsx`) only swaps the leaf — root and section layouts stay mounted. A root-level `error.tsx` would replace the _root layout_ (header included) on any unhandled error, so this demo doesn't add one and lets RR's default fallback show for non-leaf failures. Try `/inbox/999` to see scoped error handling.
 
 - **Optional catch-all `[[...slug]]` expands to two RR routes.** A folder named `[[...slug]]` contributes both an index route (matches the parent's bare path) and a splat route (matches anything below). Both are wired to the same `page.tsx`, and the matched value still lives at `params["*"]` (`undefined` at the bare path). The folder is treated as a leaf — adding a `layout.tsx` or nested children inside it isn't supported.
 
 - **The router is built once at module load.** `import.meta.glob` runs at build time and `createBrowserRouter` is called at the top level of `<AppRouter />`. Adding/removing files under `src/app/` triggers a Vite reload, but you won't see the new routes without that reload.
 
-- **Parallel-route slots can't have RR loaders.** Each `@slot/` subtree is matched imperatively via `useRoutes()` from inside the parent layout — it isn't part of React Router's data-router tree, so a `loader.ts` under a `@slot/` directory is dropped with a build-time warning. If a slot has `loading.tsx` it likewise won't be triggered by RR's navigation state. Use ordinary children (or a route-id loader) for data-driven UI.
+- **Parallel-route slots match outside the data router.** Each `@slot/` subtree is matched imperatively via `useRoutes()` from inside the parent layout — it isn't part of React Router's data-router tree, so a slot's `loading.tsx` isn't triggered by RR's navigation state (Suspense from within the slot still works).
 
-- **Intercepting routes only intercept on PUSH/REPLACE.** The wrapper checks `useNavigationType()`: `POP` (back/forward) and initial loads always render the original target. Refresh on a `/photos/1` URL shows the full-page detail, not the modal. Loaders, layouts, and loading boundaries inside an interceptor folder are unsupported and produce a build-time warning.
+- **Intercepting routes only intercept on PUSH/REPLACE.** The wrapper checks `useNavigationType()`: `POP` (back/forward) and initial loads always render the original target. Refresh on a `/photos/1` URL shows the full-page detail, not the modal. A `layout.tsx` inside an interceptor folder is unsupported and produces a build-time warning.
 
 - **Slot-owned intercepts pair with a parent `@slot`.** The `/photos` modal lives at `photos/@modal/(.)[id]/page.tsx` — the `(.)[id]` interceptor sits _inside_ a parallel slot, and `photos/layout.tsx` renders the slot prop (`{modal}`) alongside `<Outlet />`. On soft-nav to `/photos/:id` the slot matches the interceptor while the main outlet "freezes" to `photos/page.tsx`, so the grid stays mounted under the modal — the Next.js-canonical layering. The slot needs a `default.tsx` (returning `null` is fine) so it renders nothing when no photo is selected. A naked `photos/(.)[id]/page.tsx` interceptor still works, but swaps the page outright rather than overlaying it.
 
@@ -187,14 +177,13 @@ The route literal isn't validated against the actual mounted route — passing `
 
 - `/` — feature index
 - `/about`, `/pricing` — route group (note the URL has no `/(marketing)`)
-- `/posts` — loader + loading skeleton (click between posts to see `loading.tsx`)
-- `/posts/1`, `/posts/999` — dynamic + error
-- `/notes`, `/notes/a` — same `loading.tsx`, but driven by a suspending hook instead of a loader
+- `/notes`, `/notes/a` — Suspense-driven data fetching; `loading.tsx` renders as the Suspense fallback
 - `/docs/intro`, `/docs/api/v2/reference` — catch-all
 - `/files`, `/files/readme`, `/files/src/app/page.tsx` — optional catch-all
 - `/dashboard`, `/dashboard/settings` — parallel routes (main outlet + analytics slot, both swap independently); the `@notifications` slot suspends with its own `loading.tsx`
 - `/dashboard/broken` — slot-scoped `error.tsx` (only the `@notifications` column fails; the main outlet and `@analytics` slot stay rendered)
 - `/photos` then click a thumbnail — modal interceptor; refresh on a photo URL shows the full page instead
-- `/inbox` then click a message — same intercepted-modal pattern, but the interceptor has its own `loading.tsx` (suspends on `useMessage()`) and `error.tsx` (click the `broken (id 999)` row to trigger it inside the dialog); refresh on `/inbox/:id` shows the full page
+- `/inbox` then click a message — intercepted-modal pattern with its own `loading.tsx` (suspends on `useMessage()`) and `error.tsx` (click the `broken (id 999)` row to trigger it inside the dialog); refresh on `/inbox/:id` shows the full page
+- `/inbox/999` direct — `useMessage()` throws to the leaf's `error.tsx`
+- `/inbox/missing`, `/inbox/some/deep/unmatched/path` — per-segment `inbox/not-found.tsx` (via `notFound()` from the suspending hook and via the segment splat)
 - `/no-such-route` — root `not-found.tsx`
-- `/posts/missing`, `/posts/some/deep/unmatched/path` — per-segment `posts/not-found.tsx` (via `notFound()` and via the segment splat)

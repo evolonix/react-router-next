@@ -45,9 +45,9 @@ export default function GlobalSearchModal({ params }: RouteProps) {
             <FilePath>
               gallery/[albumId]/feed/@modal/(...)search/page.tsx
             </FilePath>
-            . <FilePath>(...)</FilePath> resets to root, so the modal target
-            is <FilePath>/search</FilePath> regardless of how deep the slot
-            is. Refresh to see the full search page.
+            . <FilePath>(...)</FilePath> resets to root, so the modal target is{" "}
+            <FilePath>/search</FilePath> regardless of how deep the slot is.
+            Refresh to see the full search page.
           </Text>
         </Stack>
       </div>

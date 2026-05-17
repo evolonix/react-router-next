@@ -7,7 +7,7 @@ export type FeatureCategory =
   | "type-safe-urls";
 
 export type RoutePointer = {
-  /** React Router URL pattern, e.g. "/posts/:postId". */
+  /** React Router URL pattern, e.g. "/inbox/:id". */
   pattern: string;
   /** Concrete URL the navigation link should hit. */
   href: string;
@@ -68,7 +68,8 @@ export const FEATURE_ENTRIES: FeatureEntry[] = [
     id: "file-conventions",
     category: "get-started",
     name: "File conventions",
-    convention: "page · layout · template · loader · loading · error · not-found · default",
+    convention:
+      "page · layout · template · loading · error · not-found · default",
     description:
       "Reference for every special filename the router recognizes inside a route folder.",
     whatToLookFor: [
@@ -123,16 +124,13 @@ export const FEATURE_ENTRIES: FeatureEntry[] = [
     description:
       "Bracket-named folders capture URL segments. Params are inferred per route and surface in both useParams() and the typed RouteProps.",
     whatToLookFor: [
-      "params.postId is typed as string with no manual annotation.",
-      "Each post has its own loader.",
+      "params.id is typed as string with no manual annotation.",
+      "The same id is fed into the suspending hook to fetch one message.",
     ],
-    files: [
-      "posts/[postId]/page.tsx",
-      "posts/[postId]/loader.ts",
-    ],
+    files: ["inbox/[id]/page.tsx", "inbox/_lib/use-message.ts"],
     routes: [
-      { pattern: "/posts/:postId", href: "/posts/1", label: "/posts/1" },
-      { pattern: "/posts/:postId", href: "/posts/2", label: "/posts/2" },
+      { pattern: "/inbox", href: "/inbox" },
+      { pattern: "/inbox/:id", href: "/inbox/1", label: "/inbox/1" },
     ],
   },
   {
@@ -173,43 +171,27 @@ export const FEATURE_ENTRIES: FeatureEntry[] = [
 
   // ── Data & loading ────────────────────────────────────────────────────
   {
-    id: "loaders-layouts",
-    category: "data-loading",
-    name: "Loaders + nested layouts",
-    convention: "layout.tsx, loader.ts, loading.tsx",
-    description:
-      "A parent loader runs before any child route renders. Its loading.tsx covers the segment whenever the loader (or a sibling's loader) is in flight.",
-    whatToLookFor: [
-      "Loader artificially delays 600ms so the loading state is visible.",
-      "Switching between /posts and /posts/:postId shows the same loading boundary.",
-    ],
-    files: [
-      "posts/layout.tsx",
-      "posts/loader.ts",
-      "posts/loading.tsx",
-      "posts/page.tsx",
-    ],
-    routes: [{ pattern: "/posts", href: "/posts" }],
-  },
-  {
     id: "suspense-loading",
     category: "data-loading",
-    name: "Suspense without loaders",
+    name: "Suspense data fetching",
     convention: "loading.tsx + use()",
     description:
-      "loading.tsx also serves as a React Suspense fallback. A page can suspend by calling use() on a promise — no loader.ts required.",
+      "A page suspends by calling use() on a cached promise. The injected loading.tsx renders as the Suspense fallback — the same file covers navigation transitions and in-render suspending.",
     whatToLookFor: [
-      "/notes has no loader.ts; suspending happens inside the page.",
-      "Pre-cached promises (use-notes.ts) deduplicate across renders.",
+      "/notes suspends inside the page; loading.tsx catches it as a Suspense fallback.",
+      "Pre-cached promises (use-notes.ts, use-message.ts) deduplicate across renders.",
     ],
     files: [
       "notes/page.tsx",
       "notes/loading.tsx",
       "notes/_lib/use-notes.ts",
+      "inbox/[id]/page.tsx",
+      "inbox/_lib/use-message.ts",
     ],
     routes: [
       { pattern: "/notes", href: "/notes" },
       { pattern: "/notes/:noteId", href: "/notes/a", label: "/notes/a" },
+      { pattern: "/inbox", href: "/inbox" },
     ],
   },
   {
@@ -223,13 +205,11 @@ export const FEATURE_ENTRIES: FeatureEntry[] = [
       "The dot in the live-value chip lights up while you wait.",
       "The progress strip at the top of the page reads the same value.",
     ],
-    files: [
-      "pending/page.tsx",
-      "pending/[delay]/loader.ts",
-      "pending/[delay]/page.tsx",
-      "components/ui/route-progress.tsx",
+    files: ["components/ui/route-progress.tsx", "inbox/_lib/use-message.ts"],
+    routes: [
+      { pattern: "/inbox", href: "/inbox" },
+      { pattern: "/notes", href: "/notes" },
     ],
-    routes: [{ pattern: "/pending", href: "/pending" }],
   },
 
   // ── Boundaries ────────────────────────────────────────────────────────
@@ -239,20 +219,18 @@ export const FEATURE_ENTRIES: FeatureEntry[] = [
     name: "error.tsx boundary",
     convention: "error.tsx",
     description:
-      "Catches render errors and notFound() throws below the segment. useRouteError() surfaces the thrown value.",
+      "Catches render errors and thrown values from suspending hooks. useRouteError() surfaces the thrown value.",
     whatToLookFor: [
-      "/posts/999 throws inside the loader and lands in the error boundary.",
+      "/inbox/999 throws from the suspending hook and lands in the error boundary.",
       "The layout above remains mounted — only the inner subtree is replaced.",
     ],
-    files: [
-      "posts/[postId]/error.tsx",
-      "posts/[postId]/loader.ts",
-    ],
+    files: ["inbox/[id]/error.tsx", "inbox/_lib/use-message.ts"],
     routes: [
+      { pattern: "/inbox", href: "/inbox" },
       {
-        pattern: "/posts/:postId",
-        href: "/posts/999",
-        label: "/posts/999",
+        pattern: "/inbox/:id",
+        href: "/inbox/999",
+        label: "/inbox/999",
       },
     ],
   },
@@ -264,18 +242,16 @@ export const FEATURE_ENTRIES: FeatureEntry[] = [
     description:
       "Per-segment 404 element. Triggered by an unmatched splat OR an explicit notFound() throw, which bypasses error.tsx and renders the nearest ancestor not-found.tsx.",
     whatToLookFor: [
-      "/posts/missing calls notFound() and lands on posts/not-found.tsx.",
-      "Deep unmatched paths under /posts hit the segment's splat fallback.",
+      "/inbox/missing calls notFound() from the suspending hook and lands on inbox/not-found.tsx.",
+      "Deep unmatched paths under /inbox hit the segment's splat fallback.",
     ],
-    files: [
-      "posts/not-found.tsx",
-      "posts/[postId]/loader.ts",
-    ],
+    files: ["inbox/not-found.tsx", "inbox/_lib/use-message.ts"],
     routes: [
+      { pattern: "/inbox", href: "/inbox" },
       {
-        pattern: "/posts/:postId",
-        href: "/posts/missing",
-        label: "/posts/missing",
+        pattern: "/inbox/:id",
+        href: "/inbox/missing",
+        label: "/inbox/missing",
       },
     ],
   },
@@ -426,11 +402,9 @@ export const FEATURE_ENTRIES: FeatureEntry[] = [
       "Each photo detail fades in — local state to the template resets every time.",
       "The surrounding layout.tsx stays mounted across the same navigations.",
     ],
-    files: [
-      "photos/[id]/template.tsx",
-      "photos/[id]/page.tsx",
-    ],
+    files: ["photos/[id]/template.tsx", "photos/[id]/page.tsx"],
     routes: [
+      { pattern: "/photos", href: "/photos" },
       {
         pattern: "/photos/:id",
         href: "/photos/2",
@@ -444,18 +418,14 @@ export const FEATURE_ENTRIES: FeatureEntry[] = [
     id: "use-route-params",
     category: "type-safe-urls",
     name: "useRouteParams + RouteProps",
-    convention:
-      "useRouteParams<S>(), parseRouteParams(), RouteProps",
+    convention: "useRouteParams<S>(), parseRouteParams(), RouteProps",
     description:
       "Each route module exports a typed RouteProps and a generate() URL builder via Vite's virtual-module system. useRouteParams is a hook variant for code outside the page component.",
     whatToLookFor: [
       "params.example is typed without writing a generic — the auto-generated RouteProps does it.",
       "generate() requires every dynamic segment at the call site (compile-time check).",
     ],
-    files: [
-      "typed-routes/page.tsx",
-      "typed-routes/[example]/page.tsx",
-    ],
+    files: ["typed-routes/page.tsx", "typed-routes/[example]/page.tsx"],
     routes: [
       { pattern: "/typed-routes", href: "/typed-routes" },
       {
@@ -467,26 +437,48 @@ export const FEATURE_ENTRIES: FeatureEntry[] = [
   },
 ];
 
+/** Sidebar nav search-param key that disambiguates entries sharing a URL. */
+export const FEATURE_PARAM = "feature";
+
+/** Build the sidebar link URL for an entry: landing href + `?feature=<id>`. */
+export function featureLinkHref(entry: FeatureEntry): string {
+  const base = entry.routes[0]!.href;
+  const sep = base.includes("?") ? "&" : "?";
+  return `${base}${sep}${FEATURE_PARAM}=${entry.id}`;
+}
+
 /**
- * Find the first feature entry whose `routes[*].pattern` matches the given
- * URL pathname via React Router's `matchPath`. Returns null when no entry
- * matches — the FeatureCallout component renders nothing in that case.
+ * Resolve which feature entry corresponds to the current location.
+ *
+ * 1. If `?feature=<id>` is present, return that entry (the source of truth
+ *    when the user clicked a sidebar link). Multiple entries can share a
+ *    landing URL — the param disambiguates.
+ * 2. Otherwise prefer an exact `href === pathname` match.
+ * 3. Otherwise fall back to the longest matching `pattern`, which beats
+ *    parent patterns when child patterns overlap.
+ *
+ * Returns null when nothing matches.
  */
 export function findEntryForPath(
   pathname: string,
   matchPath: (pattern: string, pathname: string) => unknown,
+  featureId?: string | null,
 ): FeatureEntry | null {
-  // The most-specific entry should win when patterns overlap (e.g. /posts vs
-  // /posts/:postId). Iterate entries in registration order, but within each
-  // entry sort routes by descending path length so a more specific pattern
-  // beats its parent's pattern.
+  if (featureId) {
+    const byId = FEATURE_ENTRIES.find((e) => e.id === featureId);
+    if (byId) return byId;
+  }
   for (const entry of FEATURE_ENTRIES) {
-    const sorted = [...entry.routes].sort(
-      (a, b) => b.pattern.length - a.pattern.length,
-    );
-    if (sorted.some((r) => matchPath(r.pattern, pathname) !== null)) {
-      return entry;
+    if (entry.routes.some((r) => r.href === pathname)) return entry;
+  }
+  let best: { entry: FeatureEntry; len: number } | null = null;
+  for (const entry of FEATURE_ENTRIES) {
+    for (const r of entry.routes) {
+      if (matchPath(r.pattern, pathname) === null) continue;
+      if (!best || r.pattern.length > best.len) {
+        best = { entry, len: r.pattern.length };
+      }
     }
   }
-  return null;
+  return best?.entry ?? null;
 }

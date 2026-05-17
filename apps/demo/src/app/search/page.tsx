@@ -14,10 +14,9 @@ export default function SearchPage() {
         autoFocus
       />
       <Text size="sm" tone="muted">
-        Full-page target —{" "}
-        <FilePath>src/app/search/page.tsx</FilePath>. The gallery feed's{" "}
-        <FilePath>(...)search</FilePath> intercept overlays this on soft nav;
-        a direct visit or refresh lands here.
+        Full-page target — <FilePath>src/app/search/page.tsx</FilePath>. The
+        gallery feed's <FilePath>(...)search</FilePath> intercept overlays this
+        on soft nav; a direct visit or refresh lands here.
       </Text>
     </Stack>
   );

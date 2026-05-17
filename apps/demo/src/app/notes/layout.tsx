@@ -15,9 +15,9 @@ export default function NotesLayout() {
         <BackLink to={generateNotes()}>all notes</BackLink>
       </Stack>
       <Text size="xs" tone="muted">
-        Layout from <FilePath>src/app/notes/layout.tsx</FilePath>. No{" "}
-        <FilePath>loader.ts</FilePath> — the page suspends on a hook and the
-        loading boundary catches it.
+        Layout from <FilePath>src/app/notes/layout.tsx</FilePath>. The page
+        suspends on a hook and <FilePath>loading.tsx</FilePath> catches it as a
+        Suspense fallback.
       </Text>
       <Card>
         <Outlet />

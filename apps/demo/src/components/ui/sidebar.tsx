@@ -11,6 +11,9 @@ import {
   CATEGORY_LABEL,
   CATEGORY_ORDER,
   FEATURE_ENTRIES,
+  FEATURE_PARAM,
+  featureLinkHref,
+  findEntryForPath,
   type FeatureCategory,
   type FeatureEntry,
 } from "../../lib/feature-catalog";
@@ -18,15 +21,6 @@ import { cn } from "../../lib/cn";
 import { NavLink } from "./nav";
 
 const BANNERS_HIDDEN_KEY = "demo-banners-hidden";
-
-function findActiveEntry(pathname: string): FeatureEntry | null {
-  for (const entry of FEATURE_ENTRIES) {
-    if (entry.routes.some((r) => matchPath(r.pattern, pathname) !== null)) {
-      return entry;
-    }
-  }
-  return null;
-}
 
 function entriesByCategory(): Record<FeatureCategory, FeatureEntry[]> {
   const out = Object.fromEntries(
@@ -47,7 +41,7 @@ function SidebarContent({
   onResetExplanations: () => void;
   footer?: ReactNode;
 }) {
-  const grouped = useMemo(entriesByCategory, []);
+  const grouped = useMemo(() => entriesByCategory(), []);
   return (
     <div className="flex h-full flex-col">
       <div className="px-4 pt-4 pb-2">
@@ -96,10 +90,12 @@ function CategoryGroup({
 }) {
   const hasActive = entries.some((e) => e.id === activeId);
   const [open, setOpen] = useState(true);
-  // Always expand the group containing the active route.
-  useEffect(() => {
+  const [prevHasActive, setPrevHasActive] = useState(hasActive);
+  if (hasActive !== prevHasActive) {
+    setPrevHasActive(hasActive);
+    // Re-expand when activation moves into this group.
     if (hasActive) setOpen(true);
-  }, [hasActive]);
+  }
 
   if (entries.length === 0) return null;
 
@@ -125,15 +121,12 @@ function CategoryGroup({
       {open ? (
         <ul className="m-0 mt-1 list-none p-0">
           {entries.map((entry) => {
-            const primary = entry.routes[0]!;
             const isActive = entry.id === activeId;
-            const isExactMatch = entry.routes.some(
-              (r) => r.href === pathname,
-            );
+            const isExactMatch = entry.routes.some((r) => r.href === pathname);
             return (
               <li key={entry.id} className="my-0.5">
                 <NavLink
-                  to={primary.href}
+                  to={featureLinkHref(entry)}
                   tone={isActive ? "primary" : "muted"}
                   size="sm"
                   className={cn(
@@ -155,8 +148,12 @@ function CategoryGroup({
 }
 
 export function Sidebar({ footer }: { footer?: ReactNode }) {
-  const { pathname } = useLocation();
-  const activeEntry = useMemo(() => findActiveEntry(pathname), [pathname]);
+  const { pathname, search } = useLocation();
+  const featureId = new URLSearchParams(search).get(FEATURE_PARAM);
+  const activeEntry = useMemo(
+    () => findEntryForPath(pathname, matchPath, featureId),
+    [pathname, featureId],
+  );
   const activeId = activeEntry?.id ?? null;
 
   const resetExplanations = useCallback(() => {
@@ -200,8 +197,12 @@ export function SidebarDrawer({
   footer?: ReactNode;
 }) {
   const ref = useRef<HTMLDialogElement | null>(null);
-  const { pathname } = useLocation();
-  const activeEntry = useMemo(() => findActiveEntry(pathname), [pathname]);
+  const { pathname, search } = useLocation();
+  const featureId = new URLSearchParams(search).get(FEATURE_PARAM);
+  const activeEntry = useMemo(
+    () => findEntryForPath(pathname, matchPath, featureId),
+    [pathname, featureId],
+  );
   const activeId = activeEntry?.id ?? null;
   const [prevPathname, setPrevPathname] = useState(pathname);
 

@@ -47,8 +47,8 @@ export default function GalleryPhotoModal({ params }: RouteProps) {
             <FilePath>
               src/app/gallery/[albumId]/@modal/(.)[photoId]/page.tsx
             </FilePath>
-            . Soft nav from the album grid renders this; refresh shows the
-            full page.
+            . Soft nav from the album grid renders this; refresh shows the full
+            page.
           </Text>
         </Stack>
       </div>

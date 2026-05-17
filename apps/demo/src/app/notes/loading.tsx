@@ -10,8 +10,8 @@ export default function NotesLoading() {
       <SkeletonLine width="2/3" />
       <SkeletonLine width="1/2" />
       <Text size="sm" tone="muted">
-        Skeleton from <FilePath>src/app/notes/loading.tsx</FilePath> — triggered
-        by Suspense from a hook, not by a router loader.
+        Skeleton from <FilePath>src/app/notes/loading.tsx</FilePath> — rendered
+        as the Suspense fallback when <FilePath>useNotes()</FilePath> suspends.
       </Text>
     </Stack>
   );

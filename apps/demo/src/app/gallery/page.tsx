@@ -10,10 +10,10 @@ export default function GalleryPage() {
   return (
     <Stack gap="md">
       <Text>
-        The gallery section stages all three multi-level interceptor
-        depths in a single navigable flow. Each album owns its own modal slot;
-        the deeper <FilePath>feed/</FilePath> view stacks another slot that
-        uses <FilePath>(..)(..)</FilePath> and <FilePath>(...)</FilePath>
+        The gallery section stages all three multi-level interceptor depths in a
+        single navigable flow. Each album owns its own modal slot; the deeper{" "}
+        <FilePath>feed/</FilePath> view stacks another slot that uses{" "}
+        <FilePath>(..)(..)</FilePath> and <FilePath>(...)</FilePath>
         operators to reach photos and the global search target.
       </Text>
       <ul className="m-0 grid list-none grid-cols-1 gap-3 p-0 sm:grid-cols-2">

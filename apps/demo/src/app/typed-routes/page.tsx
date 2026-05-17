@@ -12,10 +12,10 @@ export default function TypedRoutesPage() {
     <Stack gap="md">
       <Text>
         Three URL-building tools ship per route via Vite-generated virtual
-        modules. Click an example to land on a page that demonstrates the
-        typed <FilePath>params</FilePath>, the <FilePath>RouteProps</FilePath>{" "}
-        prop type, and the <FilePath>generate()</FilePath> URL builder all
-        bound to the same route literal.
+        modules. Click an example to land on a page that demonstrates the typed{" "}
+        <FilePath>params</FilePath>, the <FilePath>RouteProps</FilePath> prop
+        type, and the <FilePath>generate()</FilePath> URL builder all bound to
+        the same route literal.
       </Text>
       <Stack gap="xs">
         <Heading level={4}>Try a value</Heading>
