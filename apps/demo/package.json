@@ -1,0 +1,28 @@
+{
+  "name": "demo",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "react-router-next typegen && tsc -b && vite build",
+    "preview": "vite preview",
+    "typecheck": "react-router-next typegen && tsc -b",
+    "typegen": "react-router-next typegen"
+  },
+  "dependencies": {
+    "@evolonix/react-router-next": "*",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "react-router": "^7.14.2"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.0.0",
+    "tailwindcss": "^4.3.0",
+    "typescript": "~6.0.2",
+    "vite": "^8.0.10"
+  }
+}

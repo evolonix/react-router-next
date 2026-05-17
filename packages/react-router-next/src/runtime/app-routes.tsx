@@ -1,5 +1,5 @@
 import type { ComponentType, ReactElement, ReactNode } from "react";
-import type { LoaderFunction, RouteObject } from "react-router";
+import type { RouteObject } from "react-router";
 import {
   InterceptedRoute,
   ParallelLayout,
@@ -25,7 +25,6 @@ export type RouteModule = {
     params?: RouteParamsRecord;
     [slot: string]: unknown;
   }>;
-  loader?: LoaderFunction;
 };
 
 export type RouteModuleMap = Record<string, RouteModule>;
@@ -33,7 +32,6 @@ export type RouteModuleMap = Record<string, RouteModule>;
 type FileKind =
   | "page"
   | "layout"
-  | "loader"
   | "loading"
   | "error"
   | "default"
@@ -75,7 +73,6 @@ type Tree = {
 const FILE_KINDS = new Set<FileKind>([
   "page",
   "layout",
-  "loader",
   "loading",
   "error",
   "default",
@@ -319,12 +316,6 @@ function lowerSlotToConfig(
 }
 
 function lowerInterceptor(node: Node, targetKey: string): ReactNode {
-  if (node.files.loader) {
-    console.warn(
-      `[react-router-next] Loader on intercepting route "${targetKey}" is ignored. ` +
-        `Interceptor loaders are not supported.`,
-    );
-  }
   if (node.files.layout) {
     console.warn(
       `[react-router-next] Layout on intercepting route "${targetKey}" is ignored. ` +
@@ -367,9 +358,6 @@ function nodeToRoute(
   const Template = node.files.template?.default;
   const OwnNotFound = node.files["not-found"]?.default;
   const NearestNotFound = OwnNotFound ?? inheritedNotFound;
-  const loader =
-    node.files.loader?.loader ??
-    (node.files.loader?.default as LoaderFunction | undefined);
 
   const childRoutes: RouteObject[] = [];
   for (const [childSegment, childNode] of node.children) {
@@ -388,7 +376,7 @@ function nodeToRoute(
   const pageEl = Page ? renderComponent(Page, path) : null;
 
   const pageLeaf: RouteObject | null = pageEl
-    ? { index: true, element: pageEl, loader }
+    ? { index: true, element: pageEl }
     : null;
 
   const inner: RouteObject[] = [];
@@ -420,12 +408,6 @@ function nodeToRoute(
     } else {
       slotConfigs = {};
       for (const [slotName, slotNode] of node.slots) {
-        if (slotNode.files.loader) {
-          console.warn(
-            `[react-router-next] Loader inside @${slotName} at "${path || "/"}" is ignored. ` +
-              `Slot loaders are not supported.`,
-          );
-        }
         const slotIntercepts = intercepts.filter(
           (i) =>
             i.slotOwned &&
@@ -510,7 +492,6 @@ function nodeToRoute(
     } else if (pageEl && childRoutes.length === 0) {
       if (errorElement) route.errorElement = errorElement;
       route.element = pageEl;
-      if (loader) route.loader = loader;
     } else if (inner.length > 0) {
       if (errorElement) route.errorElement = errorElement;
       route.children = inner;

@@ -124,6 +124,6 @@ export function routeHasParams(routeKey: string): boolean {
   return routeKey.includes("[");
 }
 
-/** Match `(page|layout|loader|loading|error|default|template|not-found).{tsx,jsx,ts,js}`. */
+/** Match `(page|layout|loading|error|default|template|not-found).{tsx,jsx,ts,js}`. */
 export const ROUTE_FILE_RE =
-  /[\\/](page|layout|loader|loading|error|default|template|not-found)\.(tsx|jsx|ts|js)$/;
+  /[\\/](page|layout|loading|error|default|template|not-found)\.(tsx|jsx|ts|js)$/;

@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-accent-routing: oklch(0.72 0.18 250);
+  --color-accent-data: oklch(0.72 0.18 150);
+  --color-accent-error: oklch(0.72 0.18 25);
+  --color-accent-parallel: oklch(0.72 0.18 320);
+  --color-accent-intercept: oklch(0.78 0.18 80);
+}
