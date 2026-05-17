@@ -4,8 +4,11 @@ import { createBrowserRouter, RouterProvider } from "react-router";
 import { modules, appDir } from "virtual:react-router-next/app-tree";
 import { buildRoutesFromModules, type RouteModuleMap } from "./app-routes";
 
+const basename = (import.meta.env.BASE_URL ?? "/").replace(/\/$/, "") || "/";
+
 const router = createBrowserRouter(
   buildRoutesFromModules(modules as RouteModuleMap, appDir as string),
+  { basename },
 );
 
 export default function AppRouter(): JSX.Element {
