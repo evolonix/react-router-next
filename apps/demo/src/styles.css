@@ -9,3 +9,14 @@
   --color-accent-parallel: oklch(0.72 0.18 320);
   --color-accent-intercept: oklch(0.78 0.18 80);
 }
+
+.shiki-block pre.shiki {
+  background-color: transparent;
+  margin: 0;
+  padding: 0;
+}
+
+.dark .shiki-block .shiki,
+.dark .shiki-block .shiki span {
+  color: var(--shiki-dark) !important;
+}
