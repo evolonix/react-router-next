@@ -217,6 +217,154 @@ describe("buildRoutesFromModules — legacy non-slot intercepting routes", () =>
   });
 });
 
+describe("buildRoutesFromModules — multi-level intercepting routes", () => {
+  // (..) and (..)(..) and (...) pop fs segments BEFORE slot/private filtering,
+  // so behavior depends on the depth at which the interceptor folder lives.
+  // These tests pin the resolution semantics so the gallery demo can rely on them.
+  //
+  // Constraint: intercept folders are terminal — the page must live directly
+  // inside `(prefix)x/page.tsx`. `(prefix)x/y/page.tsx` fails because
+  // `lowerInterceptor` only inspects the top-level intercept node's files.
+
+  it("(..)x from inside an @slot resolves to the slot's parent (same target as (.)x)", () => {
+    // Inside `A/B/@modal/(..)x`, the slot is the only segment popped by (..),
+    // and (.) would also strip it via routeKeySegmentsOf — so the targets collapse.
+    const RootLayout = comp("RootLayout");
+    const AlbumLayout = comp("AlbumLayout");
+    const AlbumPage = comp("AlbumPage");
+    const PhotoPage = comp("PhotoPage");
+    const ModalPage = comp("ModalPage");
+    const ModalDefault = comp("ModalDefault");
+
+    const modules: RouteModuleMap = {
+      [`${APP_DIR}/layout.tsx`]: { default: RootLayout },
+      [`${APP_DIR}/gallery/[albumId]/layout.tsx`]: { default: AlbumLayout },
+      [`${APP_DIR}/gallery/[albumId]/page.tsx`]: { default: AlbumPage },
+      [`${APP_DIR}/gallery/[albumId]/[photoId]/page.tsx`]: {
+        default: PhotoPage,
+      },
+      [`${APP_DIR}/gallery/[albumId]/@modal/default.tsx`]: {
+        default: ModalDefault,
+      },
+      [`${APP_DIR}/gallery/[albumId]/@modal/(..)[photoId]/page.tsx`]: {
+        default: ModalPage,
+      },
+    };
+
+    const [root] = buildRoutesFromModules(modules, APP_DIR);
+    const gallery = findChild(root, (r) => r.path === "gallery");
+    const album = findChild(gallery, (r) => r.path === ":albumId");
+    const photoId = findChild(album, (r) => r.path === ":photoId");
+
+    // Slot-owned intercept wraps the target route in InterceptedRoute.
+    const wrapper = asElement<{ Interceptor: unknown; Target: unknown }>(
+      photoId.element,
+    );
+    expect(wrapper.type).toBe(InterceptedRoute);
+  });
+
+  it("(..)(..)x from inside an @slot pops the slot AND one non-slot folder", () => {
+    // fsPrefix = [gallery, [albumId], feed, @modal], popCount=2 → resolved=[gallery, [albumId]]
+    // → target = gallery/:albumId/:photoId (one level up from feed/)
+    const RootLayout = comp("RootLayout");
+    const AlbumLayout = comp("AlbumLayout");
+    const FeedLayout = comp("FeedLayout");
+    const FeedPage = comp("FeedPage");
+    const PhotoPage = comp("PhotoPage");
+    const ModalPage = comp("ModalPage");
+    const ModalDefault = comp("ModalDefault");
+    const AlbumPage = comp("AlbumPage");
+
+    const modules: RouteModuleMap = {
+      [`${APP_DIR}/layout.tsx`]: { default: RootLayout },
+      [`${APP_DIR}/gallery/[albumId]/layout.tsx`]: { default: AlbumLayout },
+      [`${APP_DIR}/gallery/[albumId]/page.tsx`]: { default: AlbumPage },
+      [`${APP_DIR}/gallery/[albumId]/[photoId]/page.tsx`]: {
+        default: PhotoPage,
+      },
+      // feed must have its own layout, otherwise @modal is silently ignored.
+      [`${APP_DIR}/gallery/[albumId]/feed/layout.tsx`]: { default: FeedLayout },
+      [`${APP_DIR}/gallery/[albumId]/feed/page.tsx`]: { default: FeedPage },
+      [`${APP_DIR}/gallery/[albumId]/feed/@modal/default.tsx`]: {
+        default: ModalDefault,
+      },
+      [`${APP_DIR}/gallery/[albumId]/feed/@modal/(..)(..)[photoId]/page.tsx`]: {
+        default: ModalPage,
+      },
+    };
+
+    const [root] = buildRoutesFromModules(modules, APP_DIR);
+    const gallery = findChild(root, (r) => r.path === "gallery");
+    const album = findChild(gallery, (r) => r.path === ":albumId");
+    // Target lives at gallery/:albumId/:photoId — under album, NOT under feed.
+    const photoId = findChild(album, (r) => r.path === ":photoId");
+
+    const wrapper = asElement<{ Interceptor: unknown; Target: unknown }>(
+      photoId.element,
+    );
+    expect(wrapper.type).toBe(InterceptedRoute);
+  });
+
+  it("(...)x is root-anchored: target = x regardless of folder depth", () => {
+    const RootLayout = comp("RootLayout");
+    const AlbumLayout = comp("AlbumLayout");
+    const AlbumPage = comp("AlbumPage");
+    const SearchPage = comp("SearchPage");
+    const ModalPage = comp("ModalPage");
+    const ModalDefault = comp("ModalDefault");
+
+    const modules: RouteModuleMap = {
+      [`${APP_DIR}/layout.tsx`]: { default: RootLayout },
+      [`${APP_DIR}/gallery/[albumId]/layout.tsx`]: { default: AlbumLayout },
+      [`${APP_DIR}/gallery/[albumId]/page.tsx`]: { default: AlbumPage },
+      [`${APP_DIR}/search/page.tsx`]: { default: SearchPage },
+      [`${APP_DIR}/gallery/[albumId]/@modal/default.tsx`]: {
+        default: ModalDefault,
+      },
+      [`${APP_DIR}/gallery/[albumId]/@modal/(...)search/page.tsx`]: {
+        default: ModalPage,
+      },
+    };
+
+    const [root] = buildRoutesFromModules(modules, APP_DIR);
+    // Target lives at the root: /search
+    const search = findChild(root, (r) => r.path === "search");
+    const wrapper = asElement<{ Interceptor: unknown; Target: unknown }>(
+      search.element,
+    );
+    expect(wrapper.type).toBe(InterceptedRoute);
+  });
+
+  it("throws a clear error when a (..)(..) intercept's target page is missing", () => {
+    const RootLayout = comp("RootLayout");
+    const AlbumLayout = comp("AlbumLayout");
+    const AlbumPage = comp("AlbumPage");
+    const FeedLayout = comp("FeedLayout");
+    const FeedPage = comp("FeedPage");
+    const ModalPage = comp("ModalPage");
+    const ModalDefault = comp("ModalDefault");
+
+    const modules: RouteModuleMap = {
+      [`${APP_DIR}/layout.tsx`]: { default: RootLayout },
+      [`${APP_DIR}/gallery/[albumId]/layout.tsx`]: { default: AlbumLayout },
+      [`${APP_DIR}/gallery/[albumId]/page.tsx`]: { default: AlbumPage },
+      [`${APP_DIR}/gallery/[albumId]/feed/layout.tsx`]: { default: FeedLayout },
+      [`${APP_DIR}/gallery/[albumId]/feed/page.tsx`]: { default: FeedPage },
+      [`${APP_DIR}/gallery/[albumId]/feed/@modal/default.tsx`]: {
+        default: ModalDefault,
+      },
+      // No gallery/[albumId]/[photoId]/page.tsx — should throw.
+      [`${APP_DIR}/gallery/[albumId]/feed/@modal/(..)(..)[photoId]/page.tsx`]: {
+        default: ModalPage,
+      },
+    };
+
+    expect(() => buildRoutesFromModules(modules, APP_DIR)).toThrow(
+      /Intercepting route targets/,
+    );
+  });
+});
+
 describe("buildRoutesFromModules — per-segment not-found.tsx", () => {
   it("appends a splat fallback to a segment that owns a not-found.tsx", () => {
     const RootLayout = comp("RootLayout");

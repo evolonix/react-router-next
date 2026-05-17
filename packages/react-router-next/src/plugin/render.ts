@@ -84,13 +84,11 @@ ${renderDeclareBody(key)}}
 
 declare module "virtual:react-router-next/app-tree" {
   import type { ComponentType } from "react";
-  import type { LoaderFunction } from "react-router";
 
   export type RouteModule = {
     default?: ComponentType<{
       params?: Record<string, string | string[] | undefined>;
     }>;
-    loader?: LoaderFunction;
   };
 
   export const modules: Record<string, RouteModule>;

@@ -1,6 +1,6 @@
 # react-router-next
 
-Next.js-style filesystem routing for React Router 7, delivered as a Vite plugin plus a tiny runtime. Drop a `page.tsx` into a folder, get a typed route — including typed params, typed `generate(...)` URL builders, nested layouts/loaders/loading/error boundaries, parallel routes (`@slot`), intercepting routes (`(.)`/`(..)`/`(...)`), `template.tsx` remount-on-navigation, and `_private` colocation folders.
+Next.js-style filesystem routing for React Router 7, delivered as a Vite plugin plus a tiny runtime. Drop a `page.tsx` into a folder, get a typed route — including typed params, typed `generate(...)` URL builders, nested layouts/loading/error boundaries, parallel routes (`@slot`), intercepting routes (`(.)`/`(..)`/`(...)`), `template.tsx` remount-on-navigation, and `_private` colocation folders.
 
 **Live demo:** <https://evolonix.github.io/react-router-next/> — every convention below is wired up and clickable.
 
@@ -52,19 +52,10 @@ src/app/
 ├── (marketing)/               # route group — folder name in (parens) is stripped
 │   ├── about/page.tsx         # /about
 │   └── pricing/page.tsx       # /pricing
-├── posts/
-│   ├── layout.tsx             # /posts/*
-│   ├── loader.ts              # parent loader
-│   ├── loading.tsx            # skeleton during nav
-│   ├── page.tsx               # /posts (index)
-│   └── [postId]/
-│       ├── loader.ts          # leaf loader
-│       ├── error.tsx          # error boundary
-│       └── page.tsx           # /posts/:postId
-├── notes/                        # same loading.tsx, driven by Suspense — no loader
+├── notes/                        # data fetching via Suspense + use()
 │   ├── _lib/use-notes.ts         # useNotes()/useNote() — promise cache + use()
 │   ├── layout.tsx
-│   ├── loading.tsx               # also fires on suspending hooks
+│   ├── loading.tsx               # Suspense fallback for any descendant that suspends
 │   ├── page.tsx                  # /notes — useNotes() suspends on first render
 │   └── [noteId]/page.tsx         # /notes/:noteId — useNote(id) suspends per id
 ├── dashboard/                 # parallel-route slots
@@ -106,16 +97,15 @@ Folder-name conventions:
 
 File-name conventions inside a route folder:
 
-| File            | Role                                                                                                                                                                                                                                                             |
-| --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `page.tsx`      | Leaf component for the route                                                                                                                                                                                                                                     |
-| `layout.tsx`    | Wraps children via `<Outlet/>`. With sibling `@slot/` folders, the layout also receives each slot as a named prop alongside the outlet.                                                                                                                          |
-| `template.tsx`  | Like `layout.tsx` but remounts on every navigation (keyed on `pathname`).                                                                                                                                                                                        |
-| `default.tsx`   | Fallback inside a `@slot/` directory when the URL doesn't match any of the slot's pages.                                                                                                                                                                         |
-| `loader.ts`     | React Router data loader                                                                                                                                                                                                                                         |
-| `loading.tsx`   | Rendered while a parent loader is pending **or** a descendant suspends — the injected boundary is both `useNavigation()`-aware and a `<Suspense>` fallback, so the same file covers `loader.ts` waits and suspending hooks (`use()`, React Query suspense, etc.) |
-| `error.tsx`     | `errorElement` for the route                                                                                                                                                                                                                                     |
-| `not-found.tsx` | Renders when no descendant route matches a URL under this segment, or when the segment (or one below) calls `notFound()`. Supported at any depth — the nearest ancestor wins.                                                                                    |
+| File            | Role                                                                                                                                                                                                                                                         |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `page.tsx`      | Leaf component for the route                                                                                                                                                                                                                                 |
+| `layout.tsx`    | Wraps children via `<Outlet/>`. With sibling `@slot/` folders, the layout also receives each slot as a named prop alongside the outlet.                                                                                                                      |
+| `template.tsx`  | Like `layout.tsx` but remounts on every navigation (keyed on `pathname`).                                                                                                                                                                                    |
+| `default.tsx`   | Fallback inside a `@slot/` directory when the URL doesn't match any of the slot's pages.                                                                                                                                                                     |
+| `loading.tsx`   | Rendered while React Router transitions **or** a descendant suspends — the injected boundary is both `useNavigation()`-aware and a `<Suspense>` fallback, so the same file covers nav transitions and suspending hooks (`use()`, React Query suspense, etc.) |
+| `error.tsx`     | `errorElement` for the route                                                                                                                                                                                                                                 |
+| `not-found.tsx` | Renders when no descendant route matches a URL under this segment, or when the segment (or one below) calls `notFound()`. Supported at any depth — the nearest ancestor wins.                                                                                |
 
 ### 4. Use the typed helpers
 
@@ -124,16 +114,15 @@ For each route folder the plugin exposes a virtual module — `virtual:react-rou
 The runtime renders each `page.tsx` with its `RouteProps` already wired up — `params` is parsed from the URL (typed from the folder name) and passed in as a prop, so the component can destructure it directly without calling `useParams`/`useRouteParams`. The virtual module only exports `RouteProps` (and `useRouteParams`) for routes that actually have params; paramless routes can omit the prop entirely.
 
 ```tsx
-// src/app/posts/[postId]/page.tsx
-import type { RouteProps } from "virtual:react-router-next/posts/[postId]";
-import { useLoaderData } from "react-router";
-import type { Post } from "../loader";
+// src/app/notes/[noteId]/page.tsx
+import type { RouteProps } from "virtual:react-router-next/notes/[noteId]";
+import { useNote } from "../_lib/use-notes";
 
-export default function PostPage({ params }: RouteProps) {
-  const post = useLoaderData<Post>();
+export default function NotePage({ params }: RouteProps) {
+  const note = useNote(params.noteId); // suspends; loading.tsx renders
   return (
     <article>
-      {post.title} (id: {params.postId})
+      {note.title} (id: {params.noteId})
     </article>
   );
 }
@@ -141,18 +130,18 @@ export default function PostPage({ params }: RouteProps) {
 
 ```tsx
 // any other component
-import { generate as generatePost } from "virtual:react-router-next/posts/[postId]";
+import { generate as generateNote } from "virtual:react-router-next/notes/[noteId]";
 
-<NavLink to={generatePost({ postId: "1" })}>First post</NavLink>;
+<NavLink to={generateNote({ noteId: "a" })}>First note</NavLink>;
 ```
 
 ```tsx
-// src/app/posts/[postId]/page.tsx
-import { useRouteParams } from "virtual:react-router-next/posts/[postId]";
+// src/app/notes/[noteId]/page.tsx
+import { useRouteParams } from "virtual:react-router-next/notes/[noteId]";
 
-export default function PostPage() {
-  const { postId } = useRouteParams();
-  return <article>Post id: {postId}</article>;
+export default function NotePage() {
+  const { noteId } = useRouteParams();
+  return <article>Note id: {noteId}</article>;
 }
 ```
 
@@ -160,7 +149,7 @@ The runtime hook `useRouteParams` is also re-exported from the package itself if
 
 ```tsx
 import { useRouteParams } from "@evolonix/react-router-next";
-const { postId } = useRouteParams("posts/[postId]");
+const { noteId } = useRouteParams("notes/[noteId]");
 ```
 
 ## Build your own router
@@ -217,7 +206,7 @@ export default function DashboardLayout({
 
 Each slot subtree can have its own `page.tsx` files (matching the parent's URL space) and a `default.tsx` fallback rendered when the URL doesn't match any of the slot's explicit pages.
 
-> **Caveat:** slot subtrees are matched via `useRoutes()` outside React Router's data router, so a `loader.ts` under a `@slot/` directory is dropped with a build-time warning. Use ordinary children for data-driven UI.
+> **Caveat:** slot subtrees are matched via `useRoutes()` outside React Router's data router. They render alongside the main outlet but aren't part of the data-router tree. Fetch slot data with the same Suspense + `use()` pattern the rest of the app uses.
 
 ## Intercepting routes (`(.)`/`(..)`/`(...)`)
 
@@ -248,7 +237,7 @@ On soft-nav to `/photos/:id`, the `@modal` slot matches the interceptor and the 
 
 A bare interceptor without the slot (`photos/(.)[id]/page.tsx`) still works — but it swaps the page element outright instead of overlaying it, so the grid unmounts on soft-nav. Use the slot variant when you want true overlay layering.
 
-> **Caveats:** the interceptor folder may only contain `page.tsx`. A `loader.ts` or `layout.tsx` inside an interceptor is dropped with a build-time warning. The intercept target route must exist — otherwise the build fails (a refresh on the URL has to render _something_). The "freeze" behavior is a static approximation of Next.js's freeze-to-pre-nav-URL: the main outlet always anchors to the parent layout's `page.tsx`, not to whichever sibling URL the user navigated _from_.
+> **Caveats:** a `layout.tsx` inside an interceptor folder is dropped with a build-time warning. The intercept target route must exist — otherwise the build fails (a refresh on the URL has to render _something_). The "freeze" behavior is a static approximation of Next.js's freeze-to-pre-nav-URL: the main outlet always anchors to the parent layout's `page.tsx`, not to whichever sibling URL the user navigated _from_.
 
 ## `template.tsx` and `_private` folders
 
@@ -259,16 +248,25 @@ A bare interceptor without the slot (`photos/(.)[id]/page.tsx`) still works — 
 
 Drop a `not-found.tsx` at any segment to render a scoped 404 for unmatched URLs under that segment. When several `not-found.tsx` files exist along an ancestor chain, the nearest one to the unmatched URL wins.
 
-Throw `notFound()` from a loader (or any component during render) to short-circuit to the same boundary — for example, when a resource lookup misses:
+Throw `notFound()` from a suspending hook or a component during render to short-circuit to the same boundary — for example, when a resource lookup misses:
 
 ```ts
-// src/app/posts/[postId]/loader.ts
+// src/app/notes/_lib/use-notes.ts
 import { notFound } from "@evolonix/react-router-next";
+import { use } from "react";
 
-export async function loader({ params }: { params: { postId: string } }) {
-  const post = await fetchPost(params.postId);
-  if (!post) notFound();
-  return post;
+const cache = new Map<string, Promise<Note>>();
+
+export function useNote(id: string): Note {
+  let p = cache.get(id);
+  if (!p) {
+    p = fetchNote(id).then((note) => {
+      if (!note) notFound();
+      return note;
+    });
+    cache.set(id, p);
+  }
+  return use(p);
 }
 ```
 
