@@ -67,6 +67,54 @@ export default defineConfig({
 });`}</CodeBlock>
       </Explain>
 
+      <Explain
+        title="Private folders for colocation"
+        accent="neutral"
+        tag="_private"
+      >
+        <p>
+          A folder whose name starts with <code className="font-mono">_</code>{" "}
+          is skipped by the router entirely — no URL, no route entry — but its
+          files are still importable from sibling routes. Use it to colocate
+          components, hooks, fixtures, or helpers right next to the routes that
+          consume them, without leaking them into your URL space.
+        </p>
+        <p>
+          This demo uses a few of them. Everything the chrome renders (sidebar,
+          theme switcher, code blocks, the{" "}
+          <code className="font-mono">Explain</code> card you're reading) lives
+          under <code className="font-mono">src/app/_components/</code>; the{" "}
+          <code>/posts</code> route keeps its suspense hook in{" "}
+          <code className="font-mono">src/app/posts/_lib/</code>; and the
+          dashboard's <code className="font-mono">@analytics</code> parallel
+          slot has its own <code className="font-mono">_lib/</code> for the{" "}
+          <code className="font-mono">use-stats</code> hook — private folders
+          nest inside slots just fine:
+        </p>
+        <CodeBlock filename="src/app/">{`src/app/
+├── _components/                  # shared UI for the demo (no route)
+│   ├── explain.tsx
+│   ├── sidebar.tsx
+│   └── ...
+├── page.tsx                      # imports from ./_components
+├── layout.tsx
+├── posts/
+│   ├── _lib/                     # route-local helpers (no route)
+│   │   └── use-posts.ts
+│   └── [postId]/page.tsx         # imports from ../_lib
+└── dashboard/
+    └── @analytics/               # parallel slot
+        ├── _lib/                 # slot-local helpers (no route)
+        │   └── use-stats.ts
+        └── page.tsx              # imports from ./_lib`}</CodeBlock>
+        <p>
+          The check is a simple prefix match, so{" "}
+          <code className="font-mono">__tests__/</code> or any folder you rename
+          to start with <code className="font-mono">_</code> drops out of the
+          route tree too.
+        </p>
+      </Explain>
+
       <section className="space-y-3">
         <h2
           id="pick-a-feature"
