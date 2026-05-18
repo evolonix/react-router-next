@@ -491,7 +491,17 @@ function nodeToRoute(
       route.children = inner;
     } else if (pageEl && childRoutes.length === 0) {
       if (errorElement) route.errorElement = errorElement;
-      route.element = pageEl;
+      // Collapse the index leaf into the route's own element only when the
+      // route already acts as a URL matcher (has a path, or is itself an
+      // index). For a pathless route (e.g. a slot's root, or a route group
+      // that contains only a page), collapsing would leave a layout route
+      // with no descendants — matchRoutes/useRoutes can't match that against
+      // any URL, and the slot would always fall back to default.tsx.
+      if (route.path !== undefined || route.index) {
+        route.element = pageEl;
+      } else {
+        route.children = inner;
+      }
     } else if (inner.length > 0) {
       if (errorElement) route.errorElement = errorElement;
       route.children = inner;

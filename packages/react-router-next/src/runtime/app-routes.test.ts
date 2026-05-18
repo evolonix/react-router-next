@@ -575,6 +575,43 @@ describe("buildRoutesFromModules — slot loading.tsx / error.tsx wiring", () =>
     expect(slot.ErrorComponent).toBe(SlotError);
     expect(slot.NotFoundComponent).toBe(SlotNotFound);
   });
+
+  it("exposes the slot's page.tsx as a matchable index route so useRoutes can find it", () => {
+    // Regression: when a slot has only `page.tsx` (and an optional `default.tsx`),
+    // the slot's routes used to collapse to `[{ element }]` — a pathless layout
+    // route with no children. `useRoutes` can't match that against any URL, so
+    // the slot always fell back to `default.tsx` even on the slot's own URL.
+    const Layout = comp("Layout");
+    const Page = comp("Page");
+    const SlotPage = comp("SlotPage");
+    const SlotDefault = comp("SlotDefault");
+
+    const modules: RouteModuleMap = {
+      [`${APP_DIR}/layout.tsx`]: { default: Layout },
+      [`${APP_DIR}/dashboard/layout.tsx`]: { default: Layout },
+      [`${APP_DIR}/dashboard/page.tsx`]: { default: Page },
+      [`${APP_DIR}/dashboard/@side/page.tsx`]: { default: SlotPage },
+      [`${APP_DIR}/dashboard/@side/default.tsx`]: { default: SlotDefault },
+    };
+
+    const [root] = buildRoutesFromModules(modules, APP_DIR);
+    const dashboard = findChild(root, (r) => r.path === "dashboard");
+    const layoutEl = asElement<{ slots: Record<string, SlotConfig> }>(
+      dashboard.element,
+    );
+    const slot = layoutEl.props.slots.side;
+
+    // The slot's routes must include something matchable at the slot's parent
+    // URL — either a direct `index` route or a pathless wrapper whose children
+    // include one.
+    const findIndexLeaf = (routes: typeof slot.routes): boolean =>
+      routes.some(
+        (r) =>
+          r.index === true ||
+          (r.path === undefined && !!r.children && findIndexLeaf(r.children)),
+      );
+    expect(findIndexLeaf(slot.routes)).toBe(true);
+  });
 });
 
 describe("buildRoutesFromModules — intercepted-route loading/error wiring", () => {
