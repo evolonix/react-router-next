@@ -20,3 +20,18 @@
 .dark .shiki-block .shiki span {
   color: var(--shiki-dark) !important;
 }
+
+@keyframes template-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.template-mount {
+  animation: template-fade-in 280ms ease-out;
+}

@@ -31,7 +31,7 @@ const GROUPS: Group[] = [
       {
         to: "/about",
         label: "Route groups",
-        hint: "(marketing)",
+        hint: "(marketing)/layout.tsx",
         matchPaths: ["/pricing"],
       },
       {
@@ -41,6 +41,12 @@ const GROUPS: Group[] = [
         matchPrefix: "/docs",
       },
       { to: "/search", label: "Optional catch-all", hint: "[[...query]]" },
+      {
+        to: "/transitions",
+        label: "Per-nav template",
+        hint: "template.tsx",
+        matchPrefix: "/transitions",
+      },
     ],
   },
   {
@@ -56,11 +62,34 @@ const GROUPS: Group[] = [
   {
     title: "Advanced",
     items: [
-      { to: "/dashboard", label: "Parallel routes", hint: "@slot" },
+      {
+        to: "/dashboard",
+        label: "Parallel routes",
+        hint: "@slot + boundaries",
+      },
       {
         to: "/gallery",
-        label: "Intercepting routes",
-        hint: "(.)[id] + template.tsx",
+        label: "Intercept same level",
+        hint: "(.)[id]",
+        matchPrefix: "/gallery",
+      },
+      {
+        to: "/mail",
+        label: "Intercept one up",
+        hint: "(..)[id]",
+        matchPrefix: "/mail",
+      },
+      {
+        to: "/projects",
+        label: "Intercept two up",
+        hint: "(..)(..)[id]",
+        matchPrefix: "/projects",
+      },
+      {
+        to: "/playground",
+        label: "Intercept from root",
+        hint: "(...)x",
+        matchPaths: ["/tour"],
       },
     ],
   },
@@ -113,7 +142,7 @@ export function Sidebar({ open, onClose }: SidebarProps) {
       <div className="hidden items-start justify-between gap-3 md:flex">
         <NavLink to="/" className="block">
           <span className="font-mono text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">
-            @evolonix
+            evolonix
           </span>
           <span className="block text-lg font-semibold text-slate-900 dark:text-slate-100">
             react-router-next

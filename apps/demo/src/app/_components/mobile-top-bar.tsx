@@ -33,7 +33,7 @@ export function MobileTopBar({ menuOpen, onMenuClick }: MobileTopBarProps) {
       </button>
       <NavLink to="/" className="flex-1 leading-tight">
         <span className="block font-mono text-[10px] uppercase tracking-wider text-slate-500 dark:text-slate-400">
-          @evolonix
+          evolonix
         </span>
         <span className="block text-sm font-semibold text-slate-900 dark:text-slate-100">
           react-router-next

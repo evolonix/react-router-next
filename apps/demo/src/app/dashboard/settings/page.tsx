@@ -6,10 +6,9 @@ export default function DashboardSettings() {
       </h2>
       <p className="text-sm text-slate-600 dark:text-slate-400">
         Rendered by{" "}
-        <code className="font-mono">dashboard/settings/page.tsx</code>. Notice
-        the analytics card on the right also swapped — that's because{" "}
-        <code className="font-mono">@analytics/settings/page.tsx</code> matched
-        independently.
+        <code className="font-mono">dashboard/settings/page.tsx</code>. Both
+        slots swapped to their <code className="font-mono">settings/</code>{" "}
+        match — analytics shows preferences and notifications shows channels.
       </p>
     </div>
   );

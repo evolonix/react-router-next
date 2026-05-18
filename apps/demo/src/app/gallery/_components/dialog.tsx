@@ -30,15 +30,15 @@ export function Dialog({ title, children }: DialogProps) {
         onClick={() => navigate(-1)}
         className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
       />
-      <div className="relative z-50 w-full max-w-lg overflow-hidden rounded-xl bg-white shadow-2xl dark:bg-slate-900">
-        <div className="flex items-center justify-between border-b border-slate-200 px-5 py-3 dark:border-slate-800">
+      <div className="relative z-50 w-full max-w-lg overflow-hidden rounded-xl bg-white shadow-2xl dark:bg-slate-800">
+        <div className="flex items-center justify-between border-b border-slate-200 px-5 py-3 dark:border-slate-700">
           <h2 className="text-sm font-semibold text-slate-900 dark:text-slate-100">
             {title}
           </h2>
           <button
             type="button"
             onClick={() => navigate(-1)}
-            className="rounded-md px-2 py-1 text-xs text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800"
+            className="rounded-md px-2 py-1 text-xs text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-700"
           >
             Close (Esc)
           </button>

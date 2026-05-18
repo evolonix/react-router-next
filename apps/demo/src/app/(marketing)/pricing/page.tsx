@@ -16,18 +16,26 @@ export default function PricingPage() {
   return <article>Pricing details...</article>;
 }`}</CodeBlock>
       </Explain>
-      <Explain title="Group, but no shared layout — yet" accent="routing">
+      <Explain title="Shared layout, hidden segment" accent="routing">
         <p>
-          A group <em>can</em> have its own{" "}
-          <code className="font-mono">layout.tsx</code>; this demo skips that to
-          keep the URL the only thing changing. Visit{" "}
+          The header and footer wrapping this page come from{" "}
+          <code className="font-mono">(marketing)/layout.tsx</code>. A group{" "}
+          <em>can</em> own a layout — the folder still vanishes from the URL
+          while its layout wraps every child.
+        </p>
+        <CodeBlock filename="src/app/(marketing)/">{`(marketing)/
+├── layout.tsx          # shared chrome
+├── about/page.tsx      → /about
+└── pricing/page.tsx    → /pricing`}</CodeBlock>
+        <p>
+          Visit{" "}
           <Link
             to="/about"
             className="font-medium text-accent-routing hover:underline"
           >
             /about
           </Link>{" "}
-          to see the other group member.
+          to see the other group member share the same wrapper.
         </p>
       </Explain>
     </>

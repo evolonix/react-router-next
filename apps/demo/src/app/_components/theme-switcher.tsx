@@ -8,34 +8,19 @@ const OPTIONS: { value: Theme; label: string; icon: string }[] = [
 
 export function ThemeSwitcher() {
   const { theme, setTheme } = useTheme();
+  const currentIndex = OPTIONS.findIndex((opt) => opt.value === theme);
+  const current = OPTIONS[currentIndex] ?? OPTIONS[0];
+  const next = OPTIONS[(currentIndex + 1) % OPTIONS.length];
   return (
-    <div
-      role="radiogroup"
-      aria-label="Theme"
-      className="inline-flex items-center gap-0.5 rounded-md border border-slate-200 bg-white p-0.5 dark:border-slate-800 dark:bg-slate-900"
+    <button
+      type="button"
+      aria-label={`Theme: ${current.label}. Switch to ${next.label}.`}
+      title={`Theme: ${current.label}`}
+      onClick={() => setTheme(next.value)}
+      className="inline-flex items-center gap-1.5 rounded-md border border-slate-200 bg-white px-2 py-1 text-xs font-medium text-slate-700 transition hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
     >
-      {OPTIONS.map((opt) => {
-        const active = theme === opt.value;
-        return (
-          <button
-            key={opt.value}
-            type="button"
-            role="radio"
-            aria-checked={active}
-            aria-label={opt.label}
-            title={opt.label}
-            onClick={() => setTheme(opt.value)}
-            className={`rounded px-2 py-1 text-xs font-medium transition ${
-              active
-                ? "bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900"
-                : "text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800"
-            }`}
-          >
-            <span aria-hidden>{opt.icon}</span>
-            <span className="sr-only">{opt.label}</span>
-          </button>
-        );
-      })}
-    </div>
+      <span aria-hidden>{current.icon}</span>
+      <span>{current.label}</span>
+    </button>
   );
 }

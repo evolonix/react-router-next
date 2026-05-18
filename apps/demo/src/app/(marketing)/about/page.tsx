@@ -11,10 +11,13 @@ export default function AboutPage() {
           This page lives at{" "}
           <code className="font-mono">src/app/(marketing)/about/page.tsx</code>{" "}
           — but the URL is just <code>/about</code>. Any folder name wrapped in
-          parens is stripped from the path. Use groups to share a layout or
-          colocate related routes without inflating the URL.
+          parens is stripped from the path. The header and footer around this
+          card come from{" "}
+          <code className="font-mono">(marketing)/layout.tsx</code>, which wraps
+          every member of the group while staying invisible to the URL.
         </p>
         <CodeBlock filename="src/app/">{`(marketing)/
+├── layout.tsx         # shared chrome — wraps every child
 ├── about/page.tsx     → /about
 └── pricing/page.tsx   → /pricing`}</CodeBlock>
       </Explain>
@@ -27,7 +30,8 @@ export default function AboutPage() {
             /pricing
           </Link>{" "}
           is the other route in this group. Notice neither URL mentions{" "}
-          <code className="font-mono">(marketing)</code>.
+          <code className="font-mono">(marketing)</code>, but the marketing
+          wrapper persists across both pages.
         </p>
       </Explain>
     </>

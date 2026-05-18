@@ -100,22 +100,58 @@ export default defineConfig({
             <code>notFound()</code> all in one route tree.
           </FeatureCard>
           <FeatureCard
+            to="/transitions"
+            accent="routing"
+            pattern="template.tsx"
+            title="Per-nav template"
+          >
+            Wraps children like <code>layout.tsx</code>, but remounts on every
+            navigation — replays entry animations and per-visit effects.
+          </FeatureCard>
+          <FeatureCard
             to="/dashboard"
             accent="parallel"
-            pattern="@slot/"
+            pattern="@slot/ + loading.tsx + error.tsx"
             title="Parallel routes"
           >
-            A second route tree rendered as a layout prop alongside{" "}
-            <code>{"<Outlet/>"}</code>.
+            Two route trees rendered as layout props alongside{" "}
+            <code>{"<Outlet/>"}</code>, each with its own scoped boundaries.
           </FeatureCard>
           <FeatureCard
             to="/gallery"
             accent="intercept"
-            pattern="(.)[id] + template.tsx"
-            title="Intercepting routes"
+            pattern="(.)[id]"
+            title="Intercept same level"
           >
             The canonical "soft nav opens a modal, refresh shows the full page"
-            pattern.
+            pattern with <code>(.)</code>.
+          </FeatureCard>
+          <FeatureCard
+            to="/mail"
+            accent="intercept"
+            pattern="(..)[id]"
+            title="Intercept one up"
+          >
+            Same idea, but the interceptor pops a filesystem level out of its{" "}
+            <code>@slot/</code> before descending.
+          </FeatureCard>
+          <FeatureCard
+            to="/projects"
+            accent="intercept"
+            pattern="(..)(..)[id]"
+            title="Intercept two up"
+          >
+            Pops the slot <em>and</em> one real folder so a nested feed can
+            intercept its parent's detail route.
+          </FeatureCard>
+          <FeatureCard
+            to="/playground"
+            accent="intercept"
+            pattern="(...)x"
+            title="Intercept from root"
+          >
+            Anchors at the app root regardless of nesting — overlays a
+            root-level page from anywhere in the tree.
           </FeatureCard>
         </div>
       </section>

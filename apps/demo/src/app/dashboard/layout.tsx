@@ -6,14 +6,18 @@ import { Explain } from "../_components/explain";
 
 interface DashboardLayoutProps {
   analytics: ReactNode;
+  notifications: ReactNode;
 }
 
-export default function DashboardLayout({ analytics }: DashboardLayoutProps) {
+export default function DashboardLayout({
+  analytics,
+  notifications,
+}: DashboardLayoutProps) {
   return (
     <div className="space-y-6">
       <header>
         <p className="font-mono text-[11px] uppercase tracking-wider text-accent-parallel">
-          dashboard/ + @analytics/
+          dashboard/ + @analytics/ + @notifications/
         </p>
         <h1 className="text-xl font-semibold text-slate-900 md:text-2xl dark:text-slate-100">
           Parallel routes
@@ -22,21 +26,37 @@ export default function DashboardLayout({ analytics }: DashboardLayoutProps) {
 
       <Explain title="A slot is a layout prop" accent="parallel" tag="@slot">
         <p>
-          The folder <code className="font-mono">dashboard/@analytics/</code>{" "}
-          doesn't add anything to the URL. Instead, it matches the URL
-          independently and shows up as a named prop on this layout. The main
-          flow still flows through <code>{"<Outlet/>"}</code>.
+          Two sibling slots —{" "}
+          <code className="font-mono">dashboard/@analytics/</code> and{" "}
+          <code className="font-mono">dashboard/@notifications/</code> — each
+          matches the URL independently and shows up as a named prop on this
+          layout. The main flow still flows through <code>{"<Outlet/>"}</code>.
         </p>
         <CodeBlock filename="src/app/dashboard/layout.tsx">{`export default function DashboardLayout({
   analytics,
-}: { analytics: ReactNode }) {
+  notifications,
+}: { analytics: ReactNode; notifications: ReactNode }) {
   return (
-    <div className="grid grid-cols-[2fr_1fr] gap-4">
-      <main><Outlet /></main>      {/* dashboard/page.tsx, dashboard/settings/page.tsx */}
-      <aside>{analytics}</aside>   {/* @analytics/page.tsx, @analytics/settings/page.tsx */}
+    <div className="grid grid-cols-[2fr_1fr_1fr] gap-4">
+      <main><Outlet /></main>     {/* dashboard/page.tsx, dashboard/settings/page.tsx */}
+      <aside>{analytics}</aside>     {/* @analytics/page.tsx, @analytics/settings/page.tsx */}
+      <aside>{notifications}</aside> {/* @notifications/page.tsx, @notifications/settings/page.tsx */}
     </div>
   );
 }`}</CodeBlock>
+        <p>
+          The analytics slot also owns its own{" "}
+          <code className="font-mono">loading.tsx</code> and{" "}
+          <code className="font-mono">error.tsx</code>. Trigger them with{" "}
+          <Link
+            to="/dashboard?fail=1"
+            className="font-medium text-accent-parallel hover:underline"
+          >
+            /dashboard?fail=1
+          </Link>{" "}
+          — only the analytics column flips to the error state, while the outlet
+          and notifications keep rendering.
+        </p>
       </Explain>
 
       <nav className="flex gap-2 text-sm">
@@ -52,9 +72,15 @@ export default function DashboardLayout({ analytics }: DashboardLayoutProps) {
         >
           /dashboard/settings
         </Link>
+        <Link
+          to="/dashboard?fail=1"
+          className="rounded-md border border-accent-error/40 bg-accent-error/5 px-3 py-1.5 text-accent-error hover:bg-accent-error/10"
+        >
+          ?fail=1
+        </Link>
       </nav>
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-[2fr_1fr]">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-[2fr_1fr_1fr]">
         <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
           <p className="mb-2 font-mono text-[11px] uppercase tracking-wider text-slate-500 dark:text-slate-400">
             {"<Outlet />"}
@@ -66,6 +92,12 @@ export default function DashboardLayout({ analytics }: DashboardLayoutProps) {
             analytics slot
           </p>
           {analytics}
+        </aside>
+        <aside className="rounded-xl border border-accent-parallel/30 bg-accent-parallel/5 p-5">
+          <p className="mb-2 font-mono text-[11px] uppercase tracking-wider text-accent-parallel">
+            notifications slot
+          </p>
+          {notifications}
         </aside>
       </div>
     </div>
