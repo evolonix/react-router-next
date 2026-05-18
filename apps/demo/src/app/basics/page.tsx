@@ -4,7 +4,7 @@ import { Explain } from "../_components/explain";
 export default function BasicsPage() {
   return (
     <>
-      <Explain title="page.tsx + layout.tsx" accent="routing">
+      <Explain title="page.tsx + layout.tsx" accent="neutral">
         <p>
           A folder becomes a route when it contains a{" "}
           <code className="font-mono">page.tsx</code>. Drop a{" "}
@@ -25,7 +25,7 @@ export default function BasicsLayout() {
 }`}</CodeBlock>
       </Explain>
 
-      <Explain title="Inside this route" accent="routing" tag="page.tsx">
+      <Explain title="Inside this route" accent="neutral" tag="page.tsx">
         <p>
           You're looking at <code className="font-mono">basics/page.tsx</code>{" "}
           right now. It's the leaf rendered at <code>/basics</code>. Layouts

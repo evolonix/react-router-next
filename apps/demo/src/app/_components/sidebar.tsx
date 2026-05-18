@@ -1,11 +1,22 @@
 import { NavLink, useLocation } from "react-router";
 
+import type { Accent } from "./explain";
 import { GitHubLink } from "./github-link";
 import { ThemeSwitcher } from "./theme-switcher";
+
+const ACCENT_BAR: Record<Accent, string> = {
+  neutral: "bg-slate-300 dark:bg-slate-600",
+  routing: "bg-accent-routing",
+  data: "bg-accent-data",
+  error: "bg-accent-error",
+  parallel: "bg-accent-parallel",
+  intercept: "bg-accent-intercept",
+};
 
 interface Item {
   to: string;
   label: string;
+  accent: Accent;
   hint?: string;
   /** If set, the item is considered active when pathname starts with this prefix */
   matchPrefix?: string;
@@ -22,8 +33,13 @@ const GROUPS: Group[] = [
   {
     title: "Start here",
     items: [
-      { to: "/", label: "Home", hint: "AppRouter mount" },
-      { to: "/basics", label: "Basics", hint: "page.tsx + layout.tsx" },
+      { to: "/", label: "Home", accent: "neutral", hint: "AppRouter mount" },
+      {
+        to: "/basics",
+        label: "Basics",
+        accent: "neutral",
+        hint: "page.tsx + layout.tsx",
+      },
     ],
   },
   {
@@ -32,19 +48,27 @@ const GROUPS: Group[] = [
       {
         to: "/about",
         label: "Route groups",
+        accent: "routing",
         hint: "(marketing)/layout.tsx",
         matchPaths: ["/pricing"],
       },
       {
         to: "/docs/getting-started",
         label: "Catch-all",
+        accent: "routing",
         hint: "[...slug]",
         matchPrefix: "/docs",
       },
-      { to: "/search", label: "Optional catch-all", hint: "[[...query]]" },
+      {
+        to: "/search",
+        label: "Optional catch-all",
+        accent: "routing",
+        hint: "[[...query]]",
+      },
       {
         to: "/transitions",
         label: "Per-nav template",
+        accent: "routing",
         hint: "template.tsx",
         matchPrefix: "/transitions",
       },
@@ -56,6 +80,7 @@ const GROUPS: Group[] = [
       {
         to: "/posts",
         label: "Suspense + params",
+        accent: "data",
         hint: "loading.tsx, error.tsx, notFound()",
       },
     ],
@@ -66,29 +91,34 @@ const GROUPS: Group[] = [
       {
         to: "/dashboard",
         label: "Parallel routes",
+        accent: "parallel",
         hint: "@slot + boundaries",
       },
       {
         to: "/gallery",
         label: "Intercept same level",
+        accent: "intercept",
         hint: "(.)[id]",
         matchPrefix: "/gallery",
       },
       {
         to: "/mail",
         label: "Intercept one up",
+        accent: "intercept",
         hint: "(..)[id]",
         matchPrefix: "/mail",
       },
       {
         to: "/projects",
         label: "Intercept two up",
+        accent: "intercept",
         hint: "(..)(..)[id]",
         matchPrefix: "/projects",
       },
       {
         to: "/playground",
         label: "Intercept from root",
+        accent: "intercept",
         hint: "(...)x",
         matchPaths: ["/tour"],
       },
@@ -109,16 +139,20 @@ function SidebarItem({ item }: { item: Item }) {
       end={item.to === "/"}
       className={({ isActive }) => {
         const active = prefixActive || pathsActive || isActive;
-        return `group block rounded-md px-2 py-1.5 transition ${
+        return `group relative block py-1.5 pl-6 pr-6 transition ${
           active
-            ? "bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900"
-            : "text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+            ? "bg-slate-200 text-slate-900 dark:bg-slate-800 dark:text-slate-100"
+            : "text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800/60"
         }`;
       }}
     >
+      <span
+        aria-hidden
+        className={`absolute bottom-1.5 left-4 top-1.5 w-0.5 rounded-full transition-opacity ${ACCENT_BAR[item.accent]} opacity-60 group-hover:opacity-100 group-aria-[current=page]:opacity-100`}
+      />
       <span className="block text-sm font-medium">{item.label}</span>
       {item.hint ? (
-        <span className="block font-mono text-[11px] text-slate-400 group-aria-[current=page]:text-slate-300 dark:text-slate-500 dark:group-aria-[current=page]:text-slate-600">
+        <span className="block font-mono text-[11px] text-slate-400 group-aria-[current=page]:text-slate-500 dark:text-slate-500 dark:group-aria-[current=page]:text-slate-400">
           {item.hint}
         </span>
       ) : null}
@@ -136,11 +170,11 @@ export function Sidebar({ open, onClose }: SidebarProps) {
     <nav
       id="primary-nav"
       aria-label="Examples"
-      className={`fixed inset-y-0 left-0 z-40 flex w-72 shrink-0 transform flex-col gap-6 overflow-y-auto border-r border-slate-200 bg-white p-6 transition-transform duration-200 ease-out md:sticky md:top-0 md:h-screen md:translate-x-0 md:transform-none md:bg-white/70 md:backdrop-blur md:transition-none dark:border-slate-800 dark:bg-slate-900 dark:md:bg-slate-900/70 ${
+      className={`fixed inset-y-0 left-0 z-40 flex w-72 shrink-0 transform flex-col gap-6 overflow-y-auto border-x border-slate-200 bg-white py-6 transition-transform duration-200 ease-out md:sticky md:top-0 md:h-screen md:translate-x-0 md:transform-none md:bg-white/70 md:backdrop-blur md:transition-none dark:border-slate-800 dark:bg-slate-900 dark:md:bg-slate-900/70 ${
         open ? "translate-x-0" : "-translate-x-full"
       }`}
     >
-      <div className="hidden flex-col gap-1 md:flex">
+      <div className="hidden flex-col gap-1 px-6 md:flex">
         <div className="flex items-center justify-between gap-3">
           <span className="font-mono text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">
             evolonix
@@ -159,7 +193,7 @@ export function Sidebar({ open, onClose }: SidebarProps) {
           </span>
         </NavLink>
       </div>
-      <div className="flex items-center justify-between md:hidden">
+      <div className="flex items-center justify-between px-6 md:hidden">
         <p className="font-mono text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">
           Examples
         </p>
@@ -185,7 +219,7 @@ export function Sidebar({ open, onClose }: SidebarProps) {
       </div>
       {GROUPS.map((group) => (
         <div key={group.title} className="space-y-1">
-          <p className="px-2 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+          <p className="px-6 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
             {group.title}
           </p>
           <ul className="space-y-0.5">
@@ -197,7 +231,7 @@ export function Sidebar({ open, onClose }: SidebarProps) {
           </ul>
         </div>
       ))}
-      <div className="mt-auto rounded-md bg-slate-100 p-3 text-xs text-slate-500 dark:bg-slate-800 dark:text-slate-400">
+      <div className="mx-6 mt-auto rounded-md bg-slate-100 p-3 text-xs text-slate-500 dark:bg-slate-800 dark:text-slate-400">
         Every example is a real route under <code>src/app/</code>. Click around
         and inspect the folder structure to see the conventions in action.
       </div>

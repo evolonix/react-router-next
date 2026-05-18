@@ -5,9 +5,9 @@ export default function BasicsLayout() {
   const crumbs = pathname.split("/").filter(Boolean);
   return (
     <div className="space-y-6">
-      <header className="flex flex-col gap-2 rounded-xl border border-dashed border-accent-routing/40 bg-accent-routing/5 px-4 py-3 md:flex-row md:items-center md:justify-between">
+      <header className="flex flex-col gap-2 rounded-xl border border-dashed border-slate-300 bg-slate-100/60 px-4 py-3 md:flex-row md:items-center md:justify-between dark:border-slate-700 dark:bg-slate-800/40">
         <div>
-          <p className="font-mono text-[11px] uppercase tracking-wider text-accent-routing">
+          <p className="font-mono text-[11px] uppercase tracking-wider text-slate-500 dark:text-slate-400">
             basics/layout.tsx
           </p>
           <p className="text-sm text-slate-700 dark:text-slate-300">
@@ -47,7 +47,7 @@ function BasicsLink({
       className={({ isActive }) =>
         `rounded-md border px-3 py-1.5 transition ${
           isActive
-            ? "border-accent-routing/40 bg-accent-routing/10 text-accent-routing"
+            ? "border-slate-400 bg-slate-200/60 text-slate-900 dark:border-slate-500 dark:bg-slate-700/60 dark:text-slate-100"
             : "border-slate-200 bg-white hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-900 dark:hover:bg-slate-800"
         }`
       }

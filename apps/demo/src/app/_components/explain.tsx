@@ -1,8 +1,19 @@
 import type { ReactNode } from "react";
 
-export type Accent = "routing" | "data" | "error" | "parallel" | "intercept";
+export type Accent =
+  | "neutral"
+  | "routing"
+  | "data"
+  | "error"
+  | "parallel"
+  | "intercept";
 
 const ACCENT: Record<Accent, { chip: string; bar: string; label: string }> = {
+  neutral: {
+    chip: "bg-slate-200/60 text-slate-700 ring-slate-300 dark:bg-slate-700/60 dark:text-slate-200 dark:ring-slate-600",
+    bar: "bg-slate-300 dark:bg-slate-600",
+    label: "Overview",
+  },
   routing: {
     chip: "bg-accent-routing/15 text-accent-routing ring-accent-routing/30",
     bar: "bg-accent-routing",

@@ -4,6 +4,7 @@ import { Link } from "react-router";
 import type { Accent } from "./explain";
 
 const ACCENT_BAR: Record<Accent, string> = {
+  neutral: "bg-slate-300 dark:bg-slate-600",
   routing: "bg-accent-routing",
   data: "bg-accent-data",
   error: "bg-accent-error",

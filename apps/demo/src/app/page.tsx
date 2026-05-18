@@ -13,7 +13,21 @@ export default function HomePage() {
           Next.js-style filesystem routing for React Router 7
         </h1>
         <p className="max-w-2xl text-base leading-relaxed text-slate-600 dark:text-slate-400">
-          Every example below is a real folder under{" "}
+          Every{" "}
+          <a
+            href="#pick-a-feature"
+            onClick={(event) => {
+              const target = document.getElementById("pick-a-feature");
+              if (!target) return;
+              event.preventDefault();
+              target.scrollIntoView({ behavior: "smooth", block: "start" });
+              history.replaceState(null, "", "#pick-a-feature");
+            }}
+            className="font-medium text-slate-900 underline decoration-slate-400 underline-offset-2 hover:decoration-slate-900 dark:text-slate-100 dark:decoration-slate-500 dark:hover:decoration-slate-100"
+          >
+            example
+          </a>{" "}
+          below is a real folder under{" "}
           <code className="rounded bg-slate-200 px-1 py-0.5 font-mono text-[13px] dark:bg-slate-700">
             src/app/
           </code>
@@ -22,7 +36,7 @@ export default function HomePage() {
         </p>
       </header>
 
-      <Explain title="How the app is wired" accent="routing" tag="AppRouter">
+      <Explain title="How the app is wired" accent="neutral" tag="AppRouter">
         <p>
           <code>AppRouter</code> reads the route tree from the Vite plugin's
           virtual modules and mounts a React Router data router for you. The
@@ -54,13 +68,16 @@ export default defineConfig({
       </Explain>
 
       <section className="space-y-3">
-        <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
+        <h2
+          id="pick-a-feature"
+          className="scroll-mt-6 text-lg font-semibold text-slate-900 dark:text-slate-100"
+        >
           Pick a feature to explore
         </h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <FeatureCard
             to="/basics"
-            accent="routing"
+            accent="neutral"
             pattern="layout.tsx + page.tsx"
             title="Layouts & nesting"
           >
@@ -91,15 +108,6 @@ export default defineConfig({
             One folder serves the bare segment <em>and</em> any depth below.
           </FeatureCard>
           <FeatureCard
-            to="/posts"
-            accent="data"
-            pattern="loading.tsx + use()"
-            title="Suspense data + typed params"
-          >
-            Suspense-based loading, <code>error.tsx</code>, and{" "}
-            <code>notFound()</code> all in one route tree.
-          </FeatureCard>
-          <FeatureCard
             to="/transitions"
             accent="routing"
             pattern="template.tsx"
@@ -107,6 +115,15 @@ export default defineConfig({
           >
             Wraps children like <code>layout.tsx</code>, but remounts on every
             navigation — replays entry animations and per-visit effects.
+          </FeatureCard>
+          <FeatureCard
+            to="/posts"
+            accent="data"
+            pattern="loading.tsx + use()"
+            title="Suspense data + typed params"
+          >
+            Suspense-based loading, <code>error.tsx</code>, and{" "}
+            <code>notFound()</code> all in one route tree.
           </FeatureCard>
           <FeatureCard
             to="/dashboard"

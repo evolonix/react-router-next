@@ -3,7 +3,7 @@ import { Explain } from "../../_components/explain";
 
 export default function NestedPage() {
   return (
-    <Explain title="A child of basics/" accent="routing" tag="page.tsx">
+    <Explain title="A child of basics/" accent="neutral" tag="page.tsx">
       <p>
         You're at <code>/basics/nested</code>. Notice that the dashed banner
         above didn't unmount — it lives in{" "}
