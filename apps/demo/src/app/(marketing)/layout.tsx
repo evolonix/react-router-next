@@ -3,24 +3,22 @@ import { Link, NavLink, Outlet } from "react-router";
 export default function MarketingLayout() {
   return (
     <div className="space-y-6">
-      <header className="flex flex-col gap-3 rounded-xl border border-dashed border-accent-routing/40 bg-accent-routing/5 px-4 py-3 md:flex-row md:items-center md:justify-between">
-        <div>
-          <p className="font-mono text-[11px] uppercase tracking-wider text-accent-routing">
-            (marketing)/layout.tsx
-          </p>
-          <p className="text-sm text-slate-700 dark:text-slate-300">
-            Shared chrome for every page in the{" "}
-            <code className="font-mono">(marketing)</code> group. The folder is
-            stripped from the URL, but its{" "}
-            <code className="font-mono">layout.tsx</code> still wraps the
-            children.
-          </p>
-        </div>
-        <nav className="flex gap-2 text-sm">
-          <MarketingLink to="/about">About</MarketingLink>
-          <MarketingLink to="/pricing">Pricing</MarketingLink>
-        </nav>
+      <header className="rounded-xl border border-dashed border-accent-routing/40 bg-accent-routing/5 px-4 py-3">
+        <p className="font-mono text-[11px] uppercase tracking-wider text-accent-routing">
+          (marketing)/layout.tsx
+        </p>
+        <p className="text-sm text-slate-700 dark:text-slate-300">
+          Shared chrome for every page in the{" "}
+          <code className="font-mono">(marketing)</code> group. The folder is
+          stripped from the URL, but its{" "}
+          <code className="font-mono">layout.tsx</code> still wraps the
+          children.
+        </p>
       </header>
+      <div className="flex gap-2 text-sm">
+        <MarketingLink to="/about">About</MarketingLink>
+        <MarketingLink to="/pricing">Pricing</MarketingLink>
+      </div>
       <Outlet />
       <p className="text-xs text-slate-500 dark:text-slate-400">
         This footer is also part of the marketing layout — visit{" "}
@@ -46,6 +44,7 @@ function MarketingLink({
   return (
     <NavLink
       to={to}
+      preventScrollReset
       className={({ isActive }) =>
         `rounded-md border px-3 py-1.5 transition ${
           isActive

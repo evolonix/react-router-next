@@ -82,6 +82,13 @@ export default function PostPage({ params }: RouteProps) {
           for the not-found boundary.
         </p>
       </Explain>
+
+      <Link
+        to="/posts"
+        className="inline-flex rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-900 dark:hover:bg-slate-800"
+      >
+        ← back to all posts
+      </Link>
     </>
   );
 }

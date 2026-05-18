@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Outlet, useLocation } from "react-router";
+import { Outlet, ScrollRestoration, useLocation } from "react-router";
 
 import { MobileTopBar } from "./_components/mobile-top-bar";
 import { ProgressBar } from "./_components/progress-bar";
@@ -61,6 +61,7 @@ export default function RootLayout() {
             </div>
           </main>
         </div>
+        <ScrollRestoration />
       </div>
     </ThemeProvider>
   );

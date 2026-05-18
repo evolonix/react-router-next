@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { Link, Outlet } from "react-router";
+import { Link, NavLink, Outlet } from "react-router";
 
 import { CodeBlock } from "../_components/code-block";
 import { Explain } from "../_components/explain";
@@ -32,6 +32,21 @@ export default function DashboardLayout({
           matches the URL independently and shows up as a named prop on this
           layout. The main flow still flows through <code>{"<Outlet/>"}</code>.
         </p>
+        <p>
+          Toggle between <code className="font-mono">/dashboard</code> and{" "}
+          <code className="font-mono">/dashboard/settings</code>: the
+          notifications column changes copy because{" "}
+          <code className="font-mono">@notifications/</code> has no{" "}
+          <code className="font-mono">settings/page.tsx</code>, so the slot
+          falls back to its{" "}
+          <code className="font-mono">@notifications/default.tsx</code>. Without
+          that file the slot would either error or leak its previous match.
+        </p>
+        <CodeBlock filename="src/app/dashboard/@notifications/default.tsx">{`// Rendered whenever the URL doesn't match any of @notifications/'s pages.
+// Can also \`return null\` — anything is better than a stale match.
+export default function NotificationsDefault() {
+  return <p>No notifications view matches this URL.</p>;
+}`}</CodeBlock>
         <CodeBlock filename="src/app/dashboard/layout.tsx">{`export default function DashboardLayout({
   analytics,
   notifications,
@@ -40,7 +55,7 @@ export default function DashboardLayout({
     <div className="grid grid-cols-[2fr_1fr_1fr] gap-4">
       <main><Outlet /></main>     {/* dashboard/page.tsx, dashboard/settings/page.tsx */}
       <aside>{analytics}</aside>     {/* @analytics/page.tsx, @analytics/settings/page.tsx */}
-      <aside>{notifications}</aside> {/* @notifications/page.tsx, @notifications/settings/page.tsx */}
+      <aside>{notifications}</aside> {/* @notifications/page.tsx, @notifications/default.tsx */}
     </div>
   );
 }`}</CodeBlock>
@@ -60,20 +75,15 @@ export default function DashboardLayout({
       </Explain>
 
       <nav className="flex gap-2 text-sm">
-        <Link
-          to="/dashboard"
-          className="rounded-md border border-slate-200 bg-white px-3 py-1.5 hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-900 dark:hover:bg-slate-800"
-        >
+        <DashboardLink to="/dashboard" end>
           /dashboard
-        </Link>
-        <Link
-          to="/dashboard/settings"
-          className="rounded-md border border-slate-200 bg-white px-3 py-1.5 hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-900 dark:hover:bg-slate-800"
-        >
+        </DashboardLink>
+        <DashboardLink to="/dashboard/settings">
           /dashboard/settings
-        </Link>
+        </DashboardLink>
         <Link
           to="/dashboard?fail=1"
+          preventScrollReset
           className="rounded-md border border-accent-error/40 bg-accent-error/5 px-3 py-1.5 text-accent-error hover:bg-accent-error/10"
         >
           ?fail=1
@@ -101,5 +111,32 @@ export default function DashboardLayout({
         </aside>
       </div>
     </div>
+  );
+}
+
+function DashboardLink({
+  to,
+  end,
+  children,
+}: {
+  to: string;
+  end?: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <NavLink
+      to={to}
+      end={end}
+      preventScrollReset
+      className={({ isActive }) =>
+        `rounded-md border px-3 py-1.5 transition ${
+          isActive
+            ? "border-accent-parallel/40 bg-accent-parallel/10 text-accent-parallel"
+            : "border-slate-200 bg-white hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-900 dark:hover:bg-slate-800"
+        }`
+      }
+    >
+      {children}
+    </NavLink>
   );
 }

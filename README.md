@@ -34,7 +34,7 @@ A Vite + React 19 app that consumes the workspace package and demonstrates every
 - **`search/[[...query]]/`** — optional catch-all.
 - **`posts/`** — Suspense data fetching with `use()`, `loading.tsx`, `error.tsx`, `not-found.tsx`, and the `notFound()` helper for `[postId]` misses.
 - **`transitions/`** — `template.tsx` remount-on-navigation.
-- **`dashboard/`** — two parallel-route slots (`@analytics`, `@notifications`) with their own scoped `loading.tsx` / `error.tsx`.
+- **`dashboard/`** — parallel-route slots: `@analytics` with scoped `loading.tsx` / `error.tsx`, and `@notifications` whose `default.tsx` renders when `/dashboard/settings` has no matching page in the slot.
 - **`gallery/`** — the canonical intercept pattern: `@modal/(.)[id]` overlays the grid on soft-nav, `[id]/page.tsx` renders full-page on refresh, with a `_components/` private folder for the shared dialog.
 - **`mail/[folderId]/`** — `(..)[messageId]` intercepts one filesystem level up out of a `@preview` slot.
 - **`projects/[orgId]/(catalog)/`** — `(..)(..)[projectId]` pops both the slot and the catalog group so a nested feed can intercept its parent's detail route.

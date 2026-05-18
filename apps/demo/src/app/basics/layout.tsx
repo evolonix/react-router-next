@@ -1,4 +1,4 @@
-import { Link, Outlet, useLocation } from "react-router";
+import { NavLink, Outlet, useLocation } from "react-router";
 
 export default function BasicsLayout() {
   const { pathname } = useLocation();
@@ -15,25 +15,44 @@ export default function BasicsLayout() {
             move between <code className="font-mono">basics/</code> children.
           </p>
         </div>
-        <nav className="font-mono text-xs text-slate-500 dark:text-slate-400">
-          /{crumbs.join(" / ")}
+        <nav className="font-mono text-xs text-slate-500 dark:text-slate-400 whitespace-nowrap">
+          /{crumbs.join("/")}
         </nav>
       </header>
       <div className="flex gap-2 text-sm">
-        <Link
-          to="/basics"
-          className="rounded-md border border-slate-200 bg-white px-3 py-1.5 hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-900 dark:hover:bg-slate-800"
-        >
+        <BasicsLink to="/basics" end>
           /basics
-        </Link>
-        <Link
-          to="/basics/nested"
-          className="rounded-md border border-slate-200 bg-white px-3 py-1.5 hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-900 dark:hover:bg-slate-800"
-        >
-          /basics/nested
-        </Link>
+        </BasicsLink>
+        <BasicsLink to="/basics/nested">/basics/nested</BasicsLink>
       </div>
       <Outlet />
     </div>
+  );
+}
+
+function BasicsLink({
+  to,
+  end,
+  children,
+}: {
+  to: string;
+  end?: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <NavLink
+      to={to}
+      end={end}
+      preventScrollReset
+      className={({ isActive }) =>
+        `rounded-md border px-3 py-1.5 transition ${
+          isActive
+            ? "border-accent-routing/40 bg-accent-routing/10 text-accent-routing"
+            : "border-slate-200 bg-white hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-900 dark:hover:bg-slate-800"
+        }`
+      }
+    >
+      {children}
+    </NavLink>
   );
 }

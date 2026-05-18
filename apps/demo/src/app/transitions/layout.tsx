@@ -1,4 +1,4 @@
-import { Link, Outlet } from "react-router";
+import { NavLink, Outlet } from "react-router";
 
 import { CodeBlock } from "../_components/code-block";
 import { Explain } from "../_components/explain";
@@ -50,7 +50,9 @@ export default function TransitionsTemplate() {
       </Explain>
 
       <nav className="flex flex-wrap gap-2 text-sm">
-        <TabLink to="/transitions">/transitions</TabLink>
+        <TabLink to="/transitions" end>
+          /transitions
+        </TabLink>
         <TabLink to="/transitions/a">/transitions/a</TabLink>
         <TabLink to="/transitions/b">/transitions/b</TabLink>
         <TabLink to="/transitions/c">/transitions/c</TabLink>
@@ -61,13 +63,29 @@ export default function TransitionsTemplate() {
   );
 }
 
-function TabLink({ to, children }: { to: string; children: React.ReactNode }) {
+function TabLink({
+  to,
+  end,
+  children,
+}: {
+  to: string;
+  end?: boolean;
+  children: React.ReactNode;
+}) {
   return (
-    <Link
+    <NavLink
       to={to}
-      className="rounded-md border border-slate-200 bg-white px-3 py-1.5 hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-900 dark:hover:bg-slate-800"
+      end={end}
+      preventScrollReset
+      className={({ isActive }) =>
+        `rounded-md border px-3 py-1.5 transition ${
+          isActive
+            ? "border-accent-routing/40 bg-accent-routing/10 text-accent-routing"
+            : "border-slate-200 bg-white hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-900 dark:hover:bg-slate-800"
+        }`
+      }
     >
       {children}
-    </Link>
+    </NavLink>
   );
 }
