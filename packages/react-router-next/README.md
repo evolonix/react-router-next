@@ -52,28 +52,31 @@ src/app/
 ├── (marketing)/               # route group — folder name in (parens) is stripped
 │   ├── about/page.tsx         # /about
 │   └── pricing/page.tsx       # /pricing
-├── notes/                        # data fetching via Suspense + use()
-│   ├── _lib/use-notes.ts         # useNotes()/useNote() — promise cache + use()
+├── posts/                        # data fetching via Suspense + use()
+│   ├── _lib/use-posts.ts         # usePosts()/usePost() — promise cache + use()
 │   ├── layout.tsx
 │   ├── loading.tsx               # Suspense fallback for any descendant that suspends
-│   ├── page.tsx                  # /notes — useNotes() suspends on first render
-│   └── [noteId]/page.tsx         # /notes/:noteId — useNote(id) suspends per id
+│   ├── not-found.tsx             # rendered when notFound() is thrown for a missing post
+│   ├── page.tsx                  # /posts — usePosts() suspends on first render
+│   └── [postId]/
+│       ├── error.tsx             # scoped error boundary for the detail route
+│       └── page.tsx              # /posts/:postId — usePost(id) suspends per id
 ├── dashboard/                 # parallel-route slots
-│   ├── layout.tsx             # function ({ analytics }) — main flow via <Outlet/>
+│   ├── layout.tsx             # function ({ analytics, notifications }) — main flow via <Outlet/>
 │   ├── page.tsx               # /dashboard main panel
 │   ├── settings/page.tsx      # /dashboard/settings main panel
 │   └── @analytics/            # parallel slot — invisible in URL
 │       ├── page.tsx           # rendered for /dashboard
 │       ├── settings/page.tsx  # rendered for /dashboard/settings
 │       └── default.tsx        # fallback when slot has no match
-└── photos/                   # intercepting route inside a parallel slot
+└── gallery/                   # intercepting route inside a parallel slot
     ├── layout.tsx             # function ({ modal }) — main flow via <Outlet/>, modal via slot prop
-    ├── page.tsx               # /photos
+    ├── page.tsx               # /gallery
     ├── [id]/
     │   ├── page.tsx           # full-page detail (POP / refresh)
     │   └── template.tsx       # remounts on every navigation
     ├── @modal/                # parallel slot — invisible in URL
-    │   ├── default.tsx        # null fallback when no photo is selected
+    │   ├── default.tsx        # null fallback when no item is selected
     │   └── (.)[id]/page.tsx   # modal interceptor — rendered on PUSH/REPLACE
     └── _components/           # private folder — never routed, importable
         └── dialog.tsx
@@ -114,15 +117,15 @@ For each route folder the plugin exposes a virtual module — `virtual:react-rou
 The runtime renders each `page.tsx` with its `RouteProps` already wired up — `params` is parsed from the URL (typed from the folder name) and passed in as a prop, so the component can destructure it directly without calling `useParams`/`useRouteParams`. The virtual module only exports `RouteProps` (and `useRouteParams`) for routes that actually have params; paramless routes can omit the prop entirely.
 
 ```tsx
-// src/app/notes/[noteId]/page.tsx
-import type { RouteProps } from "virtual:react-router-next/notes/[noteId]";
-import { useNote } from "../_lib/use-notes";
+// src/app/posts/[postId]/page.tsx
+import type { RouteProps } from "virtual:react-router-next/posts/[postId]";
+import { usePost } from "../_lib/use-posts";
 
-export default function NotePage({ params }: RouteProps) {
-  const note = useNote(params.noteId); // suspends; loading.tsx renders
+export default function PostPage({ params }: RouteProps) {
+  const post = usePost(params.postId); // suspends; loading.tsx renders
   return (
     <article>
-      {note.title} (id: {params.noteId})
+      {post.title} (id: {params.postId})
     </article>
   );
 }
@@ -130,18 +133,18 @@ export default function NotePage({ params }: RouteProps) {
 
 ```tsx
 // any other component
-import { generate as generateNote } from "virtual:react-router-next/notes/[noteId]";
+import { generate as generatePost } from "virtual:react-router-next/posts/[postId]";
 
-<NavLink to={generateNote({ noteId: "a" })}>First note</NavLink>;
+<NavLink to={generatePost({ postId: "a" })}>First post</NavLink>;
 ```
 
 ```tsx
-// src/app/notes/[noteId]/page.tsx
-import { useRouteParams } from "virtual:react-router-next/notes/[noteId]";
+// src/app/posts/[postId]/page.tsx
+import { useRouteParams } from "virtual:react-router-next/posts/[postId]";
 
-export default function NotePage() {
-  const { noteId } = useRouteParams();
-  return <article>Note id: {noteId}</article>;
+export default function PostPage() {
+  const { postId } = useRouteParams();
+  return <article>Post id: {postId}</article>;
 }
 ```
 
@@ -149,7 +152,7 @@ The runtime hook `useRouteParams` is also re-exported from the package itself if
 
 ```tsx
 import { useRouteParams } from "@evolonix/react-router-next";
-const { noteId } = useRouteParams("notes/[noteId]");
+const { postId } = useRouteParams("posts/[postId]");
 ```
 
 ## Build your own router
@@ -221,21 +224,21 @@ Prefix semantics (counted in **filesystem** levels — slots count, group folder
 
 ### The canonical pattern: interceptor inside a parallel slot
 
-The Next.js-canonical "click a thumbnail → photo overlays the grid" pattern combines an interceptor with a `@slot` so the underlying page stays mounted behind the modal:
+The Next.js-canonical "click a thumbnail → item overlays the grid" pattern combines an interceptor with a `@slot` so the underlying page stays mounted behind the modal:
 
 ```
-photos/
+gallery/
 ├── layout.tsx                # function ({ modal }) { return <><Outlet />{modal}</> }
-├── page.tsx                  # /photos — grid (stays mounted on soft-nav)
-├── [id]/page.tsx             # /photos/:id — full-page detail (POP / refresh)
+├── page.tsx                  # /gallery — grid (stays mounted on soft-nav)
+├── [id]/page.tsx             # /gallery/:id — full-page detail (POP / refresh)
 └── @modal/                   # parallel slot — invisible in URL
-    ├── default.tsx           # `return null` — fallback when no photo is selected
-    └── (.)[id]/page.tsx      # /photos/:id — modal (PUSH / REPLACE from in-app Link)
+    ├── default.tsx           # `return null` — fallback when no item is selected
+    └── (.)[id]/page.tsx      # /gallery/:id — modal (PUSH / REPLACE from in-app Link)
 ```
 
-On soft-nav to `/photos/:id`, the `@modal` slot matches the interceptor and the main outlet "freezes" to `photos/page.tsx`, so the grid stays mounted under the modal. On hard load / refresh / POP, the slot falls back to `default.tsx` and the main outlet renders the full-page `[id]/page.tsx`. The slot's `default.tsx` is required — without it the slot would render its previous match and leave a stale modal mounted after the URL changes back to `/photos`.
+On soft-nav to `/gallery/:id`, the `@modal` slot matches the interceptor and the main outlet "freezes" to `gallery/page.tsx`, so the grid stays mounted under the modal. On hard load / refresh / POP, the slot falls back to `default.tsx` and the main outlet renders the full-page `[id]/page.tsx`. The slot's `default.tsx` is required — without it the slot would render its previous match and leave a stale modal mounted after the URL changes back to `/gallery`.
 
-A bare interceptor without the slot (`photos/(.)[id]/page.tsx`) still works — but it swaps the page element outright instead of overlaying it, so the grid unmounts on soft-nav. Use the slot variant when you want true overlay layering.
+A bare interceptor without the slot (`gallery/(.)[id]/page.tsx`) still works — but it swaps the page element outright instead of overlaying it, so the grid unmounts on soft-nav. Use the slot variant when you want true overlay layering.
 
 > **Caveats:** a `layout.tsx` inside an interceptor folder is dropped with a build-time warning. The intercept target route must exist — otherwise the build fails (a refresh on the URL has to render _something_). The "freeze" behavior is a static approximation of Next.js's freeze-to-pre-nav-URL: the main outlet always anchors to the parent layout's `page.tsx`, not to whichever sibling URL the user navigated _from_.
 
@@ -251,18 +254,18 @@ Drop a `not-found.tsx` at any segment to render a scoped 404 for unmatched URLs 
 Throw `notFound()` from a suspending hook or a component during render to short-circuit to the same boundary — for example, when a resource lookup misses:
 
 ```ts
-// src/app/notes/_lib/use-notes.ts
+// src/app/posts/_lib/use-posts.ts
 import { notFound } from "@evolonix/react-router-next";
 import { use } from "react";
 
-const cache = new Map<string, Promise<Note>>();
+const cache = new Map<string, Promise<Post>>();
 
-export function useNote(id: string): Note {
+export function usePost(id: string): Post {
   let p = cache.get(id);
   if (!p) {
-    p = fetchNote(id).then((note) => {
-      if (!note) notFound();
-      return note;
+    p = fetchPost(id).then((post) => {
+      if (!post) notFound();
+      return post;
     });
     cache.set(id, p);
   }

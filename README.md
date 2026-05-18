@@ -26,7 +26,19 @@ How types reach consumers is hybrid: at runtime, the Vite plugin serves per-rout
 
 ### `apps/demo/`
 
-A Vite + React 19 app that consumes the workspace package and demonstrates every routing feature: nested layouts, route groups (`(marketing)`), dynamic segments (`[id]`), catch-all (`[...slug]`), optional catch-all (`[[...slug]]`), Suspense-driven data fetching with `use()`, loading boundaries, error boundaries, parallel-route slots (`dashboard/@analytics`), intercepting routes inside a parallel slot (`photos/@modal/(.)[id]` modal layered over the grid vs. `photos/[id]` full page), `template.tsx` remount-on-navigation, `_private` colocation folders, and per-segment `not-found.tsx` (with the `notFound()` helper). Long-form documentation of the conventions lives in [`apps/demo/README.md`](apps/demo/README.md).
+A Vite + React 19 app that consumes the workspace package and demonstrates every routing feature. Each page is a real folder under [`apps/demo/src/app/`](apps/demo/src/app/) — open the folder next to a page to see how the convention maps to a URL:
+
+- **`basics/`** — nested layouts and `<Outlet/>`.
+- **`(marketing)/`** — route group (`about`, `pricing`) that organizes files without changing the URL.
+- **`docs/[...slug]/`** — catch-all segments.
+- **`search/[[...query]]/`** — optional catch-all.
+- **`posts/`** — Suspense data fetching with `use()`, `loading.tsx`, `error.tsx`, `not-found.tsx`, and the `notFound()` helper for `[postId]` misses.
+- **`transitions/`** — `template.tsx` remount-on-navigation.
+- **`dashboard/`** — two parallel-route slots (`@analytics`, `@notifications`) with their own scoped `loading.tsx` / `error.tsx`.
+- **`gallery/`** — the canonical intercept pattern: `@modal/(.)[id]` overlays the grid on soft-nav, `[id]/page.tsx` renders full-page on refresh, with a `_components/` private folder for the shared dialog.
+- **`mail/[folderId]/`** — `(..)[messageId]` intercepts one filesystem level up out of a `@preview` slot.
+- **`projects/[orgId]/(catalog)/`** — `(..)(..)[projectId]` pops both the slot and the catalog group so a nested feed can intercept its parent's detail route.
+- **`(overlay-host)/`** — `(...)tour` interceptor anchored at the app root, overlaying a root-level page from anywhere in the tree.
 
 Hosted at <https://evolonix.github.io/react-router-next/> — deployed from `main` by [`.github/workflows/deploy-demo.yml`](.github/workflows/deploy-demo.yml).
 
