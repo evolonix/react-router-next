@@ -1,5 +1,6 @@
 import { NavLink, useLocation } from "react-router";
 
+import { GitHubLink } from "./github-link";
 import { ThemeSwitcher } from "./theme-switcher";
 
 interface Item {
@@ -139,11 +140,17 @@ export function Sidebar({ open, onClose }: SidebarProps) {
         open ? "translate-x-0" : "-translate-x-full"
       }`}
     >
-      <div className="hidden items-start justify-between gap-3 md:flex">
-        <NavLink to="/" className="block">
+      <div className="hidden flex-col gap-1 md:flex">
+        <div className="flex items-center justify-between gap-3">
           <span className="font-mono text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">
             evolonix
           </span>
+          <div className="flex items-center gap-1.5">
+            <GitHubLink />
+            <ThemeSwitcher />
+          </div>
+        </div>
+        <NavLink to="/" className="block">
           <span className="block text-lg font-semibold text-slate-900 dark:text-slate-100">
             react-router-next
           </span>
@@ -151,7 +158,6 @@ export function Sidebar({ open, onClose }: SidebarProps) {
             demo & playground
           </span>
         </NavLink>
-        <ThemeSwitcher />
       </div>
       <div className="flex items-center justify-between md:hidden">
         <p className="font-mono text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">

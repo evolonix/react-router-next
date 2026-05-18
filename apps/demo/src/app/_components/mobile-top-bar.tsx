@@ -1,5 +1,6 @@
 import { NavLink } from "react-router";
 
+import { GitHubLink } from "./github-link";
 import { ThemeSwitcher } from "./theme-switcher";
 
 export interface MobileTopBarProps {
@@ -39,6 +40,7 @@ export function MobileTopBar({ menuOpen, onMenuClick }: MobileTopBarProps) {
           react-router-next
         </span>
       </NavLink>
+      <GitHubLink />
       <ThemeSwitcher />
     </header>
   );
