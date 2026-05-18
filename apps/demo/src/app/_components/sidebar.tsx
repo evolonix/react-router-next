@@ -35,6 +35,12 @@ const GROUPS: Group[] = [
     items: [
       { to: "/", label: "Home", accent: "neutral", hint: "AppRouter mount" },
       {
+        to: "/installation",
+        label: "Installation",
+        accent: "neutral",
+        hint: "install + setup",
+      },
+      {
         to: "/basics",
         label: "Basics",
         accent: "neutral",
