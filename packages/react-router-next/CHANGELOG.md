@@ -1,5 +1,20 @@
 # @evolonix/react-router-next
 
+## 2.0.2
+
+### Patch Changes
+
+- [`4fb8e7e`](https://github.com/evolonix/react-router-next/commit/4fb8e7efaf058d434efb1fb0f6da264e1107e098) Thanks [@jasonruesch](https://github.com/jasonruesch)! - Fix parallel-route slots always falling back to `default.tsx`
+
+  When a `@slot` subtree contained only `page.tsx` (no nested layout or children),
+  the slot's routes were lowered to a pathless layout route with no descendants —
+  which `useRoutes`/`matchRoutes` cannot match against any URL. The slot therefore
+  always returned `null` and rendered `default.tsx`, even on the slot's own URL.
+
+  The route lowering now preserves the inner `index` leaf when the surrounding
+  route is pathless, so `useRoutes` can match the slot's `page.tsx` at the slot's
+  parent URL while still falling back to `default.tsx` for deeper paths.
+
 ## 2.0.1
 
 ### Patch Changes
