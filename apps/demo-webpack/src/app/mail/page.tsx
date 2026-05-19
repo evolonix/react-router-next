@@ -1,5 +1,5 @@
-import { generateUrl } from "@evolonix/react-router-next";
 import { Link } from "react-router";
+import { generate as generateFolder } from "virtual:react-router-next/mail/[folderId]";
 
 import { CodeBlock } from "../_components/code-block";
 import { Explain } from "../_components/explain";
@@ -52,7 +52,7 @@ export default function MailHome() {
         {FOLDERS.map((folder) => (
           <li key={folder.id}>
             <Link
-              to={generateUrl("mail/[folderId]", { folderId: folder.id })}
+              to={generateFolder({ folderId: folder.id })}
               className="block rounded-xl border border-slate-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-slate-800 dark:bg-slate-900"
             >
               <p className="font-mono text-[11px] uppercase tracking-wider text-slate-500 dark:text-slate-400">

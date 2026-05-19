@@ -19,7 +19,7 @@ export default function PostError() {
         you the error via React Router's{" "}
         <code className="font-mono">useRouteError()</code>.
       </p>
-      <CodeBlock filename="src/app/posts/[postId]/error.tsx">{`
+      <CodeBlock filename="src/app/posts/[postId]/error.tsx">{`import { isNotFoundError } from "@evolonix/react-router-next";
 import { useRouteError } from "react-router";
 
 export default function PostError() {

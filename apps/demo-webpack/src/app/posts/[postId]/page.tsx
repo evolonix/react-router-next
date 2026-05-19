@@ -1,11 +1,12 @@
-import { notFound, type RouteProps } from "@evolonix/react-router-next";
+import { notFound } from "@evolonix/react-router-next";
 import { Link, useSearchParams } from "react-router";
+import type { RouteProps } from "virtual:react-router-next/posts/[postId]";
 
 import { CodeBlock } from "../../_components/code-block";
 import { Explain } from "../../_components/explain";
 import { usePost } from "../_lib/use-posts";
 
-export default function PostPage({ params }: RouteProps<"posts/[postId]">) {
+export default function PostPage({ params }: RouteProps) {
   const [searchParams] = useSearchParams();
   if (searchParams.get("fail") === "1") {
     throw new Error(`Boom — failed to render post ${params.postId}.`);
@@ -17,29 +18,28 @@ export default function PostPage({ params }: RouteProps<"posts/[postId]">) {
   return (
     <>
       <Explain
-        title="Typed RouteProps from a route-key literal"
+        title="Typed RouteProps from a virtual module"
         accent="data"
-        tag="RouteProps"
+        tag="useRouteParams"
       >
         <p>
-          This component receives <code>params</code> as a typed prop.
+          This component receives <code>params</code> as a typed prop. The type
+          comes from{" "}
           <code className="font-mono">
-            {" "}
-            RouteProps&lt;"posts/[postId]"&gt;
+            virtual:react-router-next/posts/[postId]
           </code>{" "}
-          comes from the package itself — TypeScript parses the folder name in
-          the route-key literal and infers <code>{"{ postId: string }"}</code>,
-          no virtual module needed.
+          — the plugin reads the folder name and infers{" "}
+          <code>{"{ postId: string }"}</code>.
         </p>
-        <CodeBlock filename="src/app/posts/[postId]/page.tsx">{`import { type RouteProps } from "@evolonix/react-router-next";
+        <CodeBlock filename="src/app/posts/[postId]/page.tsx">{`import type { RouteProps } from "virtual:react-router-next/posts/[postId]";
 
-export default function PostPage({ params }: RouteProps<"posts/[postId]">) {
+export default function PostPage({ params }: RouteProps) {
   return <h1>Post {params.postId}</h1>;
 }`}</CodeBlock>
         <p className="text-xs text-slate-500 dark:text-slate-400">
-          Prefer a hook? The package also re-exports{" "}
+          Prefer a hook? The package also re-exports a generic{" "}
           <code className="font-mono">useRouteParams("posts/[postId]")</code>{" "}
-          which returns the same typed shape.
+          that returns the same typed shape.
         </p>
       </Explain>
 

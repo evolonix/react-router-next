@@ -182,10 +182,21 @@ function Demos() {
           via <code className="font-mono">require.context</code>, fed to{" "}
           <code className="font-mono">{"<AppRouter />"}</code> as a prop.
         </DemoCard>
-        <DemoCard href={`${BASE}webpack/`} name="Webpack 5" tagline="Classic">
-          The original. Same <code className="font-mono">require.context</code>{" "}
-          path, wired into <code className="font-mono">{"<AppRouter />"}</code>{" "}
-          the same way as Rsbuild.
+        <DemoCard
+          href={`${BASE}webpack/`}
+          name="Webpack 5"
+          tagline="Codegen path"
+        >
+          The classic bundler, with the package's{" "}
+          <code className="font-mono">react-router-next gen</code> CLI doing
+          what the Vite plugin does in memory: it writes physical{" "}
+          <code className="font-mono">.js</code> shims for every{" "}
+          <code className="font-mono">virtual:react-router-next/…</code> module,
+          so source-level parity with the Vite demo —{" "}
+          <code className="font-mono">
+            import {"{ generate }"} from "virtual:…"
+          </code>{" "}
+          and all — works under webpack too.
         </DemoCard>
       </div>
     </section>

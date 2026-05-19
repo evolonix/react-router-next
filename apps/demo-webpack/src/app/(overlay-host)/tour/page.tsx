@@ -41,7 +41,7 @@ export default function TourPage() {
         <CodeBlock filename="src/app/(overlay-host)/@overlay/(...)tour/page.tsx">{`// (...) anchors at the app root, regardless of how deep the
 // interceptor folder is. Same routeKey as /tour, so this file
 // shares the virtual module:
-import { type RouteProps } from "@evolonix/react-router-next";`}</CodeBlock>
+import type { RouteProps } from "virtual:react-router-next/tour";`}</CodeBlock>
         <p>
           Visit{" "}
           <Link

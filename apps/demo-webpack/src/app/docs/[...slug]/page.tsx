@@ -1,11 +1,9 @@
-import { type RouteProps } from "@evolonix/react-router-next";
+import type { RouteProps } from "virtual:react-router-next/docs/[...slug]";
 
 import { CodeBlock } from "../../_components/code-block";
 import { Explain } from "../../_components/explain";
 
-export default function DocsCatchAllPage({
-  params,
-}: RouteProps<"docs/[...slug]">) {
+export default function DocsCatchAllPage({ params }: RouteProps) {
   return (
     <>
       <Explain title="[...slug] folder name" accent="routing">
@@ -15,9 +13,9 @@ export default function DocsCatchAllPage({
           segments as a string array. Every link above hits this same file —
           only <code>params.slug</code> changes.
         </p>
-        <CodeBlock filename="src/app/docs/[...slug]/page.tsx">{`import { type RouteProps } from "@evolonix/react-router-next";
+        <CodeBlock filename="src/app/docs/[...slug]/page.tsx">{`import type { RouteProps } from "virtual:react-router-next/docs/[...slug]";
 
-export default function DocsCatchAllPage({ params }: RouteProps<"docs/[...slug]">) {
+export default function DocsCatchAllPage({ params }: RouteProps) {
   // params.slug is string[]
   return <Breadcrumbs path={params.slug} />;
 }`}</CodeBlock>
