@@ -1,3 +1,5 @@
+import { generateUrl } from "@evolonix/react-router-next";
+import { Link } from "react-router";
 import { CodeBlock } from "./_components/code-block";
 import { Explain } from "./_components/explain";
 import { FeatureCard } from "./_components/feature-card";
@@ -101,12 +103,12 @@ export default defineConfig({
             virtual:react-router-next/&lt;key&gt;
           </code>{" "}
           ergonomic (see{" "}
-          <a
-            href="/installation"
+          <Link
+            to={generateUrl("/installation", {})}
             className="font-medium text-slate-900 underline decoration-slate-400 underline-offset-2 hover:decoration-slate-900 dark:text-slate-100 dark:decoration-slate-500 dark:hover:decoration-slate-100"
           >
             Installation
-          </a>
+          </Link>
           ) — this demo doesn't need it.
         </p>
       </Explain>
