@@ -161,7 +161,11 @@ const { postId } = useRouteParams("posts/[postId]");
 
 ## Use without Vite
 
-The runtime is bundler-agnostic. Import `<AppRouter />` from the package root, build the `modules` map however your bundler supports eager directory enumeration, and pass it in as a prop. For webpack and Rspack/Rsbuild, the package ships `buildModulesFromContext` to convert a `require.context` into the shape the runtime expects:
+The runtime is bundler-agnostic. There are two ways to wire it up under webpack / Rspack / Rsbuild (or anything else with a `resolve.alias`).
+
+### Option A — prop-based, no codegen
+
+Build the `modules` map however your bundler enumerates a directory and pass it in as a prop. For webpack/Rspack/Rsbuild, the package ships `buildModulesFromContext` to convert a `require.context` into the shape the runtime expects:
 
 ```tsx
 // src/main.tsx (webpack / Rspack / Rsbuild)
@@ -193,7 +197,48 @@ createRoot(document.getElementById("root")!).render(
 );
 ```
 
-The Vite plugin is genuinely optional here — types still flow via the ambient `routes.d.ts` shim (run `react-router-next typegen` in CI). The plugin's per-route `virtual:react-router-next/<key>` runtime modules don't have a non-Vite resolver, so under webpack/Rspack you'd use the package's `useRouteParams("posts/[postId]")` / `generateUrl("posts/[postId]", …)` helpers in place of the per-route `generate(...)`.
+The trade-off: source code diverges from the Vite path. Per-route `generate(params)` helpers aren't available, so use the package's `useRouteParams("posts/[postId]")` / `generateUrl("posts/[postId]", …)` instead.
+
+### Option B — `virtual:` imports via the codegen CLI
+
+For source-level parity with the Vite path (same `import … from "virtual:react-router-next/..."` lines), run the codegen CLI before each build/dev step. It writes physical `.js` shims that mirror the Vite plugin's virtual modules, plus an `aliases.json` map of specifier → file path.
+
+```sh
+react-router-next gen   # runs typegen + codegen in one step
+```
+
+Output under `node_modules/.react-router-next/`:
+
+```
+├── routes.d.ts        # ambient types (typegen)
+├── aliases.json       # specifier → file path map (data)
+├── app-tree.js        # exports { modules, appDir }
+└── routes/
+    ├── _root.js       # virtual:react-router-next/_root
+    └── …              # one .js per discovered route key
+```
+
+Wiring depends on how the bundler dispatches requests with a `scheme:` prefix:
+
+- **webpack / Rspack** — both short-circuit any `/^[a-z]+:/` request as a URI scheme _before_ `resolve.alias` runs, so `aliases.json` can't be spread directly. Instead, register a `NormalModuleReplacementPlugin` (apps/demo-webpack has a working example) that reads `aliases.json` and rewrites `virtual:react-router-next/...` to the codegen file paths.
+- **Rollup / esbuild / Vite / Parcel** — `aliases.json` is plain specifier → path data; feed it into the corresponding alias plugin's input shape and the `virtual:` requests resolve directly.
+
+Once wired, write the same imports as a Vite consumer:
+
+```tsx
+import {
+  generate,
+  useRouteParams,
+} from "virtual:react-router-next/posts/[postId]";
+```
+
+Add the CLI to a `prebuild` script so the output stays fresh for production builds. During dev, pass `--watch`:
+
+```sh
+react-router-next gen --watch
+```
+
+`--watch` keeps the CLI running, reruns codegen on route file add/unlink, and lazy-loads `chokidar` — an **optional peer dependency** the CLI installs only on demand. Consumers who never use `--watch` don't need it; consumers who do should `npm i -D chokidar`.
 
 ## Build your own router
 

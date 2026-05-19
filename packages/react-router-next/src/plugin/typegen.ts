@@ -1,5 +1,5 @@
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
-import { dirname, isAbsolute, join, resolve } from "node:path";
+import { isAbsolute, join, resolve } from "node:path";
+import { writeIfChanged } from "./fs-utils";
 import { renderDtsShim } from "./render";
 import { routeKeyFor, scanAppDir } from "./scan";
 
@@ -22,18 +22,6 @@ export type GenerateResult = {
 
 function resolveAgainst(root: string, p: string): string {
   return isAbsolute(p) ? p : resolve(root, p);
-}
-
-function writeIfChanged(path: string, contents: string): boolean {
-  try {
-    const existing = readFileSync(path, "utf8");
-    if (existing === contents) return false;
-  } catch {
-    // file missing — fall through to write
-  }
-  mkdirSync(dirname(path), { recursive: true });
-  writeFileSync(path, contents);
-  return true;
 }
 
 export function generateRouteTypes(opts: GenerateOptions = {}): GenerateResult {
