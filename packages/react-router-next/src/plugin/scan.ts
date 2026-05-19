@@ -1,7 +1,17 @@
 import { readdirSync } from "node:fs";
 import { relative } from "node:path";
+import { ROUTE_FILE_NAMES } from "../runtime/route-files";
 
-const ROUTE_DIR_FILE_RE = /^(page|layout|default|template)\.(tsx|jsx|ts|js)$/;
+// A folder is a route folder when it contains a page/layout/default/template
+// (i.e. anything that can act as a "leaf" in the routing tree). Built from the
+// shared names list so the plugin and runtime stay in sync.
+const ROUTE_DIR_FILE_NAMES = ROUTE_FILE_NAMES.filter(
+  (n): n is "page" | "layout" | "default" | "template" =>
+    n === "page" || n === "layout" || n === "default" || n === "template",
+);
+const ROUTE_DIR_FILE_RE = new RegExp(
+  `^(${ROUTE_DIR_FILE_NAMES.join("|")})\\.(tsx|jsx|ts|js)$`,
+);
 
 export function toPosix(p: string): string {
   return p.split("\\").join("/");
@@ -124,6 +134,8 @@ export function routeHasParams(routeKey: string): boolean {
   return routeKey.includes("[");
 }
 
-/** Match `(page|layout|loading|error|default|template|not-found).{tsx,jsx,ts,js}`. */
-export const ROUTE_FILE_RE =
-  /[\\/](page|layout|loading|error|default|template|not-found)\.(tsx|jsx|ts|js)$/;
+/** Cross-platform variant of the runtime `ROUTE_FILE_RE` — handles backslash
+ *  separators that Vite's file watcher emits on Windows. */
+export const ROUTE_FILE_RE = new RegExp(
+  `[\\\\/](${ROUTE_FILE_NAMES.join("|")})\\.(tsx|jsx|ts|js)$`,
+);

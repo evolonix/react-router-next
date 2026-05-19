@@ -1,5 +1,6 @@
 import { isAbsolute, relative, resolve } from "node:path";
 import type { Plugin } from "vite";
+import { ROUTE_FILE_NAMES } from "../runtime/route-files";
 import { renderRuntimeModule } from "./render";
 import { ROUTE_FILE_RE, routeKeyFor, scanAppDir, toPosix } from "./scan";
 import { generateRouteTypes } from "./typegen";
@@ -89,7 +90,7 @@ export function routeTypegen(options: RouteTypegenOptions = {}): Plugin {
         // export a matching `appDir` for the tree builder to strip.
         const rootRelative =
           "/" + toPosix(relative(root, appDir)).replace(/^\/+/, "");
-        const pattern = `${rootRelative}/**/{page,layout,loading,error,default,template,not-found}.{tsx,jsx,ts,js}`;
+        const pattern = `${rootRelative}/**/{${ROUTE_FILE_NAMES.join(",")}}.{tsx,jsx,ts,js}`;
         return `\
 const modules = import.meta.glob(${JSON.stringify(pattern)}, { eager: true });
 const appDir = ${JSON.stringify(rootRelative)};

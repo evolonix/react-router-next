@@ -1,16 +1,31 @@
-import type { JSX } from "react";
+import { useMemo, type JSX } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router";
-// @ts-expect-error virtual module is provided by the routeTypegen Vite plugin at build/dev time.
-import { modules, appDir } from "virtual:react-router-next/app-tree";
 import { buildRoutesFromModules, type RouteModuleMap } from "./app-routes";
 
-const basename = (import.meta.env.BASE_URL ?? "/").replace(/\/$/, "") || "/";
+export interface AppRouterProps {
+  /**
+   * Eager modules map for the route tree, keyed by `<appDir>/<route>/page.tsx`
+   * (and friends). Build this from `import.meta.glob` under Vite, or from
+   * `require.context` under webpack/Rspack — see `buildModulesFromContext`.
+   */
+  modules: RouteModuleMap;
+  /**
+   * Path prefix stripped from each `modules` key to recover the route path.
+   * Must match the prefix used in the map (e.g. `"/src/app"`).
+   */
+  appDir: string;
+  /** Router basename. Defaults to `"/"`. */
+  basename?: string;
+}
 
-const router = createBrowserRouter(
-  buildRoutesFromModules(modules as RouteModuleMap, appDir as string),
-  { basename },
-);
-
-export default function AppRouter(): JSX.Element {
+export default function AppRouter(props: AppRouterProps): JSX.Element {
+  const { modules, appDir, basename = "/" } = props;
+  const router = useMemo(
+    () =>
+      createBrowserRouter(buildRoutesFromModules(modules, appDir), {
+        basename,
+      }),
+    [modules, appDir, basename],
+  );
   return <RouterProvider router={router} />;
 }

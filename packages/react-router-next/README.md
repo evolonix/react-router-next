@@ -29,11 +29,13 @@ export default defineConfig({
 
 ### 2. Mount the router
 
+Vite users import `<AppRouter />` from the `/vite-client` subpath — the wrapper reads `modules` and `appDir` from the plugin's virtual module, so you can mount it with zero props:
+
 ```tsx
 // src/main.tsx
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { AppRouter } from "@evolonix/react-router-next";
+import { AppRouter } from "@evolonix/react-router-next/vite-client";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -41,6 +43,8 @@ createRoot(document.getElementById("root")!).render(
   </StrictMode>,
 );
 ```
+
+> **Other bundlers (Webpack, Rspack, Rsbuild)** — import the bundler-agnostic `<AppRouter />` from `@evolonix/react-router-next` and pass `modules` + `appDir` explicitly. See [Use without Vite](#use-without-vite).
 
 ### 3. Drop pages into `src/app/`
 
@@ -155,9 +159,45 @@ import { useRouteParams } from "@evolonix/react-router-next";
 const { postId } = useRouteParams("posts/[postId]");
 ```
 
+## Use without Vite
+
+The runtime is bundler-agnostic. Import `<AppRouter />` from the package root, build the `modules` map however your bundler supports eager directory enumeration, and pass it in as a prop. For webpack and Rspack/Rsbuild, the package ships `buildModulesFromContext` to convert a `require.context` into the shape the runtime expects:
+
+```tsx
+// src/main.tsx (webpack / Rspack / Rsbuild)
+/// <reference types="webpack-env" />
+import {
+  AppRouter,
+  buildModulesFromContext,
+} from "@evolonix/react-router-next";
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+
+// webpack/Rspack's require.context analyzer needs a regex *literal* at the
+// call site — an imported identifier produces an empty context. The package's
+// `ROUTE_FILE_RE` is the source of truth; keep this regex in sync.
+const APP_DIR = "/src/app";
+const modules = buildModulesFromContext(
+  require.context(
+    "./app",
+    true,
+    /\/(page|layout|loading|error|default|template|not-found)\.(tsx|jsx|ts|js)$/,
+  ),
+  APP_DIR,
+);
+
+createRoot(document.getElementById("root")!).render(
+  <StrictMode>
+    <AppRouter modules={modules} appDir={APP_DIR} />
+  </StrictMode>,
+);
+```
+
+The Vite plugin is genuinely optional here — types still flow via the ambient `routes.d.ts` shim (run `react-router-next typegen` in CI). The plugin's per-route `virtual:react-router-next/<key>` runtime modules don't have a non-Vite resolver, so under webpack/Rspack you'd use the package's `useRouteParams("posts/[postId]")` / `generateUrl("posts/[postId]", …)` helpers in place of the per-route `generate(...)`.
+
 ## Build your own router
 
-`<AppRouter />` is a thin wrapper around `createBrowserRouter` plus the package's filesystem-to-`RouteObject[]` builder. If you need a different router (memory router for tests, hash router, SSR via `createStaticRouter`, custom `RouterProvider` props, route post-processing, etc.) import the builder directly and feed it the same virtual module the default router uses:
+`<AppRouter />` is a thin wrapper around `createBrowserRouter` plus the package's filesystem-to-`RouteObject[]` builder. If you need a different router (memory router for tests, hash router, SSR via `createStaticRouter`, custom `RouterProvider` props, route post-processing, etc.) import the builder directly and feed it the same virtual module the Vite-wired entry uses:
 
 ```tsx
 // src/main.tsx
