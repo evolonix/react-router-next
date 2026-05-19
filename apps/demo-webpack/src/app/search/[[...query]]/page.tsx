@@ -1,11 +1,9 @@
-import { type RouteProps } from "@evolonix/react-router-next";
+import type { RouteProps } from "virtual:react-router-next/search/[[...query]]";
 
 import { CodeBlock } from "../../_components/code-block";
 import { Explain } from "../../_components/explain";
 
-export default function SearchPage({
-  params,
-}: RouteProps<"search/[[...query]]">) {
+export default function SearchPage({ params }: RouteProps) {
   const terms = params.query ?? [];
   return (
     <>
@@ -16,9 +14,9 @@ export default function SearchPage({
           <code>{"string[] | undefined"}</code> — <code>undefined</code> at{" "}
           <code>/search</code>, an array at <code>/search/...</code>.
         </p>
-        <CodeBlock filename="src/app/search/[[...query]]/page.tsx">{`import { type RouteProps } from "@evolonix/react-router-next";
+        <CodeBlock filename="src/app/search/[[...query]]/page.tsx">{`import type { RouteProps } from "virtual:react-router-next/search/[[...query]]";
 
-export default function SearchPage({ params }: RouteProps<"search/[[...query]]">) {
+export default function SearchPage({ params }: RouteProps) {
   const terms = params.query ?? [];
   return terms.length === 0 ? <Empty /> : <Results terms={terms} />;
 }`}</CodeBlock>

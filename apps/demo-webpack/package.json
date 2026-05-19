@@ -3,10 +3,11 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "webpack serve --mode development",
+    "dev": "react-router-next gen --watch & webpack serve --mode development",
+    "prebuild": "react-router-next gen",
     "build": "tsc -b && webpack --mode production",
     "typecheck": "tsc -b",
-    "typegen": "react-router-next typegen"
+    "gen": "react-router-next gen"
   },
   "dependencies": {
     "@evolonix/react-router-next": "*",
@@ -20,7 +21,7 @@
     "@tailwindcss/postcss": "^4.3.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "@types/webpack-env": "^1.18.5",
+    "chokidar": "^4.0.3",
     "copy-webpack-plugin": "^13.0.1",
     "css-loader": "^7.1.2",
     "html-webpack-plugin": "^5.6.5",

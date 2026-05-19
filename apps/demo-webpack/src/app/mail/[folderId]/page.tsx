@@ -1,16 +1,12 @@
-import {
-  generateUrl,
-  notFound,
-  type RouteProps,
-} from "@evolonix/react-router-next";
+import { notFound } from "@evolonix/react-router-next";
 import { Link } from "react-router";
+import type { RouteProps } from "virtual:react-router-next/mail/[folderId]";
+import { generate as generateMessage } from "virtual:react-router-next/mail/[folderId]/[messageId]";
 
 import { Explain } from "../../_components/explain";
 import { getFolder, getMessagesInFolder } from "../_lib/messages";
 
-export default function MailFolderPage({
-  params,
-}: RouteProps<"mail/[folderId]">) {
+export default function MailFolderPage({ params }: RouteProps) {
   const folder = getFolder(params.folderId);
   if (!folder) notFound();
   const messages = getMessagesInFolder(folder.id);
@@ -50,7 +46,7 @@ export default function MailFolderPage({
           messages.map((message) => (
             <li key={message.id}>
               <Link
-                to={generateUrl("mail/[folderId]/[messageId]", {
+                to={generateMessage({
                   folderId: folder.id,
                   messageId: message.id,
                 })}

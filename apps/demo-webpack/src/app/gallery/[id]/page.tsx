@@ -1,13 +1,12 @@
-import { notFound, type RouteProps } from "@evolonix/react-router-next";
+import { notFound } from "@evolonix/react-router-next";
 import { Link } from "react-router";
+import type { RouteProps } from "virtual:react-router-next/gallery/[id]";
 
 import { CodeBlock } from "../../_components/code-block";
 import { Explain } from "../../_components/explain";
 import { getPhoto } from "../_lib/photos";
 
-export default function GalleryItemPage({
-  params,
-}: RouteProps<"gallery/[id]">) {
+export default function GalleryItemPage({ params }: RouteProps) {
   const photo = getPhoto(params.id);
   if (!photo) notFound();
   return (

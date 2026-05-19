@@ -1,16 +1,12 @@
-import {
-  generateUrl,
-  notFound,
-  type RouteProps,
-} from "@evolonix/react-router-next";
+import { notFound } from "@evolonix/react-router-next";
 import { Link } from "react-router";
+import type { RouteProps } from "virtual:react-router-next/projects/[orgId]";
+import { generate as generateProject } from "virtual:react-router-next/projects/[orgId]/[projectId]";
 
 import { Explain } from "../../../../_components/explain";
 import { getOrg, getProjectsForOrg } from "../../../_lib/projects";
 
-export default function ProjectsFeedPage({
-  params,
-}: RouteProps<"projects/[orgId]">) {
+export default function ProjectsFeedPage({ params }: RouteProps) {
   const org = getOrg(params.orgId);
   if (!org) notFound();
   const projects = getProjectsForOrg(org.id);
@@ -42,7 +38,7 @@ export default function ProjectsFeedPage({
         {projects.map((project) => (
           <li key={project.id}>
             <Link
-              to={generateUrl("projects/[orgId]/[projectId]", {
+              to={generateProject({
                 orgId: org.id,
                 projectId: project.id,
               })}

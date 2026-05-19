@@ -1,11 +1,9 @@
-import { type RouteProps } from "@evolonix/react-router-next";
+import type { RouteProps } from "virtual:react-router-next/gallery/[id]";
 
 import { Dialog } from "../../_components/dialog";
 import { getPhoto } from "../../_lib/photos";
 
-export default function GalleryModalPage({
-  params,
-}: RouteProps<"gallery/[id]">) {
+export default function GalleryModalPage({ params }: RouteProps) {
   const photo = getPhoto(params.id);
   if (!photo) return null;
   return (

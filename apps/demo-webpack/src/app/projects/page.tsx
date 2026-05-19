@@ -1,5 +1,5 @@
-import { generateUrl } from "@evolonix/react-router-next";
 import { Link } from "react-router";
+import { generate as generateOrg } from "virtual:react-router-next/projects/[orgId]";
 
 import { CodeBlock } from "../_components/code-block";
 import { Explain } from "../_components/explain";
@@ -54,7 +54,7 @@ export default function ProjectsHome() {
         {ORGS.map((org) => (
           <li key={org.id}>
             <Link
-              to={generateUrl("projects/[orgId]", { orgId: org.id })}
+              to={generateOrg({ orgId: org.id })}
               className="block rounded-xl border border-slate-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-slate-800 dark:bg-slate-900"
             >
               <p className="font-mono text-[11px] uppercase tracking-wider text-slate-500 dark:text-slate-400">

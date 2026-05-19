@@ -1,11 +1,9 @@
-import { type RouteProps } from "@evolonix/react-router-next";
+import type { RouteProps } from "virtual:react-router-next/mail/[folderId]/[messageId]";
 
 import { Dialog } from "../../../../gallery/_components/dialog";
 import { getMessage } from "../../../_lib/messages";
 
-export default function MailPreviewPage({
-  params,
-}: RouteProps<"mail/[folderId]/[messageId]">) {
+export default function MailPreviewPage({ params }: RouteProps) {
   const message = getMessage(params.folderId, params.messageId);
   if (!message) return null;
   return (

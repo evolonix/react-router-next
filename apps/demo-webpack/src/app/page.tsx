@@ -44,45 +44,61 @@ export default function HomePage() {
         <p>
           Vite is an <em>optional</em> peer dependency. The runtime contract is
           just <code>buildRoutesFromModules(modules, appDir)</code> returning a{" "}
-          <code>RouteObject[]</code>, so any bundler that can eagerly enumerate
-          your route folder will do. This demo runs on Webpack 5 —{" "}
-          <code>require.context</code> produces the same map Vite builds via{" "}
-          <code>import.meta.glob</code>:
+          <code>RouteObject[]</code> — any bundler that can resolve a static
+          import tree will do. This demo runs on Webpack 5 and uses the
+          package's <code className="font-mono">react-router-next gen</code>{" "}
+          CLI: it walks <code>src/app/</code>, writes physical{" "}
+          <code className="font-mono">.js</code> shims for every{" "}
+          <code className="font-mono">virtual:react-router-next/…</code> module,
+          and emits an <code className="font-mono">aliases.json</code> the
+          bundler spreads into <code>resolve.alias</code>. The source then reads
+          exactly like the Vite demo — same{" "}
+          <code className="font-mono">import {"{ generate }"} from</code>{" "}
+          <code className="font-mono">
+            "virtual:react-router-next/posts/[postId]"
+          </code>{" "}
+          lines, no <code>require.context</code>:
         </p>
-        <CodeBlock filename="src/main.tsx">{`/// <reference types="webpack-env" />
-import {
-  AppRouter,
-  buildModulesFromContext,
-} from "@evolonix/react-router-next";
+        <CodeBlock filename="src/main.tsx">{`import { AppRouter } from "@evolonix/react-router-next";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import "./styles.css";
+import { appDir, modules } from "virtual:react-router-next/app-tree";
 
-// Inlined regex literal: webpack's require.context analyzer needs the regex
-// statically at the call site. The package's ROUTE_FILE_RE is the source of
-// truth — keep this in sync.
-const APP_DIR = "/src/app";
-const modules = buildModulesFromContext(
-  require.context(
-    "./app",
-    true,
-    /\\/(page|layout|loading|error|default|template|not-found)\\.(tsx|jsx|ts|js)$/,
-  ),
-  APP_DIR,
-);
+import "./styles.css";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <AppRouter modules={modules} appDir={APP_DIR} />
+    <AppRouter modules={modules} appDir={appDir} />
   </StrictMode>,
 );`}</CodeBlock>
         <p>
-          The webpack config is otherwise unremarkable — swc-loader for TSX,
-          PostCSS for Tailwind v4, <code>historyApiFallback</code> so deep links
-          work in the dev server. No Vite plugin in sight:
+          The webpack config rewrites{" "}
+          <code className="font-mono">virtual:</code> requests into the codegen
+          file paths via{" "}
+          <code className="font-mono">NormalModuleReplacementPlugin</code> —
+          webpack treats any <code>scheme:</code> prefix as a URI and would
+          otherwise refuse it before <code>resolve.alias</code> can fire. The
+          rest is unremarkable — swc-loader for TSX, PostCSS for Tailwind v4,{" "}
+          <code>historyApiFallback</code> so deep links work in the dev server.
+          No Vite plugin in sight:
         </p>
         <CodeBlock filename="webpack.config.cjs">{`const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("node:path");
+const webpack = require("webpack");
+const aliases = require("./node_modules/.react-router-next/aliases.json");
+
+const VIRTUAL_PREFIX = "virtual:react-router-next";
+const reactRouterNextVirtual = new webpack.NormalModuleReplacementPlugin(
+  /^virtual:react-router-next(\\/.*)?$/,
+  (resource) => {
+    const req = resource.request;
+    const exactKey = req + "$";
+    if (aliases[exactKey]) { resource.request = aliases[exactKey]; return; }
+    if (req.startsWith(VIRTUAL_PREFIX + "/")) {
+      resource.request = path.join(aliases[VIRTUAL_PREFIX], req.slice(VIRTUAL_PREFIX.length + 1));
+    }
+  },
+);
 
 module.exports = (_env, argv) => {
   const isDev = argv.mode !== "production";
@@ -96,30 +112,42 @@ module.exports = (_env, argv) => {
         { test: /\\.css$/, use: ["style-loader", "css-loader", "postcss-loader"] },
       ],
     },
-    plugins: [new HtmlWebpackPlugin({ template: "./index.html" })],
+    plugins: [reactRouterNextVirtual, new HtmlWebpackPlugin({ template: "./index.html" })],
     devServer: { historyApiFallback: true, port: 8080 },
   };
 };`}</CodeBlock>
         <p>
-          Types are free — <code className="font-mono">RouteProps</code>,{" "}
-          <code className="font-mono">useRouteParams</code>, and{" "}
-          <code className="font-mono">generateUrl</code> are all parameterized
-          on the route-key literal, so the editor infers{" "}
-          <code className="font-mono">params</code> off
-          <code className="font-mono"> "posts/[postId]"</code> with no codegen.
-          The CLI shim is still there if you want the
-          <code className="font-mono">
-            {" "}
-            virtual:react-router-next/&lt;key&gt;
-          </code>{" "}
-          ergonomic (see{" "}
+          Codegen runs before each build via <code>prebuild</code>; during dev,
+          the CLI's <code className="font-mono">--watch</code> mode reruns it
+          whenever a route file is added or removed (
+          <code className="font-mono">chokidar</code> is an optional peer
+          dependency the CLI loads on demand):
+        </p>
+        <CodeBlock filename="package.json">{`{
+  "scripts": {
+    "dev": "react-router-next gen --watch & webpack serve --mode development",
+    "prebuild": "react-router-next gen",
+    "build": "tsc -b && webpack --mode production",
+    "gen": "react-router-next gen"
+  }
+}`}</CodeBlock>
+        <p>
+          Types come along for the ride —{" "}
+          <code className="font-mono">react-router-next gen</code> also writes{" "}
+          <code className="font-mono">routes.d.ts</code> next to the runtime
+          shims, and <code className="font-mono">tsconfig.app.json</code>'s{" "}
+          <code>include</code> picks it up. So{" "}
+          <code className="font-mono">RouteProps</code> and{" "}
+          <code className="font-mono">generate(params)</code> are fully typed
+          per route, no <code>{`<"posts/[postId]">`}</code> generics anywhere.
+          See{" "}
           <a
             href="/installation"
             className="font-medium text-slate-900 underline decoration-slate-400 underline-offset-2 hover:decoration-slate-900 dark:text-slate-100 dark:decoration-slate-500 dark:hover:decoration-slate-100"
           >
             Installation
-          </a>
-          ) — this demo doesn't need it.
+          </a>{" "}
+          for the full walkthrough.
         </p>
       </Explain>
 

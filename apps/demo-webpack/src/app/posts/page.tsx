@@ -1,5 +1,5 @@
-import { generateUrl } from "@evolonix/react-router-next";
 import { Link } from "react-router";
+import { generate as generatePost } from "virtual:react-router-next/posts/[postId]";
 
 import { CodeBlock } from "../_components/code-block";
 import { Explain } from "../_components/explain";
@@ -25,18 +25,20 @@ export function usePosts() {
 }`}</CodeBlock>
       </Explain>
 
-      <Explain title="Typed Link with generateUrl()" accent="data">
+      <Explain title="Typed Link with generate()" accent="data">
         <p>
-          Without the Vite plugin's <code>generate()</code> shim, the
-          <code> Link</code>s below call{" "}
-          <code className="font-mono">generateUrl(routeKey, params)</code> from
-          the package directly. TypeScript reads the params shape off the
-          route-key literal — pass a bad <code>postId</code> and the editor
-          complains:
+          Each route folder exposes a virtual module with a typed{" "}
+          <code className="font-mono">generate(params)</code> helper. The
+          <code> Link</code>s below import{" "}
+          <code className="font-mono">generate</code> from{" "}
+          <code className="font-mono">
+            virtual:react-router-next/posts/[postId]
+          </code>{" "}
+          — TypeScript enforces that you pass a valid <code>postId</code>.
         </p>
-        <CodeBlock filename="src/app/posts/page.tsx">{`import { generateUrl } from "@evolonix/react-router-next";
+        <CodeBlock filename="src/app/posts/page.tsx">{`import { generate as generatePost } from "virtual:react-router-next/posts/[postId]";
 
-<Link to={generateUrl("posts/[postId]", { postId: "1" })}>First post</Link>`}</CodeBlock>
+<Link to={generatePost({ postId: "1" })}>First post</Link>`}</CodeBlock>
       </Explain>
 
       <ul className="space-y-3">
@@ -45,10 +47,7 @@ export function usePosts() {
             key={post.id}
             className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md dark:border-slate-800 dark:bg-slate-900"
           >
-            <Link
-              to={generateUrl("posts/[postId]", { postId: post.id })}
-              className="block"
-            >
+            <Link to={generatePost({ postId: post.id })} className="block">
               <p className="font-mono text-[11px] uppercase tracking-wider text-slate-500 dark:text-slate-400">
                 /posts/{post.id}
               </p>

@@ -1,13 +1,12 @@
-import { notFound, type RouteProps } from "@evolonix/react-router-next";
+import { notFound } from "@evolonix/react-router-next";
 import { Link } from "react-router";
+import type { RouteProps } from "virtual:react-router-next/mail/[folderId]/[messageId]";
 
 import { CodeBlock } from "../../../_components/code-block";
 import { Explain } from "../../../_components/explain";
 import { getMessage } from "../../_lib/messages";
 
-export default function MailMessagePage({
-  params,
-}: RouteProps<"mail/[folderId]/[messageId]">) {
+export default function MailMessagePage({ params }: RouteProps) {
   const message = getMessage(params.folderId, params.messageId);
   if (!message) notFound();
 
@@ -33,10 +32,10 @@ export default function MailMessagePage({
           rendered this page. Both URLs are the same; only the entry path
           differs.
         </p>
-        <CodeBlock filename="src/app/mail/[folderId]/@preview/(..)[messageId]/page.tsx">{`import { type RouteProps } from "@evolonix/react-router-next";
+        <CodeBlock filename="src/app/mail/[folderId]/@preview/(..)[messageId]/page.tsx">{`import type { RouteProps } from "virtual:react-router-next/mail/[folderId]/[messageId]";
 
 // Same params type as the full-page route — both share the route key.
-export default function MailPreview({ params }: RouteProps<"mail/[folderId]/[messageId]">) {
+export default function MailPreview({ params }: RouteProps) {
   // …render the message inside a Dialog…
 }`}</CodeBlock>
       </Explain>

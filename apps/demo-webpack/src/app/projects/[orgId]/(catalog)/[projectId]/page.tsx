@@ -1,13 +1,12 @@
-import { notFound, type RouteProps } from "@evolonix/react-router-next";
+import { notFound } from "@evolonix/react-router-next";
 import { Link } from "react-router";
+import type { RouteProps } from "virtual:react-router-next/projects/[orgId]/[projectId]";
 
 import { CodeBlock } from "../../../../_components/code-block";
 import { Explain } from "../../../../_components/explain";
 import { getProject } from "../../../_lib/projects";
 
-export default function ProjectsProjectPage({
-  params,
-}: RouteProps<"projects/[orgId]/[projectId]">) {
+export default function ProjectsProjectPage({ params }: RouteProps) {
   const project = getProject(params.orgId, params.projectId);
   if (!project) notFound();
 
@@ -32,9 +31,9 @@ export default function ProjectsProjectPage({
           <code className="font-mono">(..)(..)</code> interceptor doesn't apply
           and the main outlet rendered this page directly.
         </p>
-        <CodeBlock filename="src/app/projects/[orgId]/(catalog)/@modal/(..)(..)[projectId]/page.tsx">{`import { type RouteProps } from "@evolonix/react-router-next";
+        <CodeBlock filename="src/app/projects/[orgId]/(catalog)/@modal/(..)(..)[projectId]/page.tsx">{`import type { RouteProps } from "virtual:react-router-next/projects/[orgId]/[projectId]";
 
-export default function ProjectModal({ params }: RouteProps<"projects/[orgId]/[projectId]">) {
+export default function ProjectModal({ params }: RouteProps) {
   // …same route key as this page; rendered inside a Dialog…
 }`}</CodeBlock>
         <p>

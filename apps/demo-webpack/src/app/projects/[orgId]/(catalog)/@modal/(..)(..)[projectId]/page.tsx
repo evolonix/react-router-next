@@ -1,11 +1,9 @@
-import { type RouteProps } from "@evolonix/react-router-next";
+import type { RouteProps } from "virtual:react-router-next/projects/[orgId]/[projectId]";
 
 import { Dialog } from "../../../../../gallery/_components/dialog";
 import { getProject } from "../../../../_lib/projects";
 
-export default function ProjectsCatalogModalPage({
-  params,
-}: RouteProps<"projects/[orgId]/[projectId]">) {
+export default function ProjectsCatalogModalPage({ params }: RouteProps) {
   const project = getProject(params.orgId, params.projectId);
   if (!project) return null;
   return (

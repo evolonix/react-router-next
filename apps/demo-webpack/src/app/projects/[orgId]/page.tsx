@@ -1,12 +1,11 @@
-import { notFound, type RouteProps } from "@evolonix/react-router-next";
+import { notFound } from "@evolonix/react-router-next";
 import { Link } from "react-router";
+import type { RouteProps } from "virtual:react-router-next/projects/[orgId]";
 
 import { Explain } from "../../_components/explain";
 import { getOrg, getProjectsForOrg } from "../_lib/projects";
 
-export default function ProjectsOrgPage({
-  params,
-}: RouteProps<"projects/[orgId]">) {
+export default function ProjectsOrgPage({ params }: RouteProps) {
   const org = getOrg(params.orgId);
   if (!org) notFound();
   const projects = getProjectsForOrg(org.id);
