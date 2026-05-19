@@ -22,6 +22,15 @@ export type ScanResult = {
   routeDirs: string[];
 };
 
+// Matches files that map to a runtime role inside appDir — the broader list
+// (page/layout/loading/error/default/template/not-found) the Vite plugin's
+// `import.meta.glob` pattern picks up. `scanRouteFiles` uses this to mirror the
+// glob exactly; routing semantics (private/slot filtering) are applied later
+// by the runtime when it walks the resulting modules map.
+const ROUTE_FILE_BASENAME_RE = new RegExp(
+  `^(${ROUTE_FILE_NAMES.join("|")})\\.(tsx|jsx|ts|js)$`,
+);
+
 export function isPrivateSegment(seg: string): boolean {
   return seg.startsWith("_");
 }
@@ -49,6 +58,32 @@ export function isRouteGroupSegment(seg: string): boolean {
     seg.endsWith(")") &&
     parseInterceptPrefix(seg) === null
   );
+}
+
+/**
+ * Absolute paths of every file inside `appDir` whose basename matches one of
+ * the routing-relevant filenames. Mirrors the Vite plugin's
+ * `import.meta.glob("/src/app/**\/{page,layout,…}.{tsx,jsx,ts,js}")` so the
+ * codegen `app-tree.js` and the Vite virtual module pick up the same set.
+ */
+export function scanRouteFiles(appDir: string): string[] {
+  let entries;
+  try {
+    entries = readdirSync(appDir, { recursive: true, withFileTypes: true });
+  } catch {
+    return [];
+  }
+  const files: string[] = [];
+  for (const entry of entries) {
+    if (!entry.isFile()) continue;
+    if (!ROUTE_FILE_BASENAME_RE.test(entry.name)) continue;
+    const dir =
+      (entry as unknown as { parentPath?: string; path?: string }).parentPath ??
+      (entry as unknown as { path?: string }).path ??
+      appDir;
+    files.push(`${dir}/${entry.name}`.split("\\").join("/"));
+  }
+  return files.sort((a, b) => a.localeCompare(b));
 }
 
 export function scanAppDir(appDir: string): ScanResult {
