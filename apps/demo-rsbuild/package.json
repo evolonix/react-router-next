@@ -1,0 +1,30 @@
+{
+  "name": "demo-rsbuild",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "rsbuild dev",
+    "build": "tsc -b && rsbuild build",
+    "preview": "rsbuild preview",
+    "typecheck": "tsc -b",
+    "typegen": "react-router-next typegen"
+  },
+  "dependencies": {
+    "@evolonix/react-router-next": "*",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "react-router": "^7.14.2",
+    "shiki": "^4.0.2"
+  },
+  "devDependencies": {
+    "@rsbuild/core": "^2.0.6",
+    "@rsbuild/plugin-react": "^2.0.0",
+    "@tailwindcss/postcss": "^4.3.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.3.0",
+    "typescript": "~6.0.2"
+  }
+}

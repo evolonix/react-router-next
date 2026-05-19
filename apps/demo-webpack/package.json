@@ -1,0 +1,38 @@
+{
+  "name": "demo-webpack",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "webpack serve --mode development",
+    "build": "tsc -b && webpack --mode production",
+    "typecheck": "tsc -b",
+    "typegen": "react-router-next typegen"
+  },
+  "dependencies": {
+    "@evolonix/react-router-next": "*",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "react-router": "^7.14.2",
+    "shiki": "^4.0.2"
+  },
+  "devDependencies": {
+    "@swc/core": "^1.13.20",
+    "@tailwindcss/postcss": "^4.3.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@types/webpack-env": "^1.18.5",
+    "copy-webpack-plugin": "^13.0.1",
+    "css-loader": "^7.1.2",
+    "html-webpack-plugin": "^5.6.5",
+    "mini-css-extract-plugin": "^2.10.0",
+    "postcss": "^8.5.6",
+    "postcss-loader": "^8.2.0",
+    "style-loader": "^4.0.0",
+    "swc-loader": "^0.2.6",
+    "tailwindcss": "^4.3.0",
+    "typescript": "~6.0.2",
+    "webpack": "^5.103.0",
+    "webpack-cli": "^7.0.2",
+    "webpack-dev-server": "^5.2.2"
+  }
+}

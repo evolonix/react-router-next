@@ -5,17 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "react-router-next typegen && tsc -b && vite build",
+    "build": "tsc -b && vite build",
     "preview": "vite preview",
-    "typecheck": "react-router-next typegen && tsc -b",
-    "typegen": "react-router-next typegen"
+    "typecheck": "tsc -b"
   },
   "dependencies": {
-    "@evolonix/react-router-next": "*",
     "react": "^19.2.5",
-    "react-dom": "^19.2.5",
-    "react-router": "^7.14.2",
-    "shiki": "^4.0.2"
+    "react-dom": "^19.2.5"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.0",

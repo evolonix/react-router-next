@@ -1,0 +1,42 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-accent-routing: oklch(0.72 0.18 250);
+  --color-accent-data: oklch(0.72 0.18 150);
+  --color-accent-error: oklch(0.72 0.18 25);
+  --color-accent-parallel: oklch(0.72 0.18 320);
+  --color-accent-intercept: oklch(0.78 0.18 80);
+}
+
+.shiki-block pre.shiki {
+  background-color: transparent;
+  margin: 0;
+  padding: 0;
+}
+
+.shiki-block .shiki,
+.shiki-block .shiki span {
+  color: var(--shiki-light) !important;
+}
+
+.dark .shiki-block .shiki,
+.dark .shiki-block .shiki span {
+  color: var(--shiki-dark) !important;
+}
+
+@keyframes template-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.template-mount {
+  animation: template-fade-in 280ms ease-out;
+}
