@@ -1,5 +1,15 @@
 # @evolonix/react-router-next
 
+## 3.1.0
+
+### Minor Changes
+
+- [#37](https://github.com/evolonix/react-router-next/pull/37) [`23a003d`](https://github.com/evolonix/react-router-next/commit/23a003d57a3a330300e3270a4d4744c3d517202e) Thanks [@jasonruesch](https://github.com/jasonruesch)! - Add `codegen` and `gen` CLI commands plus `--watch` mode for non-Vite bundlers.
+
+  `react-router-next codegen` emits physical `.js` shims for every `virtual:react-router-next/...` module the Vite plugin serves in-memory, plus an `aliases.json` mapping specifiers to file paths. `react-router-next gen` runs typegen and codegen together. All three commands now accept `--watch` to keep running and regenerate on route file add/unlink.
+
+  `chokidar` is declared as an **optional peer dependency** and is lazy-loaded only when `--watch` is set, so consumers who never use the watcher don't need it installed.
+
 ## 3.0.0
 
 ### Major Changes
