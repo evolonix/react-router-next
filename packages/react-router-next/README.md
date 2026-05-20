@@ -159,6 +159,15 @@ import { useRouteParams } from "@evolonix/react-router-next";
 const { postId } = useRouteParams("posts/[postId]");
 ```
 
+The same goes for `generateUrl` — pass the route literal as the first argument and the params object as the second to build a URL without the per-route `generate(params)` helper:
+
+```tsx
+import { generateUrl } from "@evolonix/react-router-next";
+<NavLink to={generateUrl("posts/[postId]", { postId: "a" })}>
+  First post
+</NavLink>;
+```
+
 ## Use without Vite
 
 The runtime is bundler-agnostic. There are two ways to wire it up under webpack / Rspack / Rsbuild (or anything else with a `resolve.alias`).
@@ -221,7 +230,7 @@ Output under `node_modules/.react-router-next/`:
 Wiring depends on how the bundler dispatches requests with a `scheme:` prefix:
 
 - **webpack / Rspack** — both short-circuit any `/^[a-z]+:/` request as a URI scheme _before_ `resolve.alias` runs, so `aliases.json` can't be spread directly. Instead, register a `NormalModuleReplacementPlugin` (apps/demo-webpack has a working example) that reads `aliases.json` and rewrites `virtual:react-router-next/...` to the codegen file paths.
-- **Rollup / esbuild / Vite / Parcel** — `aliases.json` is plain specifier → path data; feed it into the corresponding alias plugin's input shape and the `virtual:` requests resolve directly.
+- **Rollup / esbuild / Parcel** — `aliases.json` is plain specifier → path data; feed it into the corresponding alias plugin's input shape and the `virtual:` requests resolve directly.
 
 Once wired, write the same imports as a Vite consumer:
 
