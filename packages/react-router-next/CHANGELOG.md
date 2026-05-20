@@ -1,5 +1,11 @@
 # @evolonix/react-router-next
 
+## 3.1.1
+
+### Patch Changes
+
+- [`d4dd9b3`](https://github.com/evolonix/react-router-next/commit/d4dd9b34b68b49d11015994e650398e8482cb300) Thanks [@jasonruesch](https://github.com/jasonruesch)! - docs: document `generateUrl` route-literal usage and drop Vite from the non-Vite alias-plugin list
+
 ## 3.1.0
 
 ### Minor Changes
