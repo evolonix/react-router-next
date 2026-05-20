@@ -6,7 +6,7 @@
   "type": "module",
   "sideEffects": false,
   "bin": {
-    "react-router-next": "./dist/cli.js"
+    "react-router-next": "dist/cli.js"
   },
   "exports": {
     ".": {
