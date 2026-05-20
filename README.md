@@ -2,7 +2,7 @@
 
 Workspace monorepo containing **`@evolonix/react-router-next`** — a publishable npm package that brings Next.js-style filesystem routing to React Router 7 — alongside a **landing-page demo** and three **bundler demos** (Vite, Rsbuild, Webpack) that exercise every feature of the package.
 
-**Live demo:** <https://evolonix.github.io/react-router-next/>
+**Live demo:** <https://evolonix.com/react-router-next/>
 
 ## Layout
 
