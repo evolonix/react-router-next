@@ -1,5 +1,11 @@
 # @evolonix/react-router-next
 
+## 3.1.2
+
+### Patch Changes
+
+- [`8e1b7ad`](https://github.com/evolonix/react-router-next/commit/8e1b7adcc7cd1a41bf85c8def336f6e2db10e1bf) Thanks [@jasonruesch](https://github.com/jasonruesch)! - docs: update live demo URL to https://evolonix.com/react-router-next/
+
 ## 3.1.1
 
 ### Patch Changes
