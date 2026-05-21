@@ -1,5 +1,11 @@
 # @evolonix/react-router-next
 
+## 3.2.0
+
+### Minor Changes
+
+- [`4178724`](https://github.com/evolonix/react-router-next/commit/41787243d19d5206ec81c0ca54973cb43f004065) Thanks [@jasonruesch](https://github.com/jasonruesch)! - chore: require Node ≥ 24 (bumped from ≥ 22)
+
 ## 3.1.2
 
 ### Patch Changes
