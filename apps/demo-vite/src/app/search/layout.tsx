@@ -13,7 +13,7 @@ export default function SearchLayout() {
         <p className="font-mono text-[11px] uppercase tracking-wider text-accent-routing">
           search/[[...query]]
         </p>
-        <h1 className="text-xl font-semibold text-slate-900 md:text-2xl dark:text-slate-100">
+        <h1 className="text-xl font-semibold text-zinc-900 md:text-2xl dark:text-zinc-100">
           Optional catch-all
         </h1>
       </header>
@@ -28,7 +28,7 @@ export default function SearchLayout() {
               `rounded-md border px-3 py-1.5 font-mono text-xs transition ${
                 isActive
                   ? "border-accent-routing/40 bg-accent-routing/10 text-accent-routing"
-                  : "border-slate-200 bg-white hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-900 dark:hover:bg-slate-800"
+                  : "border-zinc-200 bg-white hover:bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800"
               }`
             }
           >

@@ -5,13 +5,13 @@ export default function InstallationPage() {
   return (
     <>
       <header className="space-y-3">
-        <p className="font-mono text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">
+        <p className="font-mono text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
           @evolonix/react-router-next
         </p>
-        <h1 className="text-2xl font-semibold text-slate-900 md:text-3xl dark:text-slate-100">
+        <h1 className="text-2xl font-semibold text-zinc-900 md:text-3xl dark:text-zinc-100">
           Installation — Webpack 5 (codegen path)
         </h1>
-        <p className="max-w-2xl text-base leading-relaxed text-slate-600 dark:text-slate-400">
+        <p className="max-w-2xl text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
           The package's Vite plugin is <em>optional</em>. The runtime contract
           is just{" "}
           <code className="font-mono">
@@ -23,7 +23,7 @@ export default function InstallationPage() {
             href="https://webpack.js.org"
             target="_blank"
             rel="noreferrer"
-            className="font-medium text-slate-900 underline decoration-slate-400 underline-offset-2 hover:decoration-slate-900 dark:text-slate-100 dark:decoration-slate-500 dark:hover:decoration-slate-100"
+            className="font-medium text-zinc-900 underline decoration-zinc-400 underline-offset-2 hover:decoration-zinc-900 dark:text-zinc-100 dark:decoration-zinc-500 dark:hover:decoration-zinc-100"
           >
             Webpack 5
           </a>{" "}
@@ -164,7 +164,7 @@ module.exports = (_env, argv) => {
         <CodeBlock filename="postcss.config.cjs">{`module.exports = {
   plugins: { "@tailwindcss/postcss": {} },
 };`}</CodeBlock>
-        <p className="text-xs text-slate-500 dark:text-slate-400">
+        <p className="text-xs text-zinc-500 dark:text-zinc-400">
           The <code className="font-mono">require</code> at the top of the
           config will throw if the codegen hasn't run yet — that's the desired
           failure mode. The <code className="font-mono">prebuild</code> hook and
@@ -275,7 +275,7 @@ import { generate as generatePost } from "virtual:react-router-next/posts/[postI
           That's the whole setup. Head to{" "}
           <a
             href="/basics"
-            className="font-medium text-slate-900 underline decoration-slate-400 underline-offset-2 hover:decoration-slate-900 dark:text-slate-100 dark:decoration-slate-500 dark:hover:decoration-slate-100"
+            className="font-medium text-zinc-900 underline decoration-zinc-400 underline-offset-2 hover:decoration-zinc-900 dark:text-zinc-100 dark:decoration-zinc-500 dark:hover:decoration-zinc-100"
           >
             Basics
           </a>{" "}

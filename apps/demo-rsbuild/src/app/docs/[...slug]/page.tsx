@@ -22,18 +22,18 @@ export default function DocsCatchAllPage({ params }: RouteProps<"docs/[...slug]"
   return <Breadcrumbs path={params.slug} />;
 }`}</CodeBlock>
       </Explain>
-      <section className="space-y-3 rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-        <p className="font-mono text-[11px] uppercase tracking-wider text-slate-500 dark:text-slate-400">
+      <section className="space-y-3 rounded-xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+        <p className="font-mono text-[11px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
           params.slug
         </p>
         <ol className="flex flex-wrap items-center gap-2 text-sm">
           {params.slug.map((segment, i) => (
             <li key={`${segment}-${i}`} className="flex items-center gap-2">
-              <span className="rounded-md bg-slate-100 px-2 py-1 font-mono text-xs text-slate-700 dark:bg-slate-800 dark:text-slate-300">
+              <span className="rounded-md bg-zinc-100 px-2 py-1 font-mono text-xs text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300">
                 {segment}
               </span>
               {i < params.slug.length - 1 ? (
-                <span className="text-slate-400 dark:text-slate-500">/</span>
+                <span className="text-zinc-400 dark:text-zinc-500">/</span>
               ) : null}
             </li>
           ))}

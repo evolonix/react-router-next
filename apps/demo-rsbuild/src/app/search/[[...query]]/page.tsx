@@ -24,16 +24,16 @@ export default function SearchPage({ params }: RouteProps<"search/[[...query]]">
 }`}</CodeBlock>
       </Explain>
 
-      <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+      <section className="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
         {terms.length === 0 ? (
-          <p className="text-sm text-slate-600 dark:text-slate-400">
+          <p className="text-sm text-zinc-600 dark:text-zinc-400">
             <code className="font-mono">params.query</code> is{" "}
             <code className="font-mono">undefined</code>. Click a sample above
             to see the array populate.
           </p>
         ) : (
           <div className="space-y-2">
-            <p className="text-sm text-slate-600 dark:text-slate-400">
+            <p className="text-sm text-zinc-600 dark:text-zinc-400">
               Searched for {terms.length} term{terms.length === 1 ? "" : "s"}:
             </p>
             <div className="flex flex-wrap gap-2">

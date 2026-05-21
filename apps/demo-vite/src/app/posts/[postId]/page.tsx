@@ -36,23 +36,21 @@ export default function PostPage({ params }: RouteProps) {
 export default function PostPage({ params }: RouteProps) {
   return <h1>Post {params.postId}</h1>;
 }`}</CodeBlock>
-        <p className="text-xs text-slate-500 dark:text-slate-400">
+        <p className="text-xs text-zinc-500 dark:text-zinc-400">
           Prefer a hook? The package also re-exports a generic{" "}
           <code className="font-mono">useRouteParams("posts/[postId]")</code>{" "}
           that returns the same typed shape.
         </p>
       </Explain>
 
-      <article className="space-y-2 rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-        <p className="font-mono text-[11px] uppercase tracking-wider text-slate-500 dark:text-slate-400">
+      <article className="space-y-2 rounded-xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+        <p className="font-mono text-[11px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
           /posts/{params.postId}
         </p>
-        <h1 className="text-xl font-semibold text-slate-900 dark:text-slate-100">
+        <h1 className="text-xl font-semibold text-zinc-900 dark:text-zinc-100">
           {post.title}
         </h1>
-        <p className="text-sm text-slate-600 dark:text-slate-400">
-          {post.body}
-        </p>
+        <p className="text-sm text-zinc-600 dark:text-zinc-400">{post.body}</p>
       </article>
 
       <Explain title="notFound() and error.tsx" accent="error">
@@ -85,7 +83,7 @@ export default function PostPage({ params }: RouteProps) {
 
       <Link
         to="/posts"
-        className="inline-flex rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-900 dark:hover:bg-slate-800"
+        className="inline-flex rounded-md border border-zinc-200 bg-white px-3 py-1.5 text-sm hover:bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800"
       >
         ← back to all posts
       </Link>

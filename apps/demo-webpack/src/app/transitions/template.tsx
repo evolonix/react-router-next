@@ -20,7 +20,7 @@ export default function TransitionsTemplate() {
         <p className="font-mono uppercase tracking-wider text-accent-routing">
           template.tsx
         </p>
-        <p className="font-mono text-slate-500 dark:text-slate-400">
+        <p className="font-mono text-zinc-500 dark:text-zinc-400">
           mounted at{" "}
           {mountedAt.toLocaleTimeString(undefined, {
             hour12: false,

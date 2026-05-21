@@ -3,11 +3,64 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
+  --color-brand-50: oklch(0.97 0.03 300);
+  --color-brand-100: oklch(0.94 0.06 300);
+  --color-brand-200: oklch(0.88 0.1 300);
+  --color-brand-300: oklch(0.8 0.14 300);
+  --color-brand-400: oklch(0.72 0.18 300);
+  --color-brand-500: oklch(0.65 0.2 300);
+  --color-brand-600: oklch(0.58 0.22 300);
+  --color-brand-700: oklch(0.5 0.2 300);
+  --color-brand-800: oklch(0.4 0.16 300);
+  --color-brand-900: oklch(0.3 0.12 300);
+  --color-accent-400: oklch(0.84 0.14 200);
+  --color-accent-500: oklch(0.78 0.16 200);
+  --color-accent-600: oklch(0.7 0.16 200);
   --color-accent-routing: oklch(0.72 0.18 250);
   --color-accent-data: oklch(0.72 0.18 150);
   --color-accent-error: oklch(0.72 0.18 25);
   --color-accent-parallel: oklch(0.72 0.18 320);
   --color-accent-intercept: oklch(0.78 0.18 80);
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  @apply bg-white text-zinc-900 antialiased;
+}
+
+.dark body {
+  @apply bg-zinc-950 text-zinc-100;
+}
+
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--color-brand-500);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  html {
+    scroll-padding-top: 5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
 }
 
 .shiki-block pre.shiki {

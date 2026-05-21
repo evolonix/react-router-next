@@ -6,13 +6,13 @@ export default function HomePage() {
   return (
     <>
       <header className="space-y-3">
-        <p className="font-mono text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">
+        <p className="font-mono text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
           @evolonix/react-router-next
         </p>
-        <h1 className="text-2xl font-semibold text-slate-900 md:text-3xl dark:text-slate-100">
+        <h1 className="text-2xl font-semibold text-zinc-900 md:text-3xl dark:text-zinc-100">
           Next.js-style filesystem routing for React Router 7
         </h1>
-        <p className="max-w-2xl text-base leading-relaxed text-slate-600 dark:text-slate-400">
+        <p className="max-w-2xl text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
           Every{" "}
           <a
             href="#pick-a-feature"
@@ -23,12 +23,12 @@ export default function HomePage() {
               target.scrollIntoView({ behavior: "smooth", block: "start" });
               history.replaceState(null, "", "#pick-a-feature");
             }}
-            className="font-medium text-slate-900 underline decoration-slate-400 underline-offset-2 hover:decoration-slate-900 dark:text-slate-100 dark:decoration-slate-500 dark:hover:decoration-slate-100"
+            className="font-medium text-zinc-900 underline decoration-zinc-400 underline-offset-2 hover:decoration-zinc-900 dark:text-zinc-100 dark:decoration-zinc-500 dark:hover:decoration-zinc-100"
           >
             example
           </a>{" "}
           below is a real folder under{" "}
-          <code className="rounded bg-slate-200 px-1 py-0.5 font-mono text-[13px] dark:bg-slate-700">
+          <code className="rounded bg-zinc-200 px-1 py-0.5 font-mono text-[13px] dark:bg-zinc-700">
             src/app/
           </code>
           . Open the folder next to each page to see how the convention maps to
@@ -118,7 +118,7 @@ export default defineConfig({
       <section className="space-y-3">
         <h2
           id="pick-a-feature"
-          className="scroll-mt-6 text-lg font-semibold text-slate-900 dark:text-slate-100"
+          className="scroll-mt-6 text-lg font-semibold text-zinc-900 dark:text-zinc-100"
         >
           Pick a feature to explore
         </h2>

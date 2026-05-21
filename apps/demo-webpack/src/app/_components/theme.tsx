@@ -17,7 +17,7 @@ interface ThemeContextValue {
 
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
-const STORAGE_KEY = "theme";
+const STORAGE_KEY = "evolonix-theme";
 
 function readStoredTheme(): Theme {
   if (typeof window === "undefined") return "system";

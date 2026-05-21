@@ -5,18 +5,18 @@ export default function InstallationPage() {
   return (
     <>
       <header className="space-y-3">
-        <p className="font-mono text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">
+        <p className="font-mono text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
           @evolonix/react-router-next
         </p>
-        <h1 className="text-2xl font-semibold text-slate-900 md:text-3xl dark:text-slate-100">
+        <h1 className="text-2xl font-semibold text-zinc-900 md:text-3xl dark:text-zinc-100">
           Installation
         </h1>
-        <p className="max-w-2xl text-base leading-relaxed text-slate-600 dark:text-slate-400">
+        <p className="max-w-2xl text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
           A Vite plugin plus a tiny runtime. Install the package, register the
           plugin, mount{" "}
           <code className="whitespace-nowrap">{"<AppRouter />"}</code>, and drop
           pages into{" "}
-          <code className="rounded bg-slate-200 px-1 py-0.5 font-mono text-[13px] dark:bg-slate-700">
+          <code className="rounded bg-zinc-200 px-1 py-0.5 font-mono text-[13px] dark:bg-zinc-700">
             src/app/
           </code>
           .
@@ -143,7 +143,7 @@ createRoot(document.getElementById("root")!).render(
           That's the whole setup. Head to{" "}
           <a
             href="/basics"
-            className="font-medium text-slate-900 underline decoration-slate-400 underline-offset-2 hover:decoration-slate-900 dark:text-slate-100 dark:decoration-slate-500 dark:hover:decoration-slate-100"
+            className="font-medium text-zinc-900 underline decoration-zinc-400 underline-offset-2 hover:decoration-zinc-900 dark:text-zinc-100 dark:decoration-zinc-500 dark:hover:decoration-zinc-100"
           >
             Basics
           </a>{" "}

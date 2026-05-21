@@ -10,7 +10,7 @@ export default function PlaygroundPage() {
         <p className="font-mono text-[11px] uppercase tracking-wider text-accent-intercept">
           (overlay-host)/ + @overlay/(...)tour
         </p>
-        <h1 className="text-xl font-semibold text-slate-900 md:text-2xl dark:text-slate-100">
+        <h1 className="text-xl font-semibold text-zinc-900 md:text-2xl dark:text-zinc-100">
           Intercept from the app root
         </h1>
       </header>
@@ -54,13 +54,13 @@ export default function PlaygroundPage() {
         </Link>
         <Link
           to="/"
-          className="rounded-md border border-slate-200 bg-white px-3 py-1.5 hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-900 dark:hover:bg-slate-800"
+          className="rounded-md border border-zinc-200 bg-white px-3 py-1.5 hover:bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800"
         >
           Back to home
         </Link>
       </div>
 
-      <p className="text-xs text-slate-500 dark:text-slate-400">
+      <p className="text-xs text-zinc-500 dark:text-zinc-400">
         Try refreshing while the overlay is open — the slot's{" "}
         <code className="font-mono">default.tsx</code> takes over and the URL
         renders as a regular page.

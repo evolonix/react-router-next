@@ -22,18 +22,18 @@ export default function PlaygroundTourOverlay() {
         {STOPS.map((stop) => (
           <li
             key={stop.title}
-            className="rounded-lg border border-slate-200 bg-slate-50 p-3 dark:border-slate-700 dark:bg-slate-700"
+            className="rounded-lg border border-zinc-200 bg-zinc-50 p-3 dark:border-zinc-700 dark:bg-zinc-700"
           >
-            <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
+            <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
               {stop.title}
             </p>
-            <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
+            <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-300">
               {stop.body}
             </p>
           </li>
         ))}
       </ol>
-      <p className="mt-4 text-xs text-slate-500 dark:text-slate-400">
+      <p className="mt-4 text-xs text-zinc-500 dark:text-zinc-400">
         Rendered by{" "}
         <code className="font-mono">
           (overlay-host)/@overlay/(...)tour/page.tsx

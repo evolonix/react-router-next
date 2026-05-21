@@ -5,7 +5,7 @@ import { GitHubLink } from "./github-link";
 import { ThemeSwitcher } from "./theme-switcher";
 
 const ACCENT_BAR: Record<Accent, string> = {
-  neutral: "bg-slate-300 dark:bg-slate-600",
+  neutral: "bg-zinc-300 dark:bg-zinc-600",
   routing: "bg-accent-routing",
   data: "bg-accent-data",
   error: "bg-accent-error",
@@ -147,8 +147,8 @@ function SidebarItem({ item }: { item: Item }) {
         const active = prefixActive || pathsActive || isActive;
         return `group relative block py-1.5 pl-6 pr-6 transition ${
           active
-            ? "bg-slate-200 text-slate-900 dark:bg-slate-800 dark:text-slate-100"
-            : "text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800/60"
+            ? "bg-zinc-200 text-zinc-900 dark:bg-zinc-800 dark:text-zinc-100"
+            : "text-zinc-700 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-800/60"
         }`;
       }}
     >
@@ -158,7 +158,7 @@ function SidebarItem({ item }: { item: Item }) {
       />
       <span className="block text-sm font-medium">{item.label}</span>
       {item.hint ? (
-        <span className="block font-mono text-[11px] text-slate-400 group-aria-[current=page]:text-slate-500 dark:text-slate-500 dark:group-aria-[current=page]:text-slate-400">
+        <span className="block font-mono text-[11px] text-zinc-400 group-aria-[current=page]:text-zinc-500 dark:text-zinc-500 dark:group-aria-[current=page]:text-zinc-400">
           {item.hint}
         </span>
       ) : null}
@@ -176,20 +176,20 @@ export function Sidebar({ open, onClose }: SidebarProps) {
     <nav
       id="primary-nav"
       aria-label="Examples"
-      className={`fixed inset-y-0 left-0 z-40 flex w-72 shrink-0 transform flex-col gap-6 overflow-y-auto border-x border-slate-200 bg-white py-6 transition-transform duration-200 ease-out md:sticky md:top-0 md:h-screen md:translate-x-0 md:transform-none md:bg-white/70 md:backdrop-blur md:transition-none dark:border-slate-800 dark:bg-slate-900 dark:md:bg-slate-900/70 ${
+      className={`fixed inset-y-0 left-0 md:mx-6 z-40 flex w-72 shrink-0 transform flex-col gap-6 overflow-y-auto border-x border-zinc-200 bg-white py-6 transition-transform duration-200 ease-out md:sticky md:top-0 md:h-screen md:translate-x-0 md:transform-none md:bg-white/70 md:backdrop-blur md:transition-none dark:border-zinc-800 dark:bg-zinc-900 dark:md:bg-zinc-900/70 ${
         open ? "translate-x-0" : "-translate-x-full"
       }`}
     >
       <div className="hidden flex-col gap-1 px-6 md:flex">
         <a
           href="/react-router-next/"
-          className="-mb-1 inline-flex w-fit items-center gap-1 whitespace-nowrap text-xs text-slate-500 transition-colors hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100"
+          className="-mb-1 inline-flex w-fit items-center gap-1 whitespace-nowrap text-xs text-zinc-500 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
         >
           <span aria-hidden>←</span>
           Back to overview
         </a>
         <div className="flex items-center justify-between gap-3">
-          <span className="font-mono text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">
+          <span className="font-mono text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
             evolonix
           </span>
           <div className="flex items-center gap-1.5">
@@ -198,10 +198,10 @@ export function Sidebar({ open, onClose }: SidebarProps) {
           </div>
         </div>
         <NavLink to="/" className="block">
-          <span className="block text-lg font-semibold text-slate-900 dark:text-slate-100">
+          <span className="block text-lg font-semibold text-zinc-900 dark:text-zinc-100">
             react-router-next
           </span>
-          <span className="block text-xs text-slate-500 dark:text-slate-400">
+          <span className="block text-xs text-zinc-500 dark:text-zinc-400">
             demo & playground
           </span>
         </NavLink>
@@ -209,20 +209,20 @@ export function Sidebar({ open, onClose }: SidebarProps) {
       <div className="flex flex-col gap-1 px-6 md:hidden">
         <a
           href="/react-router-next/"
-          className="-mb-1 inline-flex w-fit items-center gap-1 whitespace-nowrap text-xs text-slate-500 transition-colors hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100"
+          className="-mb-1 inline-flex w-fit items-center gap-1 whitespace-nowrap text-xs text-zinc-500 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
         >
           <span aria-hidden>←</span>
           Back to overview
         </a>
         <div className="flex items-center justify-between">
-          <p className="font-mono text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">
+          <p className="font-mono text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
             Examples
           </p>
           <button
             type="button"
             onClick={onClose}
             aria-label="Close navigation"
-            className="-mr-1 inline-flex h-8 w-8 items-center justify-center rounded-md text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800"
+            className="-mr-1 inline-flex h-8 w-8 items-center justify-center rounded-md text-zinc-500 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
           >
             <svg
               aria-hidden
@@ -241,7 +241,7 @@ export function Sidebar({ open, onClose }: SidebarProps) {
       </div>
       {GROUPS.map((group) => (
         <div key={group.title} className="space-y-1">
-          <p className="px-6 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+          <p className="px-6 text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
             {group.title}
           </p>
           <ul className="space-y-0.5">
@@ -253,7 +253,7 @@ export function Sidebar({ open, onClose }: SidebarProps) {
           </ul>
         </div>
       ))}
-      <div className="mx-6 mt-auto rounded-md bg-slate-100 p-3 text-xs text-slate-500 dark:bg-slate-800 dark:text-slate-400">
+      <div className="mx-6 mt-auto rounded-md bg-zinc-100 p-3 text-xs text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
         Every example is a real route under <code>src/app/</code>. Click around
         and inspect the folder structure to see the conventions in action.
       </div>

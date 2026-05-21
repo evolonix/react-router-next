@@ -28,17 +28,17 @@ export function Dialog({ title, children }: DialogProps) {
         type="button"
         aria-label="Close"
         onClick={() => navigate(-1)}
-        className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
+        className="absolute inset-0 bg-zinc-900/60 backdrop-blur-sm"
       />
-      <div className="relative z-50 w-full max-w-lg overflow-hidden rounded-xl bg-white shadow-2xl dark:bg-slate-800">
-        <div className="flex items-center justify-between border-b border-slate-200 px-5 py-3 dark:border-slate-700">
-          <h2 className="text-sm font-semibold text-slate-900 dark:text-slate-100">
+      <div className="relative z-50 w-full max-w-lg overflow-hidden rounded-xl bg-white shadow-2xl dark:bg-zinc-800">
+        <div className="flex items-center justify-between border-b border-zinc-200 px-5 py-3 dark:border-zinc-700">
+          <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
             {title}
           </h2>
           <button
             type="button"
             onClick={() => navigate(-1)}
-            className="rounded-md px-2 py-1 text-xs text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-700"
+            className="rounded-md px-2 py-1 text-xs text-zinc-500 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-700"
           >
             Close (Esc)
           </button>

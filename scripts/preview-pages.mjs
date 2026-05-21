@@ -84,6 +84,13 @@ ensureSymlink();
 
 const server = createServer(async (req, res) => {
   const urlPath = decodeURIComponent((req.url || "/").split("?")[0]);
+
+  if (urlPath === "/") {
+    res.writeHead(302, { Location: `/${MOUNT}/` });
+    res.end();
+    return;
+  }
+
   let filePath = join(PREVIEW_DIR, urlPath);
   if (urlPath.endsWith("/")) filePath = join(filePath, "index.html");
 

@@ -7,7 +7,7 @@ export default function MarketingLayout() {
         <p className="font-mono text-[11px] uppercase tracking-wider text-accent-routing">
           (marketing)/layout.tsx
         </p>
-        <p className="text-sm text-slate-700 dark:text-slate-300">
+        <p className="text-sm text-zinc-700 dark:text-zinc-300">
           Shared chrome for every page in the{" "}
           <code className="font-mono">(marketing)</code> group. The folder is
           stripped from the URL, but its{" "}
@@ -20,7 +20,7 @@ export default function MarketingLayout() {
         <MarketingLink to="/pricing">Pricing</MarketingLink>
       </div>
       <Outlet />
-      <p className="text-xs text-slate-500 dark:text-slate-400">
+      <p className="text-xs text-zinc-500 dark:text-zinc-400">
         This footer is also part of the marketing layout — visit{" "}
         <Link
           to="/"
@@ -49,7 +49,7 @@ function MarketingLink({
         `rounded-md border px-3 py-1.5 transition ${
           isActive
             ? "border-accent-routing/40 bg-accent-routing/10 text-accent-routing"
-            : "border-slate-200 bg-white hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-900 dark:hover:bg-slate-800"
+            : "border-zinc-200 bg-white hover:bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800"
         }`
       }
     >

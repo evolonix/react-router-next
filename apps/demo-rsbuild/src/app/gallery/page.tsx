@@ -12,7 +12,7 @@ export default function GalleryPage() {
         <p className="font-mono text-[11px] uppercase tracking-wider text-accent-intercept">
           gallery/ + @modal/(.)[id]
         </p>
-        <h1 className="text-xl font-semibold text-slate-900 md:text-2xl dark:text-slate-100">
+        <h1 className="text-xl font-semibold text-zinc-900 md:text-2xl dark:text-zinc-100">
           Intercepting routes
         </h1>
       </header>
@@ -46,7 +46,7 @@ export default function GalleryPage() {
           <li key={photo.id}>
             <Link
               to={generateUrl("gallery/[id]", { id: photo.id })}
-              className="group block overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-slate-800 dark:bg-slate-900"
+              className="group block overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900"
             >
               <div
                 aria-hidden
@@ -56,10 +56,10 @@ export default function GalleryPage() {
                 }}
               />
               <div className="p-3">
-                <p className="text-sm font-medium text-slate-900 dark:text-slate-100">
+                <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
                   {photo.title}
                 </p>
-                <p className="font-mono text-[11px] text-slate-500 dark:text-slate-400">
+                <p className="font-mono text-[11px] text-zinc-500 dark:text-zinc-400">
                   /gallery/{photo.id}
                 </p>
               </div>

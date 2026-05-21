@@ -17,10 +17,10 @@ export default function GalleryModalPage({
           background: `linear-gradient(135deg, oklch(0.82 0.18 ${photo.hue}), oklch(0.45 0.18 ${photo.hue}))`,
         }}
       />
-      <p className="text-sm text-slate-700 dark:text-slate-300">
+      <p className="text-sm text-zinc-700 dark:text-zinc-300">
         {photo.caption}
       </p>
-      <p className="mt-4 text-xs text-slate-500 dark:text-slate-400">
+      <p className="mt-4 text-xs text-zinc-500 dark:text-zinc-400">
         Rendered by{" "}
         <code className="font-mono">gallery/@modal/(.)[id]/page.tsx</code>.
         Refresh this URL to see the full-page version instead.

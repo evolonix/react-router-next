@@ -7,7 +7,7 @@ export default function PostsLayout() {
         <p className="font-mono text-[11px] uppercase tracking-wider text-accent-data">
           posts/
         </p>
-        <h1 className="text-xl font-semibold text-slate-900 md:text-2xl dark:text-slate-100">
+        <h1 className="text-xl font-semibold text-zinc-900 md:text-2xl dark:text-zinc-100">
           Suspense, params, errors
         </h1>
       </header>

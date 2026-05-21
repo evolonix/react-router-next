@@ -14,7 +14,7 @@ export function Header() {
     <header className="sticky top-0 z-40 border-b border-zinc-200/70 bg-white/80 backdrop-blur dark:border-zinc-800/70 dark:bg-zinc-950/80">
       <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3 sm:px-6">
         <a
-          href={BASE}
+          href="/"
           aria-label="@evolonix/react-router-next — home"
           className="group flex items-center gap-2.5"
         >
