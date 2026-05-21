@@ -79,7 +79,7 @@ npm run typegen -w demo-vite                     # regenerate the routes.d.ts sh
 
 ## Requirements
 
-- Node ≥ 22
+- Node ≥ 24
 - npm ≥ 9 (uses npm workspaces)
 
 ## Contributing
