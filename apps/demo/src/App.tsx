@@ -1,94 +1,64 @@
 import type { JSX, ReactNode } from "react";
-import { ThemeSwitcher } from "./ThemeSwitcher";
+import { Footer } from "./components/footer";
+import { Header } from "./components/header";
 
 const BASE = import.meta.env.BASE_URL;
 const GITHUB_URL = "https://github.com/evolonix/react-router-next";
-const NPM_URL = "https://www.npmjs.com/package/@evolonix/react-router-next";
 
 export function App(): JSX.Element {
   return (
-    <div className="min-h-screen">
-      <TopBar />
-      <main className="mx-auto max-w-5xl space-y-20 px-4 pb-20 sm:px-6">
+    <div className="flex min-h-screen flex-col">
+      <Header />
+      <main className="flex-1">
         <Hero />
-        <Quickstart />
-        <Demos />
-        <Features />
-        <WhyVite />
+        <div className="mx-auto max-w-6xl space-y-20 px-4 pb-20 sm:px-6">
+          <Quickstart />
+          <Demos />
+          <Features />
+          <WhyVite />
+        </div>
       </main>
       <Footer />
     </div>
   );
 }
 
-function TopBar() {
+function Hero() {
   return (
-    <header className="border-b border-slate-200 bg-white/80 backdrop-blur dark:border-slate-800 dark:bg-slate-950/80">
-      <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
-        <a
-          href={BASE}
-          className="font-mono text-sm font-semibold text-slate-900 hover:text-slate-700 dark:text-slate-100 dark:hover:text-slate-300"
-        >
+    <section className="from-brand-500 to-accent-500 relative isolate overflow-hidden bg-linear-to-br via-fuchsia-500 text-white">
+      <div className="mx-auto max-w-6xl space-y-6 px-4 py-16 sm:px-6 sm:py-20">
+        <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-white/80">
           @evolonix/react-router-next
-        </a>
-        <nav className="flex items-center gap-4 text-sm">
+        </p>
+        <h1 className="text-4xl font-bold leading-tight tracking-tight sm:text-5xl md:text-6xl">
+          Next.js-style filesystem routing for React Router 7
+        </h1>
+        <p className="max-w-2xl text-base leading-relaxed text-white/90 sm:text-lg">
+          Drop a <code className="font-mono">page.tsx</code> into a folder, get
+          a typed route — including nested layouts, parallel routes (
+          <code className="font-mono">@slot</code>), intercepting routes (
+          <code className="font-mono">(.)</code> /{" "}
+          <code className="font-mono">(..)</code> /{" "}
+          <code className="font-mono">(...)</code>),{" "}
+          <code className="font-mono">template.tsx</code> remount-on-navigation,
+          and <code className="font-mono">_private</code> colocation folders.
+        </p>
+        <div className="flex flex-wrap gap-3 pt-2">
+          <a
+            href={`${BASE}vite/`}
+            className="inline-flex items-center rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-brand-700 shadow-lg ring-1 ring-white/20 transition hover:bg-zinc-50"
+          >
+            Open the Vite demo →
+          </a>
           <a
             href={GITHUB_URL}
             target="_blank"
             rel="noreferrer"
-            className="font-medium text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-100"
+            className="inline-flex items-center rounded-full bg-white/10 px-5 py-2.5 text-sm font-semibold text-white ring-1 ring-white/30 transition hover:bg-white/20"
           >
-            GitHub
+            View on GitHub
           </a>
-          <a
-            href={NPM_URL}
-            target="_blank"
-            rel="noreferrer"
-            className="font-medium text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-100"
-          >
-            npm
-          </a>
-          <ThemeSwitcher />
-        </nav>
-      </div>
-    </header>
-  );
-}
-
-function Hero() {
-  return (
-    <section className="space-y-6 pt-12 sm:pt-16">
-      <p className="font-mono text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">
-        @evolonix/react-router-next
-      </p>
-      <h1 className="text-3xl font-semibold leading-tight text-slate-900 sm:text-4xl md:text-5xl dark:text-slate-100">
-        Next.js-style filesystem routing for React Router 7
-      </h1>
-      <p className="max-w-2xl text-base leading-relaxed text-slate-600 sm:text-lg dark:text-slate-400">
-        Drop a <code className="font-mono">page.tsx</code> into a folder, get a
-        typed route — including nested layouts, parallel routes (
-        <code className="font-mono">@slot</code>), intercepting routes (
-        <code className="font-mono">(.)</code> /{" "}
-        <code className="font-mono">(..)</code> /{" "}
-        <code className="font-mono">(...)</code>),{" "}
-        <code className="font-mono">template.tsx</code> remount-on-navigation,
-        and <code className="font-mono">_private</code> colocation folders.
-      </p>
-      <div className="flex flex-wrap gap-3 pt-2">
-        <a
-          href={`${BASE}vite/`}
-          className="inline-flex items-center rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-slate-800 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-slate-200"
-        >
-          Open the Vite demo →
-        </a>
-        <a
-          href={GITHUB_URL}
-          target="_blank"
-          rel="noreferrer"
-          className="inline-flex items-center rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-900 shadow-sm hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:hover:bg-slate-800"
-        >
-          View on GitHub
-        </a>
+        </div>
       </div>
     </section>
   );
@@ -96,7 +66,7 @@ function Hero() {
 
 function Quickstart() {
   return (
-    <section className="space-y-6">
+    <section id="quickstart" className="space-y-6 pt-16">
       <SectionHeader
         eyebrow="The recommended path"
         title="Vite quickstart"
@@ -150,7 +120,7 @@ createRoot(document.getElementById("root")!).render(
 
 function Demos() {
   return (
-    <section className="space-y-6">
+    <section id="demos" className="space-y-6">
       <SectionHeader
         eyebrow="Try the demos"
         title="Same routes, three bundlers"
@@ -205,7 +175,7 @@ function Demos() {
 
 function Features() {
   return (
-    <section className="space-y-6">
+    <section id="features" className="space-y-6">
       <SectionHeader
         eyebrow="What you get"
         title="Every convention is opt-in"
@@ -321,42 +291,6 @@ function WhyVite() {
   );
 }
 
-function Footer() {
-  return (
-    <footer className="border-t border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-950">
-      <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3 px-4 py-6 text-sm text-slate-600 sm:px-6 dark:text-slate-400">
-        <span>MIT · @evolonix/react-router-next</span>
-        <div className="flex flex-wrap items-center gap-4">
-          <a
-            href={GITHUB_URL}
-            target="_blank"
-            rel="noreferrer"
-            className="font-medium text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-100"
-          >
-            Source
-          </a>
-          <a
-            href={NPM_URL}
-            target="_blank"
-            rel="noreferrer"
-            className="font-medium text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-100"
-          >
-            npm
-          </a>
-          <a
-            href={`${GITHUB_URL}/issues`}
-            target="_blank"
-            rel="noreferrer"
-            className="font-medium text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-100"
-          >
-            Issues
-          </a>
-        </div>
-      </div>
-    </footer>
-  );
-}
-
 function SectionHeader({
   eyebrow,
   title,
@@ -368,14 +302,14 @@ function SectionHeader({
 }) {
   return (
     <header className="space-y-2">
-      <p className="font-mono text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">
+      <p className="text-brand-600 dark:text-brand-300 text-xs font-semibold uppercase tracking-[0.18em]">
         {eyebrow}
       </p>
-      <h2 className="text-2xl font-semibold text-slate-900 sm:text-3xl dark:text-slate-100">
+      <h2 className="text-2xl font-bold tracking-tight text-zinc-900 sm:text-3xl dark:text-zinc-50">
         {title}
       </h2>
       {description ? (
-        <p className="max-w-2xl text-base leading-relaxed text-slate-600 dark:text-slate-400">
+        <p className="max-w-2xl text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
           {description}
         </p>
       ) : null}
@@ -393,13 +327,13 @@ function Step({
   children: ReactNode;
 }) {
   return (
-    <li className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
+    <li className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
       <div className="space-y-3 p-6">
         <header className="flex items-center gap-2">
-          <span className="inline-flex h-6 min-w-6 items-center justify-center whitespace-nowrap rounded-full bg-slate-200 px-2 text-xs font-semibold text-slate-700 dark:bg-slate-700 dark:text-slate-200">
+          <span className="bg-brand-100 text-brand-700 dark:bg-brand-900/60 dark:text-brand-200 inline-flex h-6 min-w-6 items-center justify-center whitespace-nowrap rounded-full px-2 text-xs font-semibold">
             {n}
           </span>
-          <h3 className="text-base font-semibold text-slate-900 dark:text-slate-100">
+          <h3 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
             {title}
           </h3>
         </header>
@@ -419,14 +353,14 @@ function Code({
   lang?: string;
 }) {
   return (
-    <div className="overflow-hidden rounded-md border border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-950">
+    <div className="overflow-hidden rounded-lg border border-zinc-200 bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-950">
       {filename ? (
-        <div className="flex items-center justify-between border-b border-slate-200 px-3 py-1.5 text-[11px] font-mono uppercase tracking-wider text-slate-500 dark:border-slate-800 dark:text-slate-400">
+        <div className="flex items-center justify-between border-b border-zinc-200 px-3 py-1.5 text-[11px] font-mono uppercase tracking-wider text-zinc-500 dark:border-zinc-800 dark:text-zinc-400">
           <span>{filename}</span>
           <span className="opacity-70">{lang}</span>
         </div>
       ) : null}
-      <pre className="overflow-x-auto px-3 py-2 text-[13px] leading-relaxed text-slate-800 dark:text-slate-200">
+      <pre className="overflow-x-auto px-3 py-2 text-[13px] leading-relaxed text-zinc-800 dark:text-zinc-200">
         <code>{children}</code>
       </pre>
     </div>
@@ -449,30 +383,30 @@ function DemoCard({
   return (
     <a
       href={href}
-      className={`group flex flex-col rounded-xl border bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:bg-slate-900 ${
+      className={`group flex flex-col rounded-2xl border bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:bg-zinc-900 ${
         recommended
-          ? "border-slate-900 ring-1 ring-slate-900 dark:border-slate-100 dark:ring-slate-100"
-          : "border-slate-200 dark:border-slate-800"
+          ? "border-brand-300 ring-2 ring-brand-200 dark:border-brand-700 dark:ring-brand-900/60"
+          : "border-zinc-200 dark:border-zinc-800"
       }`}
     >
       <div className="flex items-baseline justify-between gap-2">
-        <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
+        <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
           {name}
         </h3>
         <span
           className={`whitespace-nowrap rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider ring-1 ring-inset ${
             recommended
-              ? "bg-slate-900 text-white ring-slate-900 dark:bg-slate-100 dark:text-slate-900 dark:ring-slate-100"
-              : "bg-slate-100 text-slate-600 ring-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:ring-slate-700"
+              ? "bg-brand-600 text-white ring-brand-700 dark:bg-brand-500 dark:ring-brand-400"
+              : "bg-zinc-100 text-zinc-600 ring-zinc-200 dark:bg-zinc-800 dark:text-zinc-300 dark:ring-zinc-700"
           }`}
         >
           {tagline}
         </span>
       </div>
-      <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+      <p className="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
         {children}
       </p>
-      <span className="mt-4 text-sm font-medium text-slate-900 group-hover:underline dark:text-slate-100">
+      <span className="group-hover:text-brand-700 dark:group-hover:text-brand-300 mt-4 text-sm font-medium text-zinc-900 transition-colors dark:text-zinc-100">
         Open →
       </span>
     </a>
@@ -499,16 +433,16 @@ function Feature({
   children: ReactNode;
 }) {
   return (
-    <div className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
+    <div className="overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
       <div className={`h-1 ${ACCENT_BAR[accent]}`} />
       <div className="space-y-1 p-4">
-        <p className="font-mono text-[11px] uppercase tracking-wider text-slate-500 dark:text-slate-400">
+        <p className="font-mono text-[11px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
           {pattern}
         </p>
-        <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100">
+        <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
           {label}
         </h3>
-        <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+        <p className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
           {children}
         </p>
       </div>
@@ -518,11 +452,11 @@ function Feature({
 
 function Bullet({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <li className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-      <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100">
+    <li className="rounded-xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+      <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
         {title}
       </h3>
-      <p className="mt-1 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+      <p className="mt-1 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
         {children}
       </p>
     </li>
