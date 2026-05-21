@@ -7,17 +7,17 @@ const ALERTS = [
 export default function NotificationsHome() {
   return (
     <div className="space-y-3">
-      <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100">
+      <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
         Recent activity
       </h3>
       <ul className="space-y-2">
         {ALERTS.map((alert) => (
           <li
             key={alert.id}
-            className="flex justify-between text-sm text-slate-700 dark:text-slate-300"
+            className="flex justify-between text-sm text-zinc-700 dark:text-zinc-300"
           >
             <span>{alert.text}</span>
-            <span className="font-mono text-xs text-slate-500 dark:text-slate-400">
+            <span className="font-mono text-xs text-zinc-500 dark:text-zinc-400">
               {alert.when}
             </span>
           </li>

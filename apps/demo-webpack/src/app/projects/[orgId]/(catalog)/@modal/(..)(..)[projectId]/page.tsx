@@ -15,13 +15,13 @@ export default function ProjectsCatalogModalPage({ params }: RouteProps) {
           background: `linear-gradient(135deg, oklch(0.82 0.18 ${project.hue}), oklch(0.45 0.18 ${project.hue}))`,
         }}
       />
-      <p className="text-sm text-slate-700 dark:text-slate-300">
+      <p className="text-sm text-zinc-700 dark:text-zinc-300">
         {project.summary}
       </p>
-      <p className="mt-3 text-xs text-slate-500 dark:text-slate-400">
+      <p className="mt-3 text-xs text-zinc-500 dark:text-zinc-400">
         Status: <span className="capitalize">{project.status}</span>
       </p>
-      <p className="mt-4 text-xs text-slate-500 dark:text-slate-400">
+      <p className="mt-4 text-xs text-zinc-500 dark:text-zinc-400">
         Rendered by{" "}
         <code className="font-mono">
           projects/[orgId]/(catalog)/@modal/(..)(..)[projectId]/page.tsx

@@ -12,7 +12,7 @@ export default function ProjectsHome() {
         <p className="font-mono text-[11px] uppercase tracking-wider text-accent-intercept">
           projects/ + feed/@modal/(..)(..)[projectId]
         </p>
-        <h1 className="text-xl font-semibold text-slate-900 md:text-2xl dark:text-slate-100">
+        <h1 className="text-xl font-semibold text-zinc-900 md:text-2xl dark:text-zinc-100">
           Intercept two levels up
         </h1>
       </header>
@@ -55,15 +55,15 @@ export default function ProjectsHome() {
           <li key={org.id}>
             <Link
               to={generateUrl("projects/[orgId]", { orgId: org.id })}
-              className="block rounded-xl border border-slate-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-slate-800 dark:bg-slate-900"
+              className="block rounded-xl border border-zinc-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900"
             >
-              <p className="font-mono text-[11px] uppercase tracking-wider text-slate-500 dark:text-slate-400">
+              <p className="font-mono text-[11px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
                 /projects/{org.id}
               </p>
-              <p className="mt-1 text-sm font-semibold text-slate-900 dark:text-slate-100">
+              <p className="mt-1 text-sm font-semibold text-zinc-900 dark:text-zinc-100">
                 {org.name}
               </p>
-              <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+              <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
                 {org.blurb}
               </p>
             </Link>

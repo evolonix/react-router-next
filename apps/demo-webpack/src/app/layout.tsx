@@ -39,24 +39,24 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider>
-      <div className="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
+      <div className="min-h-screen bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100">
         <ProgressBar />
         <MobileTopBar
           menuOpen={navOpen}
           onMenuClick={() => setNavOpen((v) => !v)}
         />
-        <div className="mx-auto flex max-w-7xl">
+        <div className="mx-auto flex max-w-6xl">
           <Sidebar open={navOpen} onClose={() => setNavOpen(false)} />
           {navOpen ? (
             <button
               type="button"
               aria-label="Close navigation"
               onClick={() => setNavOpen(false)}
-              className="fixed inset-0 z-30 bg-slate-900/50 backdrop-blur-sm md:hidden"
+              className="fixed inset-0 z-30 bg-zinc-900/50 backdrop-blur-sm md:hidden"
             />
           ) : null}
-          <main className="min-w-0 flex-1 px-4 py-6 md:px-8 md:py-10">
-            <div className="mx-auto max-w-3xl space-y-6">
+          <main className="min-w-0 flex-1 px-4 py-6 md:px-6 md:py-10">
+            <div className="space-y-6">
               <Outlet />
             </div>
           </main>

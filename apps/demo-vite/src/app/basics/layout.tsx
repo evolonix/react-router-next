@@ -1,23 +1,16 @@
-import { NavLink, Outlet, useLocation } from "react-router";
+import { NavLink, Outlet } from "react-router";
 
 export default function BasicsLayout() {
-  const { pathname } = useLocation();
-  const crumbs = pathname.split("/").filter(Boolean);
   return (
     <div className="space-y-6">
-      <header className="flex flex-col gap-2 rounded-xl border border-dashed border-slate-300 bg-slate-100/60 px-4 py-3 md:flex-row md:items-center md:justify-between dark:border-slate-700 dark:bg-slate-800/40">
-        <div>
-          <p className="font-mono text-[11px] uppercase tracking-wider text-slate-500 dark:text-slate-400">
-            basics/layout.tsx
-          </p>
-          <p className="text-sm text-slate-700 dark:text-slate-300">
-            This banner is rendered by the nested layout. It persists while you
-            move between <code className="font-mono">basics/</code> children.
-          </p>
-        </div>
-        <nav className="font-mono text-xs text-slate-500 dark:text-slate-400 whitespace-nowrap">
-          /{crumbs.join("/")}
-        </nav>
+      <header className="rounded-xl border border-dashed border-zinc-300 bg-zinc-100/60 px-4 py-3 dark:border-zinc-700 dark:bg-zinc-800/40">
+        <p className="font-mono text-[11px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+          basics/layout.tsx
+        </p>
+        <p className="text-sm text-zinc-700 dark:text-zinc-300">
+          This banner is rendered by the nested layout. It persists while you
+          move between <code className="font-mono">basics/</code> children.
+        </p>
       </header>
       <div className="flex gap-2 text-sm">
         <BasicsLink to="/basics" end>
@@ -47,8 +40,8 @@ function BasicsLink({
       className={({ isActive }) =>
         `rounded-md border px-3 py-1.5 transition ${
           isActive
-            ? "border-slate-400 bg-slate-200/60 text-slate-900 dark:border-slate-500 dark:bg-slate-700/60 dark:text-slate-100"
-            : "border-slate-200 bg-white hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-900 dark:hover:bg-slate-800"
+            ? "border-zinc-400 bg-zinc-200/60 text-zinc-900 dark:border-zinc-500 dark:bg-zinc-700/60 dark:text-zinc-100"
+            : "border-zinc-200 bg-white hover:bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800"
         }`
       }
     >

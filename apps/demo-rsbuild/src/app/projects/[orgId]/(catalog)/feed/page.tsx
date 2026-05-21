@@ -21,7 +21,7 @@ export default function ProjectsFeedPage({
         <p className="font-mono text-[11px] uppercase tracking-wider text-accent-intercept">
           /projects/{org.id}/feed
         </p>
-        <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
+        <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
           {org.name} — feed
         </h2>
       </header>
@@ -46,7 +46,7 @@ export default function ProjectsFeedPage({
                 orgId: org.id,
                 projectId: project.id,
               })}
-              className="group block overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-slate-800 dark:bg-slate-900"
+              className="group block overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900"
             >
               <div
                 aria-hidden
@@ -56,10 +56,10 @@ export default function ProjectsFeedPage({
                 }}
               />
               <div className="p-3">
-                <p className="text-sm font-medium text-slate-900 dark:text-slate-100">
+                <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
                   {project.name}
                 </p>
-                <p className="font-mono text-[11px] text-slate-500 dark:text-slate-400">
+                <p className="font-mono text-[11px] text-zinc-500 dark:text-zinc-400">
                   /projects/{org.id}/{project.id}
                 </p>
               </div>
@@ -70,7 +70,7 @@ export default function ProjectsFeedPage({
 
       <Link
         to={`/projects/${org.id}`}
-        className="inline-flex rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-900 dark:hover:bg-slate-800"
+        className="inline-flex rounded-md border border-zinc-200 bg-white px-3 py-1.5 text-sm hover:bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800"
       >
         ← back to {org.name}
       </Link>

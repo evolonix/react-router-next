@@ -10,7 +10,7 @@ export default function TransitionsLayout() {
         <p className="font-mono text-[11px] uppercase tracking-wider text-accent-routing">
           transitions/
         </p>
-        <h1 className="text-xl font-semibold text-slate-900 md:text-2xl dark:text-slate-100">
+        <h1 className="text-xl font-semibold text-zinc-900 md:text-2xl dark:text-zinc-100">
           Per-navigation template.tsx
         </h1>
       </header>
@@ -42,7 +42,7 @@ export default function TransitionsTemplate() {
     </div>
   );
 }`}</CodeBlock>
-        <p className="text-xs text-slate-500 dark:text-slate-400">
+        <p className="text-xs text-zinc-500 dark:text-zinc-400">
           The wrapper below is the template — click between the four pages and
           watch the fade-in replay, plus the mount counter reset. Open the
           devtools console to see the mount log.
@@ -81,7 +81,7 @@ function TabLink({
         `rounded-md border px-3 py-1.5 transition ${
           isActive
             ? "border-accent-routing/40 bg-accent-routing/10 text-accent-routing"
-            : "border-slate-200 bg-white hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-900 dark:hover:bg-slate-800"
+            : "border-zinc-200 bg-white hover:bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800"
         }`
       }
     >

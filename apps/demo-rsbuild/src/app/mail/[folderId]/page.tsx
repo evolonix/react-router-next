@@ -21,10 +21,10 @@ export default function MailFolderPage({
         <p className="font-mono text-[11px] uppercase tracking-wider text-accent-intercept">
           /mail/{folder.id}
         </p>
-        <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
+        <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
           {folder.name}
         </h2>
-        <p className="text-sm text-slate-500 dark:text-slate-400">
+        <p className="text-sm text-zinc-500 dark:text-zinc-400">
           {folder.description}
         </p>
       </header>
@@ -41,9 +41,9 @@ export default function MailFolderPage({
         </p>
       </Explain>
 
-      <ul className="divide-y divide-slate-200 overflow-hidden rounded-xl border border-slate-200 bg-white dark:divide-slate-800 dark:border-slate-800 dark:bg-slate-900">
+      <ul className="divide-y divide-zinc-200 overflow-hidden rounded-xl border border-zinc-200 bg-white dark:divide-zinc-800 dark:border-zinc-800 dark:bg-zinc-900">
         {messages.length === 0 ? (
-          <li className="p-4 text-sm text-slate-500 dark:text-slate-400">
+          <li className="p-4 text-sm text-zinc-500 dark:text-zinc-400">
             No messages in this folder.
           </li>
         ) : (
@@ -54,17 +54,17 @@ export default function MailFolderPage({
                   folderId: folder.id,
                   messageId: message.id,
                 })}
-                className="flex flex-col gap-1 p-4 transition hover:bg-slate-50 dark:hover:bg-slate-800"
+                className="flex flex-col gap-1 p-4 transition hover:bg-zinc-50 dark:hover:bg-zinc-800"
               >
                 <div className="flex items-center justify-between gap-3">
-                  <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
+                  <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
                     {message.subject}
                   </p>
-                  <span className="font-mono text-[11px] text-slate-500 dark:text-slate-400">
+                  <span className="font-mono text-[11px] text-zinc-500 dark:text-zinc-400">
                     {message.from}
                   </span>
                 </div>
-                <p className="text-xs text-slate-500 dark:text-slate-400">
+                <p className="text-xs text-zinc-500 dark:text-zinc-400">
                   {message.preview}
                 </p>
               </Link>
@@ -75,7 +75,7 @@ export default function MailFolderPage({
 
       <Link
         to="/mail"
-        className="inline-flex rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-900 dark:hover:bg-slate-800"
+        className="inline-flex rounded-md border border-zinc-200 bg-white px-3 py-1.5 text-sm hover:bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800"
       >
         ← back to folders
       </Link>

@@ -10,8 +10,8 @@ export type Accent =
 
 const ACCENT: Record<Accent, { chip: string; bar: string; label: string }> = {
   neutral: {
-    chip: "bg-slate-200/60 text-slate-700 ring-slate-300 dark:bg-slate-700/60 dark:text-slate-200 dark:ring-slate-600",
-    bar: "bg-slate-300 dark:bg-slate-600",
+    chip: "bg-zinc-200/60 text-zinc-700 ring-zinc-300 dark:bg-zinc-700/60 dark:text-zinc-200 dark:ring-zinc-600",
+    bar: "bg-zinc-300 dark:bg-zinc-600",
     label: "Overview",
   },
   routing: {
@@ -51,7 +51,7 @@ export interface ExplainProps {
 export function Explain({ title, accent, tag, children }: ExplainProps) {
   const a = ACCENT[accent];
   return (
-    <section className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
+    <section className="overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
       <div className={`h-1 ${a.bar}`} />
       <div className="space-y-4 p-6">
         <header className="flex items-center gap-2">
@@ -60,11 +60,11 @@ export function Explain({ title, accent, tag, children }: ExplainProps) {
           >
             {tag ?? a.label}
           </span>
-          <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
+          <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
             {title}
           </h2>
         </header>
-        <div className="space-y-3 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+        <div className="space-y-3 text-sm leading-relaxed text-zinc-700 dark:text-zinc-300">
           {children}
         </div>
       </div>

@@ -5,13 +5,13 @@ export default function InstallationPage() {
   return (
     <>
       <header className="space-y-3">
-        <p className="font-mono text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">
+        <p className="font-mono text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
           @evolonix/react-router-next
         </p>
-        <h1 className="text-2xl font-semibold text-slate-900 md:text-3xl dark:text-slate-100">
+        <h1 className="text-2xl font-semibold text-zinc-900 md:text-3xl dark:text-zinc-100">
           Installation — Rsbuild (no Vite)
         </h1>
-        <p className="max-w-2xl text-base leading-relaxed text-slate-600 dark:text-slate-400">
+        <p className="max-w-2xl text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
           The package's Vite plugin is <em>optional</em> — the runtime only
           needs a <code>RouteModuleMap</code> and an <code>appDir</code> string.
           Any bundler that can eagerly enumerate a route folder works. This
@@ -20,7 +20,7 @@ export default function InstallationPage() {
             href="https://rsbuild.rs"
             target="_blank"
             rel="noreferrer"
-            className="font-medium text-slate-900 underline decoration-slate-400 underline-offset-2 hover:decoration-slate-900 dark:text-slate-100 dark:decoration-slate-500 dark:hover:decoration-slate-100"
+            className="font-medium text-zinc-900 underline decoration-zinc-400 underline-offset-2 hover:decoration-zinc-900 dark:text-zinc-100 dark:decoration-zinc-500 dark:hover:decoration-zinc-100"
           >
             Rsbuild
           </a>
@@ -175,7 +175,7 @@ createRoot(document.getElementById("root")!).render(
     "build": "react-router-next typegen && tsc -b && rsbuild build"
   }
 }`}</CodeBlock>
-        <p className="text-xs text-slate-500 dark:text-slate-400">
+        <p className="text-xs text-zinc-500 dark:text-zinc-400">
           Types only — the runtime side of those virtual modules still needs a
           bundler resolver (the Vite plugin provides it for Vite users; for
           Rsbuild you'd add a small{" "}
@@ -202,7 +202,7 @@ createRoot(document.getElementById("root")!).render(
           That's the whole setup. Head to{" "}
           <a
             href="/basics"
-            className="font-medium text-slate-900 underline decoration-slate-400 underline-offset-2 hover:decoration-slate-900 dark:text-slate-100 dark:decoration-slate-500 dark:hover:decoration-slate-100"
+            className="font-medium text-zinc-900 underline decoration-zinc-400 underline-offset-2 hover:decoration-zinc-900 dark:text-zinc-100 dark:decoration-zinc-500 dark:hover:decoration-zinc-100"
           >
             Basics
           </a>{" "}

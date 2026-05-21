@@ -17,12 +17,10 @@ export default function ProjectsOrgPage({
         <p className="font-mono text-[11px] uppercase tracking-wider text-accent-intercept">
           /projects/{org.id}
         </p>
-        <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
+        <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
           {org.name}
         </h2>
-        <p className="text-sm text-slate-500 dark:text-slate-400">
-          {org.blurb}
-        </p>
+        <p className="text-sm text-zinc-500 dark:text-zinc-400">{org.blurb}</p>
       </header>
 
       <Explain title="Two views, same projects" accent="intercept">
@@ -46,15 +44,15 @@ export default function ProjectsOrgPage({
           <li key={project.id}>
             <Link
               to={`/projects/${org.id}/${project.id}`}
-              className="block rounded-xl border border-slate-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-slate-800 dark:bg-slate-900"
+              className="block rounded-xl border border-zinc-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900"
             >
-              <p className="font-mono text-[11px] uppercase tracking-wider text-slate-500 dark:text-slate-400">
+              <p className="font-mono text-[11px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
                 /projects/{org.id}/{project.id}
               </p>
-              <p className="mt-1 text-sm font-semibold text-slate-900 dark:text-slate-100">
+              <p className="mt-1 text-sm font-semibold text-zinc-900 dark:text-zinc-100">
                 {project.name}
               </p>
-              <p className="text-xs text-slate-500 dark:text-slate-400">
+              <p className="text-xs text-zinc-500 dark:text-zinc-400">
                 {project.summary}
               </p>
             </Link>
@@ -64,7 +62,7 @@ export default function ProjectsOrgPage({
 
       <Link
         to="/projects"
-        className="inline-flex rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-900 dark:hover:bg-slate-800"
+        className="inline-flex rounded-md border border-zinc-200 bg-white px-3 py-1.5 text-sm hover:bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800"
       >
         ← back to all orgs
       </Link>

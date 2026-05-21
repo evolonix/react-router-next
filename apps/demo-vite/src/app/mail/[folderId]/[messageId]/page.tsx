@@ -16,10 +16,10 @@ export default function MailMessagePage({ params }: RouteProps) {
         <p className="font-mono text-[11px] uppercase tracking-wider text-accent-intercept">
           mail/[folderId]/[messageId]/page.tsx
         </p>
-        <h1 className="text-xl font-semibold text-slate-900 md:text-2xl dark:text-slate-100">
+        <h1 className="text-xl font-semibold text-zinc-900 md:text-2xl dark:text-zinc-100">
           {message.subject}
         </h1>
-        <p className="text-sm text-slate-500 dark:text-slate-400">
+        <p className="text-sm text-zinc-500 dark:text-zinc-400">
           From <span className="font-medium">{message.from}</span>
         </p>
       </header>
@@ -40,15 +40,15 @@ export default function MailPreview({ params }: RouteProps) {
 }`}</CodeBlock>
       </Explain>
 
-      <article className="space-y-3 rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-        <p className="text-sm text-slate-700 dark:text-slate-300">
+      <article className="space-y-3 rounded-xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+        <p className="text-sm text-zinc-700 dark:text-zinc-300">
           {message.body}
         </p>
       </article>
 
       <Link
         to={`/mail/${message.folderId}`}
-        className="inline-flex rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-900 dark:hover:bg-slate-800"
+        className="inline-flex rounded-md border border-zinc-200 bg-white px-3 py-1.5 text-sm hover:bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800"
       >
         ← back to {message.folderId}
       </Link>

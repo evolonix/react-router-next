@@ -17,7 +17,7 @@ export function ThemeSwitcher() {
       aria-label={`Theme: ${current.label}. Switch to ${next.label}.`}
       title={`Theme: ${current.label}`}
       onClick={() => setTheme(next.value)}
-      className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border border-slate-200 bg-white px-2 py-1 text-xs font-medium text-slate-700 transition hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
+      className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border border-zinc-200 bg-white px-2 py-1 text-xs font-medium text-zinc-700 transition hover:bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800"
     >
       <span aria-hidden>{current.icon}</span>
       <span>{current.label}</span>

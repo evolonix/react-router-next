@@ -8,13 +8,13 @@ export default function MailPreviewPage({ params }: RouteProps) {
   if (!message) return null;
   return (
     <Dialog title={message.subject}>
-      <p className="font-mono text-[11px] uppercase tracking-wider text-slate-500 dark:text-slate-400">
+      <p className="font-mono text-[11px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
         From {message.from}
       </p>
-      <p className="mt-3 text-sm text-slate-700 dark:text-slate-300">
+      <p className="mt-3 text-sm text-zinc-700 dark:text-zinc-300">
         {message.body}
       </p>
-      <p className="mt-4 text-xs text-slate-500 dark:text-slate-400">
+      <p className="mt-4 text-xs text-zinc-500 dark:text-zinc-400">
         Rendered by{" "}
         <code className="font-mono">
           mail/[folderId]/@preview/(..)[messageId]/page.tsx

@@ -19,7 +19,7 @@ export default function DashboardLayout({
         <p className="font-mono text-[11px] uppercase tracking-wider text-accent-parallel">
           dashboard/ + @analytics/ + @notifications/
         </p>
-        <h1 className="text-xl font-semibold text-slate-900 md:text-2xl dark:text-slate-100">
+        <h1 className="text-xl font-semibold text-zinc-900 md:text-2xl dark:text-zinc-100">
           Parallel routes
         </h1>
       </header>
@@ -91,8 +91,8 @@ export default function NotificationsDefault() {
       </nav>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-[2fr_1fr_1fr]">
-        <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-          <p className="mb-2 font-mono text-[11px] uppercase tracking-wider text-slate-500 dark:text-slate-400">
+        <section className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+          <p className="mb-2 font-mono text-[11px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
             {"<Outlet />"}
           </p>
           <Outlet />
@@ -132,7 +132,7 @@ function DashboardLink({
         `rounded-md border px-3 py-1.5 transition ${
           isActive
             ? "border-accent-parallel/40 bg-accent-parallel/10 text-accent-parallel"
-            : "border-slate-200 bg-white hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-900 dark:hover:bg-slate-800"
+            : "border-zinc-200 bg-white hover:bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800"
         }`
       }
     >

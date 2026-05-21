@@ -43,19 +43,19 @@ export function usePosts() {
         {posts.map((post) => (
           <li
             key={post.id}
-            className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md dark:border-slate-800 dark:bg-slate-900"
+            className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm transition hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900"
           >
             <Link
               to={generateUrl("posts/[postId]", { postId: post.id })}
               className="block"
             >
-              <p className="font-mono text-[11px] uppercase tracking-wider text-slate-500 dark:text-slate-400">
+              <p className="font-mono text-[11px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
                 /posts/{post.id}
               </p>
-              <h3 className="mt-1 text-base font-semibold text-slate-900 dark:text-slate-100">
+              <h3 className="mt-1 text-base font-semibold text-zinc-900 dark:text-zinc-100">
                 {post.title}
               </h3>
-              <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
+              <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
                 {post.excerpt}
               </p>
             </Link>
