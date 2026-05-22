@@ -26,7 +26,7 @@ export function App(): JSX.Element {
 function Hero() {
   return (
     <section className="from-brand-500 to-accent-500 relative isolate overflow-hidden bg-linear-to-br via-fuchsia-500 text-white">
-      <div className="mx-auto max-w-6xl space-y-6 px-4 py-16 sm:px-6 sm:py-20">
+      <div className="mx-auto max-w-6xl space-y-6 px-4 py-24 sm:px-6 sm:py-32">
         <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-white/80">
           @evolonix/react-router-next
         </p>
