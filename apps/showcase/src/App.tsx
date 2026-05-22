@@ -144,6 +144,7 @@ function Demos() {
           href={`${BASE}vite/`}
           name="Vite"
           tagline="Recommended"
+          tone="from-brand-500 to-fuchsia-500"
           recommended
         >
           The reference experience: the package's Vite plugin handles route
@@ -153,6 +154,7 @@ function Demos() {
           href={`${BASE}rsbuild/`}
           name="Rsbuild"
           tagline="Rspack-based"
+          tone="from-fuchsia-500 to-accent-500"
         >
           Webpack-compatible Rust bundler from ByteDance. The same routes load
           via <code className="font-mono">require.context</code>, fed to{" "}
@@ -162,6 +164,7 @@ function Demos() {
           href={`${BASE}webpack/`}
           name="Webpack 5"
           tagline="Codegen path"
+          tone="from-accent-500 to-brand-500"
         >
           The classic bundler, with the package's{" "}
           <code className="font-mono">react-router-next gen</code> CLI doing
@@ -377,24 +380,30 @@ function DemoCard({
   href,
   name,
   tagline,
+  tone,
   children,
   recommended,
 }: {
   href: string;
   name: string;
   tagline: string;
+  tone: string;
   children: ReactNode;
   recommended?: boolean;
 }) {
   return (
     <a
       href={href}
-      className={`group flex flex-col rounded-2xl border bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:bg-zinc-900 ${
+      className={`group relative flex flex-col overflow-hidden rounded-2xl border bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:bg-zinc-900 ${
         recommended
-          ? "border-brand-300 ring-2 ring-brand-200 dark:border-brand-700 dark:ring-brand-900/60"
+          ? "border-transparent"
           : "border-zinc-200 dark:border-zinc-800"
       }`}
     >
+      <div
+        aria-hidden
+        className={`absolute inset-x-0 top-0 h-1 bg-linear-to-r ${tone}`}
+      />
       <div className="flex items-baseline justify-between gap-2">
         <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
           {name}
