@@ -4,7 +4,7 @@ export default function BasicsLayout() {
   return (
     <div className="space-y-6">
       <header className="rounded-xl border border-dashed border-zinc-300 bg-zinc-100/60 px-4 py-3 dark:border-zinc-700 dark:bg-zinc-800/40">
-        <p className="font-mono text-[11px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+        <p className="font-mono text-[11px] uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
           basics/layout.tsx
         </p>
         <p className="text-sm text-zinc-700 dark:text-zinc-300">

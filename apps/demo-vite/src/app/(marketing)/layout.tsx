@@ -20,7 +20,7 @@ export default function MarketingLayout() {
         <MarketingLink to="/pricing">Pricing</MarketingLink>
       </div>
       <Outlet />
-      <p className="text-xs text-zinc-500 dark:text-zinc-400">
+      <p className="text-xs text-zinc-600 dark:text-zinc-400">
         This footer is also part of the marketing layout — visit{" "}
         <Link
           to="/"

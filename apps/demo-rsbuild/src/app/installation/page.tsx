@@ -5,7 +5,7 @@ export default function InstallationPage() {
   return (
     <>
       <header className="space-y-3">
-        <p className="font-mono text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+        <p className="font-mono text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
           @evolonix/react-router-next
         </p>
         <h1 className="text-2xl font-semibold text-zinc-900 md:text-3xl dark:text-zinc-100">
@@ -175,7 +175,7 @@ createRoot(document.getElementById("root")!).render(
     "build": "react-router-next typegen && tsc -b && rsbuild build"
   }
 }`}</CodeBlock>
-        <p className="text-xs text-zinc-500 dark:text-zinc-400">
+        <p className="text-xs text-zinc-600 dark:text-zinc-400">
           Types only — the runtime side of those virtual modules still needs a
           bundler resolver (the Vite plugin provides it for Vite users; for
           Rsbuild you'd add a small{" "}

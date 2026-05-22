@@ -39,7 +39,7 @@ export default function GalleryItemTemplate() {
   }, [pathname]);
   return <Outlet />;
 }`}</CodeBlock>
-        <p className="text-xs text-zinc-500 dark:text-zinc-400">
+        <p className="text-xs text-zinc-600 dark:text-zinc-400">
           <code className="font-mono">template.tsx</code> wraps this page and
           remounts on every nav — open the console and click between photos to
           watch the mount/unmount messages.

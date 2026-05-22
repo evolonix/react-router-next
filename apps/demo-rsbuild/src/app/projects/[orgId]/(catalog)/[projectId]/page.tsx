@@ -20,7 +20,7 @@ export default function ProjectsProjectPage({
         <h1 className="text-xl font-semibold text-zinc-900 md:text-2xl dark:text-zinc-100">
           {project.name}
         </h1>
-        <p className="text-sm text-zinc-500 dark:text-zinc-400">
+        <p className="text-sm text-zinc-600 dark:text-zinc-400">
           {project.summary}
         </p>
       </header>
@@ -59,7 +59,7 @@ export default function ProjectModal({ params }: RouteProps<"projects/[orgId]/[p
 
       <dl className="grid grid-cols-2 gap-3 text-sm">
         <div className="rounded-lg border border-zinc-200 p-3 dark:border-zinc-800">
-          <dt className="font-mono text-[11px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+          <dt className="font-mono text-[11px] uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
             Status
           </dt>
           <dd className="mt-1 font-medium text-zinc-900 capitalize dark:text-zinc-100">
@@ -67,7 +67,7 @@ export default function ProjectModal({ params }: RouteProps<"projects/[orgId]/[p
           </dd>
         </div>
         <div className="rounded-lg border border-zinc-200 p-3 dark:border-zinc-800">
-          <dt className="font-mono text-[11px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+          <dt className="font-mono text-[11px] uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
             Org
           </dt>
           <dd className="mt-1 font-medium text-zinc-900 dark:text-zinc-100">

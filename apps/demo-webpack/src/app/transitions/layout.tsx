@@ -42,7 +42,7 @@ export default function TransitionsTemplate() {
     </div>
   );
 }`}</CodeBlock>
-        <p className="text-xs text-zinc-500 dark:text-zinc-400">
+        <p className="text-xs text-zinc-600 dark:text-zinc-400">
           The wrapper below is the template — click between the four pages and
           watch the fade-in replay, plus the mount counter reset. Open the
           devtools console to see the mount log.

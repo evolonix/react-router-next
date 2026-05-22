@@ -33,7 +33,7 @@ export function MobileTopBar({ menuOpen, onMenuClick }: MobileTopBarProps) {
         </svg>
       </button>
       <NavLink to="/" className="flex-1 leading-tight">
-        <span className="block font-mono text-[10px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+        <span className="block font-mono text-[10px] uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
           evolonix
         </span>
         <span className="block text-sm font-semibold text-zinc-900 dark:text-zinc-100">

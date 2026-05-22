@@ -9,7 +9,7 @@ export default function ProjectsCatalogModalPage({
   const project = getProject(params.orgId, params.projectId);
   if (!project) return null;
   return (
-    <Dialog title={project.name}>
+    <Dialog title={project.name} closeTo={`/projects/${params.orgId}`}>
       <div
         aria-hidden
         className="mb-4 h-32 w-full rounded-lg"
@@ -20,10 +20,10 @@ export default function ProjectsCatalogModalPage({
       <p className="text-sm text-zinc-700 dark:text-zinc-300">
         {project.summary}
       </p>
-      <p className="mt-3 text-xs text-zinc-500 dark:text-zinc-400">
+      <p className="mt-3 text-xs text-zinc-600 dark:text-zinc-400">
         Status: <span className="capitalize">{project.status}</span>
       </p>
-      <p className="mt-4 text-xs text-zinc-500 dark:text-zinc-400">
+      <p className="mt-4 text-xs text-zinc-600 dark:text-zinc-400">
         Rendered by{" "}
         <code className="font-mono">
           projects/[orgId]/(catalog)/@modal/(..)(..)[projectId]/page.tsx

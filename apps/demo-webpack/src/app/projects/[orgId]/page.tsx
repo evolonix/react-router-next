@@ -19,7 +19,7 @@ export default function ProjectsOrgPage({ params }: RouteProps) {
         <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
           {org.name}
         </h2>
-        <p className="text-sm text-zinc-500 dark:text-zinc-400">{org.blurb}</p>
+        <p className="text-sm text-zinc-600 dark:text-zinc-400">{org.blurb}</p>
       </header>
 
       <Explain title="Two views, same projects" accent="intercept">
@@ -45,13 +45,13 @@ export default function ProjectsOrgPage({ params }: RouteProps) {
               to={`/projects/${org.id}/${project.id}`}
               className="block rounded-xl border border-zinc-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900"
             >
-              <p className="font-mono text-[11px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+              <p className="font-mono text-[11px] uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
                 /projects/{org.id}/{project.id}
               </p>
               <p className="mt-1 text-sm font-semibold text-zinc-900 dark:text-zinc-100">
                 {project.name}
               </p>
-              <p className="text-xs text-zinc-500 dark:text-zinc-400">
+              <p className="text-xs text-zinc-600 dark:text-zinc-400">
                 {project.summary}
               </p>
             </Link>

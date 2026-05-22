@@ -24,7 +24,7 @@ export default function MailFolderPage({
         <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
           {folder.name}
         </h2>
-        <p className="text-sm text-zinc-500 dark:text-zinc-400">
+        <p className="text-sm text-zinc-600 dark:text-zinc-400">
           {folder.description}
         </p>
       </header>
@@ -43,7 +43,7 @@ export default function MailFolderPage({
 
       <ul className="divide-y divide-zinc-200 overflow-hidden rounded-xl border border-zinc-200 bg-white dark:divide-zinc-800 dark:border-zinc-800 dark:bg-zinc-900">
         {messages.length === 0 ? (
-          <li className="p-4 text-sm text-zinc-500 dark:text-zinc-400">
+          <li className="p-4 text-sm text-zinc-600 dark:text-zinc-400">
             No messages in this folder.
           </li>
         ) : (
@@ -60,11 +60,11 @@ export default function MailFolderPage({
                   <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
                     {message.subject}
                   </p>
-                  <span className="font-mono text-[11px] text-zinc-500 dark:text-zinc-400">
+                  <span className="font-mono text-[11px] text-zinc-600 dark:text-zinc-400">
                     {message.from}
                   </span>
                 </div>
-                <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                <p className="text-xs text-zinc-600 dark:text-zinc-400">
                   {message.preview}
                 </p>
               </Link>

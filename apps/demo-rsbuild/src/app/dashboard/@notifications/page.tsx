@@ -17,7 +17,7 @@ export default function NotificationsHome() {
             className="flex justify-between text-sm text-zinc-700 dark:text-zinc-300"
           >
             <span>{alert.text}</span>
-            <span className="font-mono text-xs text-zinc-500 dark:text-zinc-400">
+            <span className="font-mono text-xs text-zinc-600 dark:text-zinc-400">
               {alert.when}
             </span>
           </li>

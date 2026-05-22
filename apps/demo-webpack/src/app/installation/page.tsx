@@ -5,7 +5,7 @@ export default function InstallationPage() {
   return (
     <>
       <header className="space-y-3">
-        <p className="font-mono text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+        <p className="font-mono text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
           @evolonix/react-router-next
         </p>
         <h1 className="text-2xl font-semibold text-zinc-900 md:text-3xl dark:text-zinc-100">
@@ -164,7 +164,7 @@ module.exports = (_env, argv) => {
         <CodeBlock filename="postcss.config.cjs">{`module.exports = {
   plugins: { "@tailwindcss/postcss": {} },
 };`}</CodeBlock>
-        <p className="text-xs text-zinc-500 dark:text-zinc-400">
+        <p className="text-xs text-zinc-600 dark:text-zinc-400">
           The <code className="font-mono">require</code> at the top of the
           config will throw if the codegen hasn't run yet — that's the desired
           failure mode. The <code className="font-mono">prebuild</code> hook and

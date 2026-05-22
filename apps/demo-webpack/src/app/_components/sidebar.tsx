@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { NavLink, useLocation } from "react-router";
 
 import type { Accent } from "./explain";
@@ -139,12 +140,15 @@ function SidebarItem({ item }: { item: Item }) {
     : false;
   const pathsActive = item.matchPaths?.includes(pathname) ?? false;
 
+  const forcedActive = prefixActive || pathsActive;
+
   return (
     <NavLink
       to={item.to}
       end={item.to === "/"}
+      aria-current={forcedActive ? "page" : undefined}
       className={({ isActive }) => {
-        const active = prefixActive || pathsActive || isActive;
+        const active = forcedActive || isActive;
         return `group relative block py-1.5 pl-6 pr-6 transition ${
           active
             ? "bg-zinc-200 text-zinc-900 dark:bg-zinc-800 dark:text-zinc-100"
@@ -158,7 +162,7 @@ function SidebarItem({ item }: { item: Item }) {
       />
       <span className="block text-sm font-medium">{item.label}</span>
       {item.hint ? (
-        <span className="block font-mono text-[11px] text-zinc-400 group-aria-[current=page]:text-zinc-500 dark:text-zinc-500 dark:group-aria-[current=page]:text-zinc-400">
+        <span className="block font-mono text-[11px] text-zinc-600 group-aria-[current=page]:text-zinc-700 dark:text-zinc-500 dark:group-aria-[current=page]:text-zinc-400">
           {item.hint}
         </span>
       ) : null}
@@ -166,30 +170,53 @@ function SidebarItem({ item }: { item: Item }) {
   );
 }
 
-export interface SidebarProps {
-  open: boolean;
-  onClose: () => void;
+function SidebarGroups() {
+  return (
+    <>
+      {GROUPS.map((group) => (
+        <div key={group.title} className="space-y-1">
+          <p className="px-6 text-xs font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
+            {group.title}
+          </p>
+          <ul className="space-y-0.5">
+            {group.items.map((item) => (
+              <li key={item.to}>
+                <SidebarItem item={item} />
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </>
+  );
 }
 
-export function Sidebar({ open, onClose }: SidebarProps) {
+function SidebarFooterHint() {
+  return (
+    <div className="mx-6 mt-auto rounded-md bg-zinc-100 p-3 text-xs text-zinc-700 dark:bg-zinc-800 dark:text-zinc-400">
+      Every example is a real route under <code>src/app/</code>. Click around
+      and inspect the folder structure to see the conventions in action.
+    </div>
+  );
+}
+
+export function Sidebar() {
   return (
     <nav
       id="primary-nav"
       aria-label="Examples"
-      className={`fixed inset-y-0 left-0 md:mx-6 z-40 flex w-72 shrink-0 transform flex-col gap-6 overflow-y-auto border-x border-zinc-200 bg-white py-6 transition-transform duration-200 ease-out md:sticky md:top-0 md:h-screen md:translate-x-0 md:transform-none md:bg-white/70 md:backdrop-blur md:transition-none dark:border-zinc-800 dark:bg-zinc-900 dark:md:bg-zinc-900/70 ${
-        open ? "translate-x-0" : "-translate-x-full"
-      }`}
+      className="z-40 mx-6 hidden w-72 shrink-0 flex-col gap-6 overflow-y-auto border-x border-zinc-200 bg-white/70 py-6 backdrop-blur md:sticky md:top-0 md:flex md:h-screen dark:border-zinc-800 dark:bg-zinc-900/70"
     >
-      <div className="hidden flex-col gap-1 px-6 md:flex">
+      <div className="flex flex-col gap-1 px-6">
         <a
           href="/react-router-next/"
-          className="-mb-1 inline-flex w-fit items-center gap-1 whitespace-nowrap text-xs text-zinc-500 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+          className="-mb-1 inline-flex w-fit items-center gap-1 whitespace-nowrap text-xs text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
         >
           <span aria-hidden>←</span>
           Back to overview
         </a>
         <div className="flex items-center justify-between gap-3">
-          <span className="font-mono text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+          <span className="font-mono text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
             evolonix
           </span>
           <div className="flex items-center gap-1.5">
@@ -201,25 +228,66 @@ export function Sidebar({ open, onClose }: SidebarProps) {
           <span className="block text-lg font-semibold text-zinc-900 dark:text-zinc-100">
             react-router-next
           </span>
-          <span className="block text-xs text-zinc-500 dark:text-zinc-400">
+          <span className="block text-xs text-zinc-600 dark:text-zinc-400">
             demo & playground
           </span>
         </NavLink>
       </div>
-      <div className="flex flex-col gap-1 px-6 md:hidden">
+      <SidebarGroups />
+      <SidebarFooterHint />
+    </nav>
+  );
+}
+
+export interface MobileNavDialogProps {
+  open: boolean;
+  onClose: () => void;
+}
+
+export function MobileNavDialog({ open, onClose }: MobileNavDialogProps) {
+  const dialogRef = useRef<HTMLDialogElement>(null);
+
+  useEffect(() => {
+    const el = dialogRef.current;
+    if (!el) return;
+    if (open && !el.open) el.showModal();
+    if (!open && el.open) el.close();
+    const onCancel = (event: Event) => {
+      event.preventDefault();
+      onClose();
+    };
+    const onClick = (event: MouseEvent) => {
+      if (event.target === el) onClose();
+    };
+    el.addEventListener("cancel", onCancel);
+    el.addEventListener("click", onClick);
+    return () => {
+      el.removeEventListener("cancel", onCancel);
+      el.removeEventListener("click", onClick);
+    };
+  }, [open, onClose]);
+
+  return (
+    <dialog
+      ref={dialogRef}
+      aria-label="Examples"
+      className="fixed top-0 left-0 m-0 flex h-screen max-h-screen w-72 max-w-full flex-col gap-6 overflow-y-auto border-x border-zinc-200 bg-white px-0 py-6 backdrop:bg-zinc-900/50 backdrop:backdrop-blur-sm md:hidden dark:border-zinc-800 dark:bg-zinc-900"
+    >
+      <div className="flex flex-col gap-1 px-6">
         <a
           href="/react-router-next/"
-          className="-mb-1 inline-flex w-fit items-center gap-1 whitespace-nowrap text-xs text-zinc-500 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+          className="-mb-1 inline-flex w-fit items-center gap-1 whitespace-nowrap text-xs text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
         >
           <span aria-hidden>←</span>
           Back to overview
         </a>
         <div className="flex items-center justify-between">
-          <p className="font-mono text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+          <p className="font-mono text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
             Examples
           </p>
           <button
             type="button"
+            autoFocus
             onClick={onClose}
             aria-label="Close navigation"
             className="-mr-1 inline-flex h-8 w-8 items-center justify-center rounded-md text-zinc-500 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
@@ -239,24 +307,8 @@ export function Sidebar({ open, onClose }: SidebarProps) {
           </button>
         </div>
       </div>
-      {GROUPS.map((group) => (
-        <div key={group.title} className="space-y-1">
-          <p className="px-6 text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
-            {group.title}
-          </p>
-          <ul className="space-y-0.5">
-            {group.items.map((item) => (
-              <li key={item.to}>
-                <SidebarItem item={item} />
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
-      <div className="mx-6 mt-auto rounded-md bg-zinc-100 p-3 text-xs text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
-        Every example is a real route under <code>src/app/</code>. Click around
-        and inspect the folder structure to see the conventions in action.
-      </div>
-    </nav>
+      <SidebarGroups />
+      <SidebarFooterHint />
+    </dialog>
   );
 }

@@ -49,7 +49,7 @@ export function usePosts() {
               to={generateUrl("posts/[postId]", { postId: post.id })}
               className="block"
             >
-              <p className="font-mono text-[11px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+              <p className="font-mono text-[11px] uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
                 /posts/{post.id}
               </p>
               <h3 className="mt-1 text-base font-semibold text-zinc-900 dark:text-zinc-100">

@@ -60,7 +60,7 @@ export default function PlaygroundPage() {
         </Link>
       </div>
 
-      <p className="text-xs text-zinc-500 dark:text-zinc-400">
+      <p className="text-xs text-zinc-600 dark:text-zinc-400">
         Try refreshing while the overlay is open — the slot's{" "}
         <code className="font-mono">default.tsx</code> takes over and the URL
         renders as a regular page.

@@ -17,7 +17,7 @@ const STOPS = [
 
 export default function PlaygroundTourOverlay() {
   return (
-    <Dialog title="The tour">
+    <Dialog title="The tour" closeTo="/playground">
       <ol className="space-y-3">
         {STOPS.map((stop) => (
           <li
@@ -33,7 +33,7 @@ export default function PlaygroundTourOverlay() {
           </li>
         ))}
       </ol>
-      <p className="mt-4 text-xs text-zinc-500 dark:text-zinc-400">
+      <p className="mt-4 text-xs text-zinc-600 dark:text-zinc-400">
         Rendered by{" "}
         <code className="font-mono">
           (overlay-host)/@overlay/(...)tour/page.tsx

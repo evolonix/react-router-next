@@ -19,7 +19,7 @@ export default function MailMessagePage({ params }: RouteProps) {
         <h1 className="text-xl font-semibold text-zinc-900 md:text-2xl dark:text-zinc-100">
           {message.subject}
         </h1>
-        <p className="text-sm text-zinc-500 dark:text-zinc-400">
+        <p className="text-sm text-zinc-600 dark:text-zinc-400">
           From <span className="font-medium">{message.from}</span>
         </p>
       </header>

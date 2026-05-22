@@ -3,7 +3,7 @@ import { Outlet, ScrollRestoration, useLocation } from "react-router";
 
 import { MobileTopBar } from "./_components/mobile-top-bar";
 import { ProgressBar } from "./_components/progress-bar";
-import { Sidebar } from "./_components/sidebar";
+import { MobileNavDialog, Sidebar } from "./_components/sidebar";
 import { ThemeProvider } from "./_components/theme";
 
 export default function RootLayout() {
@@ -13,20 +13,6 @@ export default function RootLayout() {
   useEffect(() => {
     setNavOpen(false);
   }, [pathname]);
-
-  useEffect(() => {
-    if (!navOpen) return;
-    const previous = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    function onKey(event: KeyboardEvent) {
-      if (event.key === "Escape") setNavOpen(false);
-    }
-    document.addEventListener("keydown", onKey);
-    return () => {
-      document.body.style.overflow = previous;
-      document.removeEventListener("keydown", onKey);
-    };
-  }, [navOpen]);
 
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 768px)");
@@ -40,27 +26,30 @@ export default function RootLayout() {
   return (
     <ThemeProvider>
       <div className="min-h-screen bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100">
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-brand-700 focus:px-3 focus:py-2 focus:text-sm focus:font-semibold focus:text-white focus:shadow-lg focus:outline-2 focus:outline-offset-2 focus:outline-brand-500"
+        >
+          Skip to content
+        </a>
         <ProgressBar />
         <MobileTopBar
           menuOpen={navOpen}
           onMenuClick={() => setNavOpen((v) => !v)}
         />
         <div className="mx-auto flex max-w-6xl">
-          <Sidebar open={navOpen} onClose={() => setNavOpen(false)} />
-          {navOpen ? (
-            <button
-              type="button"
-              aria-label="Close navigation"
-              onClick={() => setNavOpen(false)}
-              className="fixed inset-0 z-30 bg-zinc-900/50 backdrop-blur-sm md:hidden"
-            />
-          ) : null}
-          <main className="min-w-0 flex-1 px-4 py-6 md:px-6 md:py-10">
+          <Sidebar />
+          <main
+            id="main-content"
+            tabIndex={-1}
+            className="min-w-0 flex-1 px-4 py-6 md:px-6 md:py-10"
+          >
             <div className="space-y-6">
               <Outlet />
             </div>
           </main>
         </div>
+        <MobileNavDialog open={navOpen} onClose={() => setNavOpen(false)} />
         <ScrollRestoration />
       </div>
     </ThemeProvider>

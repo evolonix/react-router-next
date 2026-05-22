@@ -36,7 +36,7 @@ export default function PostPage({ params }: RouteProps) {
 export default function PostPage({ params }: RouteProps) {
   return <h1>Post {params.postId}</h1>;
 }`}</CodeBlock>
-        <p className="text-xs text-zinc-500 dark:text-zinc-400">
+        <p className="text-xs text-zinc-600 dark:text-zinc-400">
           Prefer a hook? The package also re-exports a generic{" "}
           <code className="font-mono">useRouteParams("posts/[postId]")</code>{" "}
           that returns the same typed shape.
@@ -44,7 +44,7 @@ export default function PostPage({ params }: RouteProps) {
       </Explain>
 
       <article className="space-y-2 rounded-xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
-        <p className="font-mono text-[11px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+        <p className="font-mono text-[11px] uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
           /posts/{params.postId}
         </p>
         <h1 className="text-xl font-semibold text-zinc-900 dark:text-zinc-100">

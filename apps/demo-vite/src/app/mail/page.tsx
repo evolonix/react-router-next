@@ -55,13 +55,13 @@ export default function MailHome() {
               to={generateFolder({ folderId: folder.id })}
               className="block rounded-xl border border-zinc-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900"
             >
-              <p className="font-mono text-[11px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+              <p className="font-mono text-[11px] uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
                 /mail/{folder.id}
               </p>
               <p className="mt-1 text-sm font-semibold text-zinc-900 dark:text-zinc-100">
                 {folder.name}
               </p>
-              <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+              <p className="mt-1 text-xs text-zinc-600 dark:text-zinc-400">
                 {folder.description}
               </p>
             </Link>
