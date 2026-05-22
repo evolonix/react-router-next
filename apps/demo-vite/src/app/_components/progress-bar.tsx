@@ -29,7 +29,7 @@ export function ProgressBar() {
       className="pointer-events-none fixed inset-x-0 top-0 z-50 h-0.5 overflow-hidden"
     >
       <div
-        className="h-full origin-left bg-accent-routing transition-[transform,opacity] duration-300 ease-out"
+        className="h-full origin-left bg-linear-to-r from-blue-500 to-sky-400 transition-[transform,opacity] duration-300 ease-out"
         style={{
           transform: `scaleX(${progress / 100})`,
           opacity: progress === 0 || progress >= 100 ? 0 : 1,

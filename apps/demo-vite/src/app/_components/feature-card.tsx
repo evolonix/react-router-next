@@ -4,12 +4,12 @@ import { Link } from "react-router";
 import type { Accent } from "./explain";
 
 const ACCENT_BAR: Record<Accent, string> = {
-  neutral: "bg-zinc-300 dark:bg-zinc-600",
-  routing: "bg-accent-routing",
-  data: "bg-accent-data",
-  error: "bg-accent-error",
-  parallel: "bg-accent-parallel",
-  intercept: "bg-accent-intercept",
+  neutral: "bg-linear-to-r from-zinc-400 to-zinc-300",
+  routing: "bg-linear-to-r from-blue-500 to-sky-400",
+  data: "bg-linear-to-r from-emerald-500 to-green-400",
+  error: "bg-linear-to-r from-emerald-500 to-green-400",
+  parallel: "bg-linear-to-r from-fuchsia-500 to-pink-400",
+  intercept: "bg-linear-to-r from-amber-500 to-orange-400",
 };
 
 export interface FeatureCardProps {

@@ -11,32 +11,32 @@ export type Accent =
 const ACCENT: Record<Accent, { chip: string; bar: string; label: string }> = {
   neutral: {
     chip: "bg-zinc-200/60 text-zinc-700 ring-zinc-300 dark:bg-zinc-700/60 dark:text-zinc-200 dark:ring-zinc-600",
-    bar: "bg-zinc-300 dark:bg-zinc-600",
+    bar: "bg-linear-to-r from-zinc-400 to-zinc-300",
     label: "Overview",
   },
   routing: {
     chip: "bg-accent-routing/15 text-accent-routing ring-accent-routing/30",
-    bar: "bg-accent-routing",
+    bar: "bg-linear-to-r from-blue-500 to-sky-400",
     label: "Routing",
   },
   data: {
     chip: "bg-accent-data/15 text-accent-data ring-accent-data/30",
-    bar: "bg-accent-data",
+    bar: "bg-linear-to-r from-emerald-500 to-green-400",
     label: "Data",
   },
   error: {
     chip: "bg-accent-error/15 text-accent-error ring-accent-error/30",
-    bar: "bg-accent-error",
+    bar: "bg-linear-to-r from-emerald-500 to-green-400",
     label: "Errors",
   },
   parallel: {
     chip: "bg-accent-parallel/15 text-accent-parallel ring-accent-parallel/30",
-    bar: "bg-accent-parallel",
+    bar: "bg-linear-to-r from-fuchsia-500 to-pink-400",
     label: "Parallel",
   },
   intercept: {
     chip: "bg-accent-intercept/15 text-accent-intercept ring-accent-intercept/30",
-    bar: "bg-accent-intercept",
+    bar: "bg-linear-to-r from-amber-500 to-orange-400",
     label: "Intercept",
   },
 };

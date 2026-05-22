@@ -5,12 +5,12 @@ import { GitHubLink } from "./github-link";
 import { ThemeSwitcher } from "./theme-switcher";
 
 const ACCENT_BAR: Record<Accent, string> = {
-  neutral: "bg-zinc-300 dark:bg-zinc-600",
-  routing: "bg-accent-routing",
-  data: "bg-accent-data",
-  error: "bg-accent-error",
-  parallel: "bg-accent-parallel",
-  intercept: "bg-accent-intercept",
+  neutral: "bg-linear-to-b from-zinc-400 to-zinc-300",
+  routing: "bg-linear-to-b from-blue-500 to-sky-400",
+  data: "bg-linear-to-b from-emerald-500 to-green-400",
+  error: "bg-linear-to-b from-emerald-500 to-green-400",
+  parallel: "bg-linear-to-b from-fuchsia-500 to-pink-400",
+  intercept: "bg-linear-to-b from-amber-500 to-orange-400",
 };
 
 interface Item {

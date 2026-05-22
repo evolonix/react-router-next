@@ -16,11 +16,11 @@
   --color-accent-400: oklch(0.84 0.14 200);
   --color-accent-500: oklch(0.78 0.16 200);
   --color-accent-600: oklch(0.7 0.16 200);
-  --color-accent-routing: oklch(0.72 0.18 250);
-  --color-accent-data: oklch(0.72 0.18 150);
-  --color-accent-error: oklch(0.72 0.18 25);
-  --color-accent-parallel: oklch(0.72 0.18 320);
-  --color-accent-intercept: oklch(0.78 0.18 80);
+  --color-accent-routing: oklch(0.623 0.214 259.815);
+  --color-accent-data: oklch(0.696 0.17 162.48);
+  --color-accent-error: oklch(0.792 0.209 151.711);
+  --color-accent-parallel: oklch(0.667 0.295 322.15);
+  --color-accent-intercept: oklch(0.769 0.188 70.08);
 }
 
 html,
