@@ -56,7 +56,7 @@ jobs:
       - run: npm run build
       - uses: actions/upload-pages-artifact@v5
         with:
-          # `npm run build` assembles the landing-page demo at the root with
+          # `npm run build` assembles the landing-page showcase at the root with
           # the three bundler demos at /vite/, /rsbuild/, /webpack/.
           path: dist-pages
       - id: deployment

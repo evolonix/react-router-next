@@ -22,10 +22,13 @@ This is an npm workspaces monorepo:
 ├── packages/
 │   └── react-router-next/   # the published library (runtime + Vite plugin + CLI)
 └── apps/
-    └── demo/                # example app that exercises every feature
+    ├── showcase/            # landing page (deployed at /)
+    ├── demo-vite/           # Vite + plugin demo
+    ├── demo-rsbuild/        # Rsbuild demo
+    └── demo-webpack/        # Webpack 5 demo
 ```
 
-Only `packages/react-router-next` ships to npm. The `demo` app is a private workspace used for development and is excluded from the changesets release flow (see [.changeset/config.json](.changeset/config.json)).
+Only `packages/react-router-next` ships to npm. The `showcase` and `demo-*` apps are private workspaces used for development and excluded from the changesets release flow (see [.changeset/config.json](.changeset/config.json)).
 
 ## Prerequisites
 
@@ -46,9 +49,9 @@ Per-workspace commands:
 ```sh
 npm run build -w @evolonix/react-router-next   # build the library (tsup → dist/)
 npm run dev   -w @evolonix/react-router-next   # tsup --watch
-npm run build -w demo                          # tsc -b && vite build
-npm run dev   -w demo                          # vite dev server
-npm run typegen -w demo                        # regenerate routes.d.ts shim
+npm run build -w showcase                      # tsc -b && vite build (landing page)
+npm run dev   -w demo-vite                     # vite dev server (bundler demo)
+npm run typegen -w demo-vite                   # regenerate routes.d.ts shim
 ```
 
 ## Quality gates
@@ -59,7 +62,7 @@ CI runs the same scripts you can run locally before pushing:
 npm run format:check   # prettier --check .
 npm run lint           # eslint across workspaces
 npm run typecheck      # tsc --noEmit on the library
-npm run build          # full build of package + demo
+npm run build          # full build of package + apps
 ```
 
 All four must pass for a PR to be mergeable. To auto-fix formatting:
@@ -87,7 +90,7 @@ When your PR merges to `main`, the release workflow opens (or updates) a `chore(
 - **Keep PRs focused.** One logical change per PR; don't bundle unrelated refactors.
 - **Link the issue** the PR closes (`Closes #123`) when applicable.
 - **Fill out the [PR template](.github/PULL_REQUEST_TEMPLATE.md).**
-- **Update or add tests** when you change behavior. If a feature is hard to test in isolation, demonstrate it in `apps/demo/`.
+- **Update or add tests** when you change behavior. If a feature is hard to test in isolation, demonstrate it in `apps/demo-vite/`.
 - **Update docs** — both [packages/react-router-next/README.md](packages/react-router-next/README.md) and any relevant section of the root [README.md](README.md) — when you change a public API or convention.
 - **Pass CI before requesting review.** A red CI is a non-starter.
 

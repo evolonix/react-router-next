@@ -1,6 +1,6 @@
 # react-router-next
 
-Workspace monorepo containing **`@evolonix/react-router-next`** — a publishable npm package that brings Next.js-style filesystem routing to React Router 7 — alongside a **landing-page demo** and three **bundler demos** (Vite, Rsbuild, Webpack) that exercise every feature of the package.
+Workspace monorepo containing **`@evolonix/react-router-next`** — a publishable npm package that brings Next.js-style filesystem routing to React Router 7 — alongside a **landing-page showcase** and three **bundler demos** (Vite, Rsbuild, Webpack) that exercise every feature of the package.
 
 **Live demo:** <https://evolonix.com/react-router-next/>
 
@@ -11,7 +11,7 @@ Workspace monorepo containing **`@evolonix/react-router-next`** — a publishabl
 ├── packages/
 │   └── react-router-next/   # published library + Vite plugin + CLI
 └── apps/
-    ├── demo/                # landing page (deployed at /)
+    ├── showcase/            # landing page (deployed at /)
     ├── demo-vite/           # Vite + plugin demo (deployed at /vite/)
     ├── demo-rsbuild/        # Rsbuild (Rspack) demo (deployed at /rsbuild/)
     └── demo-webpack/        # Webpack 5 demo (deployed at /webpack/)
@@ -28,7 +28,7 @@ The library that ships to npm. See [`packages/react-router-next/README.md`](pack
 
 How types reach consumers is hybrid: under Vite, the plugin serves per-route virtual modules (`virtual:react-router-next/<route-key>`); for type-checking, the plugin and CLI emit a single ambient `routes.d.ts` shim into `node_modules/.react-router-next/`, so `tsc` and editors infer per-route param shapes without Vite running. Non-Vite consumers can skip the virtual modules entirely and import `RouteProps<"posts/[postId]">` / `useRouteParams("posts/[postId]")` / `generateUrl("posts/[postId]", …)` directly.
 
-### `apps/demo/`
+### `apps/showcase/`
 
 A small Vite + React 19 + Tailwind v4 landing page that introduces the package, walks through the Vite quickstart, and links to each bundler demo. Deployed at the repo's GitHub Pages root.
 
@@ -70,7 +70,7 @@ Per-workspace commands use npm workspaces:
 ```sh
 npm run build   -w @evolonix/react-router-next   # build the library (tsup → dist/)
 npm run dev     -w @evolonix/react-router-next   # tsup --watch
-npm run build   -w demo                          # build the landing page
+npm run build   -w showcase                      # build the landing page
 npm run dev     -w demo-vite                     # vite dev server (port 5173)
 npm run dev     -w demo-rsbuild                  # rsbuild dev server (port 3000)
 npm run dev     -w demo-webpack                  # webpack-dev-server (port 8080)

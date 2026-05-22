@@ -8,8 +8,14 @@ const GITHUB_URL = "https://github.com/evolonix/react-router-next";
 export function App(): JSX.Element {
   return (
     <div className="flex min-h-screen flex-col">
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-brand-700 focus:px-3 focus:py-2 focus:text-sm focus:font-semibold focus:text-white focus:shadow-lg focus:outline-2 focus:outline-offset-2 focus:outline-brand-500"
+      >
+        Skip to content
+      </a>
       <Header />
-      <main className="flex-1">
+      <main id="main-content" tabIndex={-1} className="flex-1">
         <Hero />
         <div className="mx-auto max-w-6xl space-y-20 px-4 pb-20 sm:px-6">
           <Quickstart />
@@ -25,15 +31,15 @@ export function App(): JSX.Element {
 
 function Hero() {
   return (
-    <section className="from-brand-500 to-accent-500 relative isolate overflow-hidden bg-linear-to-br via-fuchsia-500 text-white">
+    <section className="from-brand-600 to-brand-800 relative isolate overflow-hidden bg-linear-to-br via-fuchsia-700 text-white">
       <div className="mx-auto max-w-6xl space-y-6 px-4 py-24 sm:px-6 sm:py-32">
-        <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-white/80">
+        <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-white">
           @evolonix/react-router-next
         </p>
         <h1 className="text-4xl font-bold leading-tight tracking-tight sm:text-5xl md:text-6xl">
           Next.js-style filesystem routing for React Router 7
         </h1>
-        <p className="max-w-2xl text-base leading-relaxed text-white/90 sm:text-lg">
+        <p className="max-w-2xl text-base leading-relaxed text-white sm:text-lg">
           Drop a <code className="font-mono">page.tsx</code> into a folder, get
           a typed route — including nested layouts, parallel routes (
           <code className="font-mono">@slot</code>), intercepting routes (
@@ -46,7 +52,7 @@ function Hero() {
         <div className="flex flex-wrap gap-3 pt-2">
           <a
             href={`${BASE}vite/`}
-            className="inline-flex items-center rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-brand-700 shadow-lg ring-1 ring-white/20 transition hover:bg-zinc-50"
+            className="inline-flex items-center rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-brand-800 shadow-lg ring-1 ring-white/20 transition hover:bg-zinc-50"
           >
             Open the Vite demo →
           </a>
@@ -54,7 +60,7 @@ function Hero() {
             href={GITHUB_URL}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center rounded-full bg-white/10 px-5 py-2.5 text-sm font-semibold text-white ring-1 ring-white/30 transition hover:bg-white/20"
+            className="inline-flex items-center rounded-full bg-white/20 px-5 py-2.5 text-sm font-semibold text-white ring-1 ring-white/60 transition hover:bg-white/30"
           >
             View on GitHub
           </a>
@@ -302,7 +308,7 @@ function SectionHeader({
 }) {
   return (
     <header className="space-y-2">
-      <p className="text-brand-600 dark:text-brand-300 text-xs font-semibold uppercase tracking-[0.18em]">
+      <p className="text-brand-800 dark:text-brand-300 text-xs font-semibold uppercase tracking-[0.18em]">
         {eyebrow}
       </p>
       <h2 className="text-2xl font-bold tracking-tight text-zinc-900 sm:text-3xl dark:text-zinc-50">
@@ -330,7 +336,7 @@ function Step({
     <li className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
       <div className="space-y-3 p-6">
         <header className="flex items-center gap-2">
-          <span className="bg-brand-100 text-brand-700 dark:bg-brand-900/60 dark:text-brand-200 inline-flex h-6 min-w-6 items-center justify-center whitespace-nowrap rounded-full px-2 text-xs font-semibold">
+          <span className="bg-brand-100 text-brand-800 dark:bg-brand-900/60 dark:text-brand-200 inline-flex h-6 min-w-6 items-center justify-center whitespace-nowrap rounded-full px-2 text-xs font-semibold">
             {n}
           </span>
           <h3 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
@@ -355,7 +361,7 @@ function Code({
   return (
     <div className="overflow-hidden rounded-lg border border-zinc-200 bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-950">
       {filename ? (
-        <div className="flex items-center justify-between border-b border-zinc-200 px-3 py-1.5 text-[11px] font-mono uppercase tracking-wider text-zinc-500 dark:border-zinc-800 dark:text-zinc-400">
+        <div className="flex items-center justify-between border-b border-zinc-200 px-3 py-1.5 text-[11px] font-mono uppercase tracking-wider text-zinc-700 dark:border-zinc-800 dark:text-zinc-400">
           <span>{filename}</span>
           <span className="opacity-70">{lang}</span>
         </div>
@@ -396,8 +402,8 @@ function DemoCard({
         <span
           className={`whitespace-nowrap rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider ring-1 ring-inset ${
             recommended
-              ? "bg-brand-600 text-white ring-brand-700 dark:bg-brand-500 dark:ring-brand-400"
-              : "bg-zinc-100 text-zinc-600 ring-zinc-200 dark:bg-zinc-800 dark:text-zinc-300 dark:ring-zinc-700"
+              ? "bg-brand-800 text-white ring-brand-700 dark:bg-brand-700 dark:ring-brand-400"
+              : "bg-zinc-100 text-zinc-700 ring-zinc-200 dark:bg-zinc-800 dark:text-zinc-300 dark:ring-zinc-700"
           }`}
         >
           {tagline}
@@ -436,7 +442,7 @@ function Feature({
     <div className="overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
       <div className={`h-1 ${ACCENT_BAR[accent]}`} />
       <div className="space-y-1 p-4">
-        <p className="font-mono text-[11px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+        <p className="font-mono text-[11px] uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
           {pattern}
         </p>
         <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">

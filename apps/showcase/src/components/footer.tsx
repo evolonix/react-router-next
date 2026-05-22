@@ -10,7 +10,7 @@ export function Footer() {
           &copy; {year}{" "}
           <a
             href="https://evolonix.com"
-            className="hover:text-brand-600 dark:hover:text-brand-300 font-medium transition-colors"
+            className="hover:text-brand-700 dark:hover:text-brand-300 font-medium transition-colors"
           >
             Evolonix
           </a>
@@ -21,7 +21,7 @@ export function Footer() {
             href={GITHUB_URL}
             target="_blank"
             rel="noreferrer"
-            className="hover:text-brand-600 dark:hover:text-brand-300 transition-colors"
+            className="hover:text-brand-700 dark:hover:text-brand-300 transition-colors"
           >
             Source
           </a>
@@ -29,7 +29,7 @@ export function Footer() {
             href={NPM_URL}
             target="_blank"
             rel="noreferrer"
-            className="hover:text-brand-600 dark:hover:text-brand-300 transition-colors"
+            className="hover:text-brand-700 dark:hover:text-brand-300 transition-colors"
           >
             npm
           </a>
@@ -37,7 +37,7 @@ export function Footer() {
             href={`${GITHUB_URL}/issues`}
             target="_blank"
             rel="noreferrer"
-            className="hover:text-brand-600 dark:hover:text-brand-300 transition-colors"
+            className="hover:text-brand-700 dark:hover:text-brand-300 transition-colors"
           >
             Issues
           </a>

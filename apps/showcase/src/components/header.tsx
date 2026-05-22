@@ -25,7 +25,7 @@ export function Header() {
             className="h-9 w-9 shrink-0"
           />
           <span className="flex flex-col leading-tight">
-            <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-zinc-500 dark:text-zinc-400">
+            <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-zinc-600 dark:text-zinc-400">
               Evolonix
             </span>
             <span className="group-hover:text-brand-700 dark:group-hover:text-brand-300 text-sm font-semibold text-zinc-900 dark:text-zinc-100">
@@ -42,7 +42,7 @@ export function Header() {
             <a
               key={item.href}
               href={item.href}
-              className="hover:text-brand-600 dark:hover:text-brand-300 rounded-full px-3 py-1.5 text-sm font-medium text-zinc-600 transition-colors dark:text-zinc-400"
+              className="hover:text-brand-700 dark:hover:text-brand-300 rounded-full px-3 py-1.5 text-sm font-medium text-zinc-600 transition-colors dark:text-zinc-400"
             >
               {item.label}
             </a>

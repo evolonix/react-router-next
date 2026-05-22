@@ -31,7 +31,7 @@ Run `npx changeset` and commit the generated file. See CONTRIBUTING.md for detai
 
 <!--
 How did you verify this change? Examples:
-- Ran the demo at apps/demo and exercised <feature>
+- Ran the demo at apps/demo-vite and exercised <feature>
 - Added/updated tests in <path>
 - `npm run build && npm run typecheck` pass locally
 -->

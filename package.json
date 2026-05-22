@@ -15,8 +15,8 @@
   "scripts": {
     "build": "npm run build:pkg && npm run build:apps && npm run build:pages",
     "build:pkg": "npm run build -w @evolonix/react-router-next",
-    "build:apps": "npm run build -w demo && npm run build -w demo-vite && npm run build -w demo-rsbuild && npm run build -w demo-webpack",
-    "build:pages": "rm -rf dist-pages && mkdir -p dist-pages/vite dist-pages/rsbuild dist-pages/webpack && cp -R apps/demo/dist/. dist-pages/ && cp -R apps/demo-vite/dist/. dist-pages/vite/ && cp -R apps/demo-rsbuild/dist/. dist-pages/rsbuild/ && cp -R apps/demo-webpack/dist/. dist-pages/webpack/",
+    "build:apps": "npm run build -w showcase && npm run build -w demo-vite && npm run build -w demo-rsbuild && npm run build -w demo-webpack",
+    "build:pages": "rm -rf dist-pages && mkdir -p dist-pages/vite dist-pages/rsbuild dist-pages/webpack && cp -R apps/showcase/dist/. dist-pages/ && cp -R apps/demo-vite/dist/. dist-pages/vite/ && cp -R apps/demo-rsbuild/dist/. dist-pages/rsbuild/ && cp -R apps/demo-webpack/dist/. dist-pages/webpack/",
     "preview:pages": "node scripts/preview-pages.mjs",
     "dev": "concurrently -n pkg,demo -c blue,green \"npm run dev -w @evolonix/react-router-next\" \"npm run dev -w demo-vite\"",
     "lint": "npm run lint --workspaces --if-present",
