@@ -271,7 +271,7 @@ export function MobileNavDialog({ open, onClose }: MobileNavDialogProps) {
     <dialog
       ref={dialogRef}
       aria-label="Examples"
-      className="fixed top-0 left-0 m-0 flex h-screen max-h-screen w-72 max-w-full flex-col gap-6 overflow-y-auto border-x border-zinc-200 bg-white px-0 py-6 backdrop:bg-zinc-900/50 backdrop:backdrop-blur-sm md:hidden dark:border-zinc-800 dark:bg-zinc-900"
+      className="fixed top-0 left-0 m-0 h-screen max-h-screen w-72 max-w-full flex-col gap-6 overflow-y-auto border-x border-zinc-200 bg-white px-0 py-6 backdrop:bg-zinc-900/50 backdrop:backdrop-blur-sm open:flex md:hidden dark:border-zinc-800 dark:bg-zinc-900"
     >
       <div className="flex flex-col gap-1 px-6">
         <a
