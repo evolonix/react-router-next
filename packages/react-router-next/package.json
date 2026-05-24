@@ -50,7 +50,7 @@
   },
   "homepage": "https://github.com/evolonix/react-router-next#readme",
   "peerDependencies": {
-    "chokidar": ">=3",
+    "chokidar": "^5.0.0",
     "react": ">=19",
     "react-dom": ">=19",
     "react-router": ">=7",
