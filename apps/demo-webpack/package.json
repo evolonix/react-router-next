@@ -17,7 +17,7 @@
     "shiki": "^4.0.2"
   },
   "devDependencies": {
-    "@swc/core": "^1.13.20",
+    "@swc/core": "^1.15.40",
     "@tailwindcss/postcss": "^4.3.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
