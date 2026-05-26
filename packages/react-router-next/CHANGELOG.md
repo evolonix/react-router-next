@@ -1,5 +1,13 @@
 # @evolonix/react-router-next
 
+## 3.3.0
+
+### Minor Changes
+
+- [`34ff3e8`](https://github.com/evolonix/react-router-next/commit/34ff3e8f0bcef628227ee284129f9b3f0f139345) Thanks [@jasonruesch](https://github.com/jasonruesch)! - feat(app-router): export `generate` to match the per-route `generate()` helper; keep `generateUrl` as a deprecated alias
+
+  Use `generate(routeKey, params)` from the package directly to mirror the name of the per-route `generate(params)` helper emitted by the Vite plugin and codegen CLI. `params` is optional, matching React Router's `generatePath` signature — omit it for static routes. The previous `generateUrl` export is still available and forwards to `generate`, but is marked `@deprecated` — migrate at your own pace.
+
 ## 3.2.0
 
 ### Minor Changes

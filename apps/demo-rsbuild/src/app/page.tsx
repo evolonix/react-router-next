@@ -104,7 +104,7 @@ export default defineConfig({
           </code>{" "}
           ergonomic (see{" "}
           <Link
-            to={generate("/installation", {})}
+            to={generate("/installation")}
             className="font-medium text-zinc-900 underline decoration-zinc-400 underline-offset-2 hover:decoration-zinc-900 dark:text-zinc-100 dark:decoration-zinc-500 dark:hover:decoration-zinc-100"
           >
             Installation

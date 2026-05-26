@@ -2,9 +2,9 @@ import type { RouteParams } from "./use-route-params";
 
 export function generate<S extends string>(
   route: S,
-  params: RouteParams<S>,
+  params?: RouteParams<S>,
 ): string {
-  const p = params as Record<string, string | string[] | undefined>;
+  const p = (params ?? {}) as Record<string, string | string[] | undefined>;
   const out: string[] = [];
   for (const seg of route.split("/")) {
     if (seg === "") continue;
