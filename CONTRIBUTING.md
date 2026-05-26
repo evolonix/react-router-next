@@ -54,6 +54,16 @@ npm run dev   -w demo-vite                     # vite dev server (bundler demo)
 npm run typegen -w demo-vite                   # regenerate routes.d.ts shim
 ```
 
+## Known dev-only warnings
+
+Running a demo that uses **parallel routes (`@slot`)** — including the canonical intercepting-route-in-a-slot pattern — prints this in the **browser** console in development:
+
+```
+You rendered descendant <Routes> (or called `useRoutes()`) at "…" (under <Route path="…">) but the parent route path has no trailing "*".
+```
+
+This is an expected false positive, not a regression. Slots render through `useRoutes()` (a descendant `<Routes>`) inside the layout whose generated route has a plain segment path; React Router flags any such call structurally. It's safe here because the layout route carries real path children, so it keeps matching at deeper URLs and the slot keeps rendering. The warning is dev-only and absent from production builds. See the comment at [`SlotElement` in `parallel-routes.tsx`](packages/react-router-next/src/runtime/parallel-routes.tsx) and the "Parallel routes" caveat in the [package README](packages/react-router-next/README.md) for the full rationale. Don't "fix" it by adding `/*` — a splat can't coexist with the route's path children.
+
 ## Quality gates
 
 CI runs the same scripts you can run locally before pushing:

@@ -305,6 +305,8 @@ Each slot subtree can have its own `page.tsx` files (matching the parent's URL s
 
 > **Caveat:** slot subtrees are matched via `useRoutes()` outside React Router's data router. They render alongside the main outlet but aren't part of the data-router tree. Fetch slot data with the same Suspense + `use()` pattern the rest of the app uses.
 
+> **Dev-only console warning:** because slots render through `useRoutes()` (a descendant `<Routes>`) inside the layout, React Router prints `You rendered descendant <Routes> … but the parent route path has no trailing "*"` in development. It's a false positive here: the layout's generated route carries real path children, so it keeps matching at deeper URLs and the slot keeps rendering and matching. The suggested `/*` fix doesn't apply — a splat can't coexist with those path children. The warning is dev-only (absent from production builds) and behavior is correct.
+
 ## Intercepting routes (`(.)`/`(..)`/`(...)`)
 
 A folder whose name starts with `(.)`, `(..)`, `(..)(..)`, or `(...)` is an **interceptor**: its `page.tsx` is rendered when the user soft-navigates (PUSH/REPLACE) to a target URL elsewhere in the tree. On reload, back/forward, or direct visit, the original target page renders instead. The interceptor and the target share the same routeKey and `useRouteParams`/`generate` virtual module.

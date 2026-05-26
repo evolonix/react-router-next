@@ -23,6 +23,15 @@ type LayoutWithSlots = ComponentType<{
 }>;
 
 function SlotElement({ slot }: { slot: SlotConfig }): ReactElement {
+  // This `useRoutes(...)` is a descendant `<Routes>` rendered inside the layout
+  // that owns the slot. In dev, react-router warns that the parent route path
+  // (e.g. "react-router-next") has no trailing "*", claiming child routes won't
+  // render once you navigate deeper. That doesn't apply here: the layout route
+  // is generated with real path children (its `index` and `:param` routes), so
+  // it keeps matching at deeper URLs and this slot keeps rendering and matching.
+  // The suggested "/*" fix is also incompatible — a splat can't coexist with
+  // those path children. The warning is a dev-only false positive for parallel
+  // slots; behavior is correct. See app-routes.tsx `nodeToRoute` (layout branch).
   const matched = useRoutes(slot.routes);
   const content: ReactNode = matched ?? slot.defaultElement;
   // `useRoutes(...)` doesn't honor `errorElement` (only the top-level data
