@@ -1,6 +1,9 @@
 import type { JSX, ReactNode } from "react";
+import { Card } from "./components/card";
+import { Eyebrow } from "./components/eyebrow";
 import { Footer } from "./components/footer";
 import { Header } from "./components/header";
+import { GitHubIcon } from "./components/icons";
 
 const BASE = import.meta.env.BASE_URL;
 const GITHUB_URL = "https://github.com/evolonix/react-router-next";
@@ -60,8 +63,9 @@ function Hero() {
             href={GITHUB_URL}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center rounded-full bg-white/20 px-5 py-2.5 text-sm font-semibold text-white ring-1 ring-white/60 transition hover:bg-white/30"
+            className="inline-flex items-center gap-2 rounded-full bg-white/20 px-5 py-2.5 text-sm font-semibold text-white ring-1 ring-white/60 transition hover:bg-white/30"
           >
+            <GitHubIcon className="h-4 w-4" />
             View on GitHub
           </a>
         </div>
@@ -311,9 +315,7 @@ function SectionHeader({
 }) {
   return (
     <header className="space-y-2">
-      <p className="text-brand-800 dark:text-brand-300 text-xs font-semibold uppercase tracking-[0.18em]">
-        {eyebrow}
-      </p>
+      <Eyebrow>{eyebrow}</Eyebrow>
       <h2 className="text-2xl font-bold tracking-tight text-zinc-900 sm:text-3xl dark:text-zinc-50">
         {title}
       </h2>
@@ -336,8 +338,8 @@ function Step({
   children: ReactNode;
 }) {
   return (
-    <li className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
-      <div className="space-y-3 p-6">
+    <li>
+      <Card className="space-y-3">
         <header className="flex items-center gap-2">
           <span className="bg-brand-100 text-brand-800 dark:bg-brand-900/60 dark:text-brand-200 inline-flex h-6 min-w-6 items-center justify-center whitespace-nowrap rounded-full px-2 text-xs font-semibold">
             {n}
@@ -347,7 +349,7 @@ function Step({
           </h3>
         </header>
         <div className="space-y-3">{children}</div>
-      </div>
+      </Card>
     </li>
   );
 }
@@ -392,18 +394,7 @@ function DemoCard({
   recommended?: boolean;
 }) {
   return (
-    <a
-      href={href}
-      className={`group relative flex flex-col overflow-hidden rounded-2xl border bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:bg-zinc-900 ${
-        recommended
-          ? "border-transparent"
-          : "border-zinc-200 dark:border-zinc-800"
-      }`}
-    >
-      <div
-        aria-hidden
-        className={`absolute inset-x-0 top-0 h-1 bg-linear-to-r ${tone}`}
-      />
+    <Card href={href} interactive accent={tone}>
       <div className="flex items-baseline justify-between gap-2">
         <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
           {name}
@@ -421,19 +412,20 @@ function DemoCard({
       <p className="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
         {children}
       </p>
-      <span className="group-hover:text-brand-700 dark:group-hover:text-brand-300 mt-4 text-sm font-medium text-zinc-900 transition-colors dark:text-zinc-100">
-        Open →
+      <span className="text-brand-700 dark:text-brand-300 mt-4 inline-flex items-center gap-1 text-sm font-medium transition-all group-hover:gap-2">
+        Open
+        <span aria-hidden>→</span>
       </span>
-    </a>
+    </Card>
   );
 }
 
-const ACCENT_BAR: Record<string, string> = {
-  routing: "bg-accent-routing",
-  data: "bg-accent-data",
-  error: "bg-accent-error",
-  parallel: "bg-accent-parallel",
-  intercept: "bg-accent-intercept",
+const FEATURE_ACCENT: Record<string, string> = {
+  routing: "from-accent-500 to-accent-400",
+  data: "from-emerald-500 to-emerald-400",
+  parallel: "from-fuchsia-500 to-fuchsia-400",
+  intercept: "from-amber-500 to-amber-400",
+  error: "from-rose-500 to-rose-400",
 };
 
 function Feature({
@@ -448,32 +440,31 @@ function Feature({
   children: ReactNode;
 }) {
   return (
-    <div className="overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
-      <div className={`h-1 ${ACCENT_BAR[accent]}`} />
-      <div className="space-y-1 p-4">
-        <p className="font-mono text-[11px] uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
-          {pattern}
-        </p>
-        <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-          {label}
-        </h3>
-        <p className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-          {children}
-        </p>
-      </div>
-    </div>
+    <Card accent={FEATURE_ACCENT[accent]} className="space-y-1">
+      <p className="font-mono text-[11px] uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
+        {pattern}
+      </p>
+      <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+        {label}
+      </h3>
+      <p className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+        {children}
+      </p>
+    </Card>
   );
 }
 
 function Bullet({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <li className="rounded-xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
-      <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-        {title}
-      </h3>
-      <p className="mt-1 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-        {children}
-      </p>
+    <li className="grid">
+      <Card className="h-full">
+        <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+          {title}
+        </h3>
+        <p className="mt-1 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+          {children}
+        </p>
+      </Card>
     </li>
   );
 }

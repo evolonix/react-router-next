@@ -16,11 +16,6 @@
   --color-accent-400: oklch(0.84 0.14 200);
   --color-accent-500: oklch(0.78 0.16 200);
   --color-accent-600: oklch(0.7 0.16 200);
-  --color-accent-routing: oklch(0.72 0.18 250);
-  --color-accent-data: oklch(0.72 0.18 150);
-  --color-accent-error: oklch(0.72 0.18 25);
-  --color-accent-parallel: oklch(0.72 0.18 320);
-  --color-accent-intercept: oklch(0.78 0.18 80);
 }
 
 html,
@@ -38,6 +33,13 @@ body {
 }
 
 @layer base {
+  /* Pin the focus-ring color on interactive elements at rest so it never
+     animates from currentColor (white on solid buttons) to brand on first
+     focus. Tailwind's transition/transition-colors utilities include
+     outline-color, which would otherwise fade white -> brand for ~150ms. */
+  :where(a, button, input, textarea, select, summary, [tabindex]) {
+    outline-color: var(--color-brand-500);
+  }
   :focus-visible {
     outline: 2px solid var(--color-brand-500);
     outline-offset: 2px;
