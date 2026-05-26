@@ -1,5 +1,11 @@
 # @evolonix/react-router-next
 
+## 3.3.1
+
+### Patch Changes
+
+- [`ee19c2b`](https://github.com/evolonix/react-router-next/commit/ee19c2b5e9bad589c1d5a0d6d8154297fbbe9376) Thanks [@jasonruesch](https://github.com/jasonruesch)! - Document the dev-only "descendant `<Routes>` … no trailing `*`" warning emitted by parallel-route (`@slot`) layouts. It's a benign false positive (the generated layout route keeps matching at deeper URLs via its path children), is absent from production builds, and should not be "fixed" with `/*`. Explained in the package README, CONTRIBUTING, and a source comment at `SlotElement`.
+
 ## 3.3.0
 
 ### Minor Changes
