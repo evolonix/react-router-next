@@ -13,7 +13,7 @@ export {
   ROUTE_FILE_RE,
   type RouteContext,
 } from "./runtime/route-files";
-export { generateUrl } from "./runtime/generate-url";
+export { generate, generateUrl } from "./runtime/generate";
 export { isNotFoundError, notFound, NotFoundError } from "./runtime/not-found";
 export { useRouteError } from "./runtime/route-components";
 export { useIsRoutePending } from "./runtime/route-pending";

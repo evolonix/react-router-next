@@ -24,7 +24,7 @@ describe("renderRuntimeModule", () => {
     const source = renderRuntimeModule("about");
     expect(source).toContain('const PATH = "about";');
     expect(source).toContain("export function generate()");
-    expect(source).toContain("generateUrl(PATH, {})");
+    expect(source).toContain("generateBase(PATH, {})");
     expect(source).not.toContain("useRouteParams");
   });
 
@@ -34,7 +34,7 @@ describe("renderRuntimeModule", () => {
     expect(source).toContain("export function useRouteParams()");
     expect(source).toContain("useRouteParamsBase(PATH)");
     expect(source).toContain("export function generate(params)");
-    expect(source).toContain("generateUrl(PATH, params)");
+    expect(source).toContain("generateBase(PATH, params)");
   });
 
   it("JSON-encodes the route key so special characters stay quoted", () => {

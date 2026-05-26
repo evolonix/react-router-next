@@ -1,4 +1,4 @@
-import { generateUrl } from "@evolonix/react-router-next";
+import { generate } from "@evolonix/react-router-next";
 import { Link } from "react-router";
 
 import { CodeBlock } from "../_components/code-block";
@@ -45,7 +45,7 @@ export default function GalleryPage() {
         {PHOTOS.map((photo) => (
           <li key={photo.id}>
             <Link
-              to={generateUrl("gallery/[id]", { id: photo.id })}
+              to={generate("gallery/[id]", { id: photo.id })}
               className="group block overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900"
             >
               <div

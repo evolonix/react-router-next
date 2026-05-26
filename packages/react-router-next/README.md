@@ -159,14 +159,14 @@ import { useRouteParams } from "@evolonix/react-router-next";
 const { postId } = useRouteParams("posts/[postId]");
 ```
 
-The same goes for `generateUrl` — pass the route literal as the first argument and the params object as the second to build a URL without the per-route `generate(params)` helper:
+The same goes for `generate` — pass the route literal as the first argument and the params object as the second to build a URL without the per-route `generate(params)` helper:
 
 ```tsx
-import { generateUrl } from "@evolonix/react-router-next";
-<NavLink to={generateUrl("posts/[postId]", { postId: "a" })}>
-  First post
-</NavLink>;
+import { generate } from "@evolonix/react-router-next";
+<NavLink to={generate("posts/[postId]", { postId: "a" })}>First post</NavLink>;
 ```
+
+> The previous name `generateUrl` is still exported as a deprecated alias for back-compat.
 
 ## Use without Vite
 
@@ -206,7 +206,7 @@ createRoot(document.getElementById("root")!).render(
 );
 ```
 
-The trade-off: source code diverges from the Vite path. Per-route `generate(params)` helpers aren't available, so use the package's `useRouteParams("posts/[postId]")` / `generateUrl("posts/[postId]", …)` instead.
+The trade-off: source code diverges from the Vite path. Per-route `generate(params)` helpers aren't available, so use the package's `useRouteParams("posts/[postId]")` / `generate("posts/[postId]", …)` instead.
 
 ### Option B — `virtual:` imports via the codegen CLI
 

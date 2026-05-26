@@ -1,4 +1,4 @@
-import { generateUrl } from "@evolonix/react-router-next";
+import { generate } from "@evolonix/react-router-next";
 import { Link } from "react-router";
 
 import { CodeBlock } from "../_components/code-block";
@@ -25,18 +25,17 @@ export function usePosts() {
 }`}</CodeBlock>
       </Explain>
 
-      <Explain title="Typed Link with generateUrl()" accent="data">
+      <Explain title="Typed Link with generate()" accent="data">
         <p>
           Without the Vite plugin's <code>generate()</code> shim, the
           <code> Link</code>s below call{" "}
-          <code className="font-mono">generateUrl(routeKey, params)</code> from
-          the package directly. TypeScript reads the params shape off the
-          route-key literal — pass a bad <code>postId</code> and the editor
-          complains:
+          <code className="font-mono">generate(routeKey, params)</code> from the
+          package directly. TypeScript reads the params shape off the route-key
+          literal — pass a bad <code>postId</code> and the editor complains:
         </p>
-        <CodeBlock filename="src/app/posts/page.tsx">{`import { generateUrl } from "@evolonix/react-router-next";
+        <CodeBlock filename="src/app/posts/page.tsx">{`import { generate } from "@evolonix/react-router-next";
 
-<Link to={generateUrl("posts/[postId]", { postId: "1" })}>First post</Link>`}</CodeBlock>
+<Link to={generate("posts/[postId]", { postId: "1" })}>First post</Link>`}</CodeBlock>
       </Explain>
 
       <ul className="space-y-3">
@@ -46,7 +45,7 @@ export function usePosts() {
             className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm transition hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900"
           >
             <Link
-              to={generateUrl("posts/[postId]", { postId: post.id })}
+              to={generate("posts/[postId]", { postId: post.id })}
               className="block"
             >
               <p className="font-mono text-[11px] uppercase tracking-wider text-zinc-600 dark:text-zinc-400">

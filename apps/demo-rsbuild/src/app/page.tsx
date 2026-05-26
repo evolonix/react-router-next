@@ -1,4 +1,4 @@
-import { generateUrl } from "@evolonix/react-router-next";
+import { generate } from "@evolonix/react-router-next";
 import { Link } from "react-router";
 import { CodeBlock } from "./_components/code-block";
 import { Explain } from "./_components/explain";
@@ -93,8 +93,8 @@ export default defineConfig({
         <p>
           Types are free — <code className="font-mono">RouteProps</code>,{" "}
           <code className="font-mono">useRouteParams</code>, and{" "}
-          <code className="font-mono">generateUrl</code> are all parameterized
-          on the route-key literal, so the editor infers{" "}
+          <code className="font-mono">generate</code> are all parameterized on
+          the route-key literal, so the editor infers{" "}
           <code className="font-mono">params</code> off
           <code className="font-mono"> "posts/[postId]"</code> with no codegen.
           The CLI shim is still there if you want the
@@ -104,7 +104,7 @@ export default defineConfig({
           </code>{" "}
           ergonomic (see{" "}
           <Link
-            to={generateUrl("/installation", {})}
+            to={generate("/installation", {})}
             className="font-medium text-zinc-900 underline decoration-zinc-400 underline-offset-2 hover:decoration-zinc-900 dark:text-zinc-100 dark:decoration-zinc-500 dark:hover:decoration-zinc-100"
           >
             Installation

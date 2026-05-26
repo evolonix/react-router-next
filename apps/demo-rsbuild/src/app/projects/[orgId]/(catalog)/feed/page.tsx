@@ -1,5 +1,5 @@
 import {
-  generateUrl,
+  generate,
   notFound,
   type RouteProps,
 } from "@evolonix/react-router-next";
@@ -42,7 +42,7 @@ export default function ProjectsFeedPage({
         {projects.map((project) => (
           <li key={project.id}>
             <Link
-              to={generateUrl("projects/[orgId]/[projectId]", {
+              to={generate("projects/[orgId]/[projectId]", {
                 orgId: org.id,
                 projectId: project.id,
               })}

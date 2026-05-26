@@ -21,12 +21,12 @@ Workspace monorepo containing **`@evolonix/react-router-next`** — a publishabl
 
 The library that ships to npm. See [`packages/react-router-next/README.md`](packages/react-router-next/README.md) for installation and usage. Three entry points:
 
-- **`@evolonix/react-router-next`** — bundler-agnostic runtime: `AppRouter` (requires `modules` + `appDir` props), `buildRoutesFromModules`, `buildModulesFromContext`, `ROUTE_FILE_RE`, `useRouteParams`, `parseRouteParams`, `generateUrl`, and the `AppRouterProps` / `RouteParams` / `RouteProps` / `RouteModule` / `RouteModuleMap` / `RouteContext` types.
+- **`@evolonix/react-router-next`** — bundler-agnostic runtime: `AppRouter` (requires `modules` + `appDir` props), `buildRoutesFromModules`, `buildModulesFromContext`, `ROUTE_FILE_RE`, `useRouteParams`, `parseRouteParams`, `generate` (with `generateUrl` retained as a deprecated alias), and the `AppRouterProps` / `RouteParams` / `RouteProps` / `RouteModule` / `RouteModuleMap` / `RouteContext` types.
 - **`@evolonix/react-router-next/vite-client`** — Vite-wired `AppRouter` that reads `modules`/`appDir` from the plugin's `virtual:react-router-next/app-tree` so you can mount it with zero props.
 - **`@evolonix/react-router-next/vite`** — the `routeTypegen` Vite plugin and a programmatic `generateRouteTypes` API.
 - **`@evolonix/react-router-next` bin** — `react-router-next typegen` for prebuild and CI use without Vite.
 
-How types reach consumers is hybrid: under Vite, the plugin serves per-route virtual modules (`virtual:react-router-next/<route-key>`); for type-checking, the plugin and CLI emit a single ambient `routes.d.ts` shim into `node_modules/.react-router-next/`, so `tsc` and editors infer per-route param shapes without Vite running. Non-Vite consumers can skip the virtual modules entirely and import `RouteProps<"posts/[postId]">` / `useRouteParams("posts/[postId]")` / `generateUrl("posts/[postId]", …)` directly.
+How types reach consumers is hybrid: under Vite, the plugin serves per-route virtual modules (`virtual:react-router-next/<route-key>`); for type-checking, the plugin and CLI emit a single ambient `routes.d.ts` shim into `node_modules/.react-router-next/`, so `tsc` and editors infer per-route param shapes without Vite running. Non-Vite consumers can skip the virtual modules entirely and import `RouteProps<"posts/[postId]">` / `useRouteParams("posts/[postId]")` / `generate("posts/[postId]", …)` directly.
 
 ### `apps/showcase/`
 

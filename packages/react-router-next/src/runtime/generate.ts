@@ -1,6 +1,6 @@
 import type { RouteParams } from "./use-route-params";
 
-export function generateUrl<S extends string>(
+export function generate<S extends string>(
   route: S,
   params: RouteParams<S>,
 ): string {
@@ -25,3 +25,6 @@ export function generateUrl<S extends string>(
   }
   return "/" + out.join("/");
 }
+
+/** @deprecated Use {@link generate} instead. */
+export const generateUrl = generate;

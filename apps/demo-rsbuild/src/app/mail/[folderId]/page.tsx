@@ -1,5 +1,5 @@
 import {
-  generateUrl,
+  generate,
   notFound,
   type RouteProps,
 } from "@evolonix/react-router-next";
@@ -50,7 +50,7 @@ export default function MailFolderPage({
           messages.map((message) => (
             <li key={message.id}>
               <Link
-                to={generateUrl("mail/[folderId]/[messageId]", {
+                to={generate("mail/[folderId]/[messageId]", {
                   folderId: folder.id,
                   messageId: message.id,
                 })}
