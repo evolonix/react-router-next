@@ -1,5 +1,6 @@
 import type { JSX, ReactNode } from "react";
 import { Card } from "./components/card";
+import { CodeBlock } from "./components/code-block";
 import { Eyebrow } from "./components/eyebrow";
 import { Footer } from "./components/footer";
 import { Header } from "./components/header";
@@ -90,25 +91,29 @@ function Quickstart() {
       />
       <ol className="space-y-6">
         <Step n={1} title="Install">
-          <Code>{`npm i @evolonix/react-router-next react-router`}</Code>
+          <CodeBlock
+            lang="text"
+            code={`npm i @evolonix/react-router-next react-router`}
+          />
         </Step>
         <Step n={2} title="Add the Vite plugin">
-          <Code
-            lang="ts"
+          <CodeBlock
+            lang="tsx"
             filename="vite.config.ts"
-          >{`import { routeTypegen } from "@evolonix/react-router-next/vite";
+            code={`import { routeTypegen } from "@evolonix/react-router-next/vite";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 
 export default defineConfig({
   plugins: [routeTypegen(), react()],
-});`}</Code>
+});`}
+          />
         </Step>
         <Step n={3} title="Mount the router and drop pages into src/app/">
-          <Code
+          <CodeBlock
             lang="tsx"
             filename="src/main.tsx"
-          >{`import { AppRouter } from "@evolonix/react-router-next/vite-client";
+            code={`import { AppRouter } from "@evolonix/react-router-next/vite-client";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 
@@ -116,12 +121,17 @@ createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <AppRouter />
   </StrictMode>,
-);`}</Code>
-          <Code filename="src/app/">{`src/app/
+);`}
+          />
+          <CodeBlock
+            lang="text"
+            filename="src/app/"
+            code={`src/app/
 ├── layout.tsx              # wraps everything below
 ├── page.tsx                # /
 └── about/
-    └── page.tsx            # /about`}</Code>
+    └── page.tsx            # /about`}
+          />
         </Step>
       </ol>
     </section>
@@ -200,29 +210,41 @@ function Features() {
         }
       />
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-        <Feature pattern="page.tsx" label="Leaf route" accent="routing">
+        <Feature
+          pattern="page.tsx"
+          label="Leaf route"
+          tone="from-zinc-400 to-zinc-300"
+        >
           A folder becomes a route as soon as it contains a{" "}
           <code className="font-mono">page.tsx</code>.
         </Feature>
-        <Feature pattern="layout.tsx" label="Nested layouts" accent="routing">
+        <Feature
+          pattern="layout.tsx"
+          label="Nested layouts"
+          tone="from-zinc-400 to-zinc-300"
+        >
           Wraps children via <code>{"<Outlet/>"}</code>. Layouts compose down
           the folder tree.
         </Feature>
         <Feature
           pattern="[id] / [...slug]"
           label="Typed params"
-          accent="routing"
+          tone="from-blue-500 to-sky-400"
         >
           The folder name is the param shape — TypeScript reads it off the
           route-key literal.
         </Feature>
-        <Feature pattern="(group)/" label="Route groups" accent="routing">
+        <Feature
+          pattern="(group)/"
+          label="Route groups"
+          tone="from-blue-500 to-sky-400"
+        >
           Parens organize files without contributing a URL segment.
         </Feature>
         <Feature
           pattern="loading.tsx + use()"
           label="Suspense data"
-          accent="data"
+          tone="from-emerald-500 to-green-400"
         >
           Pair a <code className="font-mono">loading.tsx</code> with{" "}
           <code>use()</code> on a cached promise — works with any data layer.
@@ -230,7 +252,7 @@ function Features() {
         <Feature
           pattern="@slot/ + default.tsx"
           label="Parallel routes"
-          accent="parallel"
+          tone="from-fuchsia-500 to-pink-400"
         >
           Two route trees rendered as layout props alongside{" "}
           <code>{"<Outlet/>"}</code>, each with its own boundaries.
@@ -238,7 +260,7 @@ function Features() {
         <Feature
           pattern="(.) / (..) / (...)"
           label="Intercepting routes"
-          accent="intercept"
+          tone="from-amber-500 to-orange-400"
         >
           The "soft-nav opens a modal, refresh shows the full page" pattern — at
           any depth in the tree.
@@ -246,7 +268,7 @@ function Features() {
         <Feature
           pattern="template.tsx"
           label="Per-nav templates"
-          accent="routing"
+          tone="from-blue-500 to-sky-400"
         >
           Like <code>layout.tsx</code> but remounts on every navigation —
           replays entry animations and per-visit effects.
@@ -254,12 +276,16 @@ function Features() {
         <Feature
           pattern="error.tsx + notFound()"
           label="Boundaries"
-          accent="error"
+          tone="from-rose-500 to-rose-400"
         >
           Scoped error boundaries and a <code>notFound()</code> helper that
           skips to the nearest <code className="font-mono">not-found.tsx</code>.
         </Feature>
-        <Feature pattern="_private/" label="Colocation" accent="routing">
+        <Feature
+          pattern="_private/"
+          label="Colocation"
+          tone="from-blue-500 to-sky-400"
+        >
           Folders that start with <code className="font-mono">_</code> are
           skipped by routing but importable from siblings.
         </Feature>
@@ -354,30 +380,6 @@ function Step({
   );
 }
 
-function Code({
-  children,
-  filename,
-  lang = "sh",
-}: {
-  children: string;
-  filename?: string;
-  lang?: string;
-}) {
-  return (
-    <div className="overflow-hidden rounded-lg border border-zinc-200 bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-950">
-      {filename ? (
-        <div className="flex items-center justify-between border-b border-zinc-200 px-3 py-1.5 text-[11px] font-mono uppercase tracking-wider text-zinc-700 dark:border-zinc-800 dark:text-zinc-400">
-          <span>{filename}</span>
-          <span className="opacity-70">{lang}</span>
-        </div>
-      ) : null}
-      <pre className="overflow-x-auto px-3 py-2 text-[13px] leading-relaxed text-zinc-800 dark:text-zinc-200">
-        <code>{children}</code>
-      </pre>
-    </div>
-  );
-}
-
 function DemoCard({
   href,
   name,
@@ -420,27 +422,20 @@ function DemoCard({
   );
 }
 
-const FEATURE_ACCENT: Record<string, string> = {
-  routing: "from-accent-500 to-accent-400",
-  data: "from-emerald-500 to-emerald-400",
-  parallel: "from-fuchsia-500 to-fuchsia-400",
-  intercept: "from-amber-500 to-amber-400",
-  error: "from-rose-500 to-rose-400",
-};
-
 function Feature({
   pattern,
   label,
-  accent,
+  tone,
   children,
 }: {
   pattern: string;
   label: string;
-  accent: "routing" | "data" | "error" | "parallel" | "intercept";
+  /** Tailwind gradient classes for the accent strip, e.g. "from-emerald-500 to-green-400". */
+  tone: string;
   children: ReactNode;
 }) {
   return (
-    <Card accent={FEATURE_ACCENT[accent]} className="space-y-1">
+    <Card accent={tone} className="space-y-1">
       <p className="font-mono text-[11px] uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
         {pattern}
       </p>

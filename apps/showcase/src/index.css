@@ -65,3 +65,36 @@ body {
     animation: none !important;
   }
 }
+
+/* Horizontal padding lives on the scrollable content (the <pre>/<code>),
+   not the overflow-x container, so the right inset is preserved at the scroll
+   end — Firefox/Safari drop a scroll container's padding-right when scrolled.
+   The content is sized to its own width (min 100%) so the trailing padding
+   scrolls into view. Vertical padding stays on the container (py-4). */
+.shiki-block .shiki,
+.shiki-block > code {
+  display: inline-block;
+  box-sizing: border-box;
+  min-width: 100%;
+  margin: 0;
+  padding: 0 1rem;
+  background-color: transparent;
+}
+
+.shiki-block .shiki,
+.shiki-block .shiki span {
+  color: var(--shiki-light);
+}
+
+.shiki-block {
+  background-color: #ffffff;
+}
+
+.dark .shiki-block .shiki,
+.dark .shiki-block .shiki span {
+  color: var(--shiki-dark);
+}
+
+.dark .shiki-block {
+  background-color: #24292e;
+}

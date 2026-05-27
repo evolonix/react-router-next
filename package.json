@@ -28,7 +28,8 @@
     "version": "changeset version && npm install --package-lock-only",
     "release": "npm run build -w @evolonix/react-router-next && changeset publish",
     "commit": "cz",
-    "prepare": "husky"
+    "prepare": "husky",
+    "refresh:npm": "rm -rf node_modules && rm -rf package-lock.json && npm install"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx,mjs,cjs}": "prettier --write",
