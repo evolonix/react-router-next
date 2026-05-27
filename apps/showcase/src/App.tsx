@@ -56,9 +56,15 @@ function Hero() {
         <div className="flex flex-wrap gap-3 pt-2">
           <a
             href={`${BASE}vite/`}
-            className="inline-flex items-center rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-brand-800 shadow-lg ring-1 ring-white/20 transition hover:bg-zinc-50"
+            className="group inline-flex items-center gap-1.5 rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-brand-800 shadow-lg ring-1 ring-white/20 transition hover:bg-zinc-50"
           >
-            Open the Vite demo →
+            Open the Vite demo
+            <span
+              aria-hidden
+              className="transition-transform duration-200 group-hover:translate-x-1"
+            >
+              →
+            </span>
           </a>
           <a
             href={GITHUB_URL}
