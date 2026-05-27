@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "cleanupPeriodDays": 14,
+  "permissions": {
+    "defaultMode": "auto",
+    "deny": [
+      "Read(~/.npmrc)",
+      "Read(./.env*)",
+      "Read(./*.pem)",
+      "Bash(rm -rf *)"
+    ]
+  },
+  "alwaysThinkingEnabled": true,
+  "effortLevel": "high"
+}
