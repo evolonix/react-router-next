@@ -8,7 +8,7 @@ export default function MailPreviewPage({ params }: RouteProps) {
   if (!message) return null;
   return (
     <Dialog title={message.subject} closeTo={`/mail/${params.folderId}`}>
-      <p className="font-mono text-[11px] uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
+      <p className="font-mono text-[11px] tracking-wider text-zinc-600 uppercase dark:text-zinc-400">
         From {message.from}
       </p>
       <p className="mt-3 text-sm text-zinc-700 dark:text-zinc-300">

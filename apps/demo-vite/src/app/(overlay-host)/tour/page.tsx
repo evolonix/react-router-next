@@ -22,7 +22,7 @@ export default function TourPage() {
   return (
     <div className="space-y-6">
       <header>
-        <p className="font-mono text-[11px] uppercase tracking-wider text-accent-intercept">
+        <p className="text-accent-intercept font-mono text-[11px] tracking-wider uppercase">
           (overlay-host)/tour/page.tsx
         </p>
         <h1 className="text-xl font-semibold text-zinc-900 md:text-2xl dark:text-zinc-100">
@@ -46,7 +46,7 @@ import type { RouteProps } from "virtual:react-router-next/tour";`}</CodeBlock>
           Visit{" "}
           <Link
             to="/playground"
-            className="font-medium text-accent-intercept hover:underline"
+            className="text-accent-intercept font-medium hover:underline"
           >
             /playground
           </Link>{" "}

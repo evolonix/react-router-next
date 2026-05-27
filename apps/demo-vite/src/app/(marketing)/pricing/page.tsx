@@ -31,7 +31,7 @@ export default function PricingPage() {
           Visit{" "}
           <Link
             to="/about"
-            className="font-medium text-accent-routing hover:underline"
+            className="text-accent-routing font-medium hover:underline"
           >
             /about
           </Link>{" "}

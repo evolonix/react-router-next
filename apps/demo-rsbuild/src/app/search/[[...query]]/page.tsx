@@ -40,7 +40,7 @@ export default function SearchPage({ params }: RouteProps<"search/[[...query]]">
               {terms.map((term, i) => (
                 <span
                   key={`${term}-${i}`}
-                  className="whitespace-nowrap rounded-full bg-accent-routing/10 px-3 py-1 font-mono text-xs text-accent-routing"
+                  className="bg-accent-routing/10 text-accent-routing rounded-full px-3 py-1 font-mono text-xs whitespace-nowrap"
                 >
                   {term}
                 </span>

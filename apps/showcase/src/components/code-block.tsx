@@ -29,7 +29,7 @@ export function CodeBlock({
   return (
     <div className={wrapperClass}>
       {filename ? (
-        <div className="border-b border-zinc-200 bg-zinc-50 px-4 py-1.5 font-mono text-[11px] uppercase tracking-wider text-zinc-600 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400">
+        <div className="border-b border-zinc-200 bg-zinc-50 px-4 py-1.5 font-mono text-[11px] tracking-wider text-zinc-600 uppercase dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400">
           {filename}
         </div>
       ) : null}

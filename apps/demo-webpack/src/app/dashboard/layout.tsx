@@ -16,7 +16,7 @@ export default function DashboardLayout({
   return (
     <div className="space-y-6">
       <header>
-        <p className="font-mono text-[11px] uppercase tracking-wider text-accent-parallel">
+        <p className="text-accent-parallel font-mono text-[11px] tracking-wider uppercase">
           dashboard/ + @analytics/ + @notifications/
         </p>
         <h1 className="text-xl font-semibold text-zinc-900 md:text-2xl dark:text-zinc-100">
@@ -65,7 +65,7 @@ export default function NotificationsDefault() {
           <code className="font-mono">error.tsx</code>. Trigger them with{" "}
           <Link
             to="/dashboard?fail=1"
-            className="font-medium text-accent-parallel hover:underline"
+            className="text-accent-parallel font-medium hover:underline"
           >
             /dashboard?fail=1
           </Link>{" "}
@@ -84,7 +84,7 @@ export default function NotificationsDefault() {
         <Link
           to="/dashboard?fail=1"
           preventScrollReset
-          className="rounded-md border border-accent-error/40 bg-accent-error/5 px-3 py-1.5 text-accent-error hover:bg-accent-error/10"
+          className="border-accent-error/40 bg-accent-error/5 text-accent-error hover:bg-accent-error/10 rounded-md border px-3 py-1.5"
         >
           ?fail=1
         </Link>
@@ -92,19 +92,19 @@ export default function NotificationsDefault() {
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-[2fr_1fr_1fr]">
         <section className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
-          <p className="mb-2 font-mono text-[11px] uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
+          <p className="mb-2 font-mono text-[11px] tracking-wider text-zinc-600 uppercase dark:text-zinc-400">
             {"<Outlet />"}
           </p>
           <Outlet />
         </section>
-        <aside className="rounded-xl border border-accent-parallel/30 bg-accent-parallel/5 p-5">
-          <p className="mb-2 font-mono text-[11px] uppercase tracking-wider text-accent-parallel">
+        <aside className="border-accent-parallel/30 bg-accent-parallel/5 rounded-xl border p-5">
+          <p className="text-accent-parallel mb-2 font-mono text-[11px] tracking-wider uppercase">
             analytics slot
           </p>
           {analytics}
         </aside>
-        <aside className="rounded-xl border border-accent-parallel/30 bg-accent-parallel/5 p-5">
-          <p className="mb-2 font-mono text-[11px] uppercase tracking-wider text-accent-parallel">
+        <aside className="border-accent-parallel/30 bg-accent-parallel/5 rounded-xl border p-5">
+          <p className="text-accent-parallel mb-2 font-mono text-[11px] tracking-wider uppercase">
             notifications slot
           </p>
           {notifications}

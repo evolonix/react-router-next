@@ -56,7 +56,7 @@ export function Explain({ title, accent, tag, children }: ExplainProps) {
       <div className="space-y-4 p-6">
         <header className="flex items-center gap-2">
           <span
-            className={`inline-flex items-center whitespace-nowrap rounded-full px-2 py-0.5 text-xs font-semibold ring-1 ring-inset ${a.chip}`}
+            className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-semibold whitespace-nowrap ring-1 ring-inset ${a.chip}`}
           >
             {tag ?? a.label}
           </span>

@@ -13,7 +13,7 @@ export default function MailMessagePage({ params }: RouteProps) {
   return (
     <div className="space-y-6">
       <header>
-        <p className="font-mono text-[11px] uppercase tracking-wider text-accent-intercept">
+        <p className="text-accent-intercept font-mono text-[11px] tracking-wider uppercase">
           mail/[folderId]/[messageId]/page.tsx
         </p>
         <h1 className="text-xl font-semibold text-zinc-900 md:text-2xl dark:text-zinc-100">

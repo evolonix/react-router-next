@@ -7,7 +7,7 @@ export default function TransitionsLayout() {
   return (
     <div className="space-y-6">
       <header>
-        <p className="font-mono text-[11px] uppercase tracking-wider text-accent-routing">
+        <p className="text-accent-routing font-mono text-[11px] tracking-wider uppercase">
           transitions/
         </p>
         <h1 className="text-xl font-semibold text-zinc-900 md:text-2xl dark:text-zinc-100">

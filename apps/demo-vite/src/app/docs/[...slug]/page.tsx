@@ -21,7 +21,7 @@ export default function DocsCatchAllPage({ params }: RouteProps) {
 }`}</CodeBlock>
       </Explain>
       <section className="space-y-3 rounded-xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
-        <p className="font-mono text-[11px] uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
+        <p className="font-mono text-[11px] tracking-wider text-zinc-600 uppercase dark:text-zinc-400">
           params.slug
         </p>
         <ol className="flex flex-wrap items-center gap-2 text-sm">

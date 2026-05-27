@@ -15,9 +15,9 @@ export default function TransitionsTemplate() {
   }, [pathname, mountedAt]);
 
   return (
-    <div className="template-mount space-y-4 rounded-xl border border-dashed border-accent-routing/40 bg-accent-routing/5 p-4">
+    <div className="template-mount border-accent-routing/40 bg-accent-routing/5 space-y-4 rounded-xl border border-dashed p-4">
       <header className="flex items-center justify-between text-xs">
-        <p className="font-mono uppercase tracking-wider text-accent-routing">
+        <p className="text-accent-routing font-mono tracking-wider uppercase">
           template.tsx
         </p>
         <p className="font-mono text-zinc-600 dark:text-zinc-400">

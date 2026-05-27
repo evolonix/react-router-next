@@ -4,7 +4,7 @@ export default function PostsLayout() {
   return (
     <div className="space-y-6">
       <header>
-        <p className="font-mono text-[11px] uppercase tracking-wider text-accent-data">
+        <p className="text-accent-data font-mono text-[11px] tracking-wider uppercase">
           posts/
         </p>
         <h1 className="text-xl font-semibold text-zinc-900 md:text-2xl dark:text-zinc-100">

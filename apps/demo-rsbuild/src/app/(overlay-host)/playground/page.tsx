@@ -7,7 +7,7 @@ export default function PlaygroundPage() {
   return (
     <div className="space-y-6">
       <header>
-        <p className="font-mono text-[11px] uppercase tracking-wider text-accent-intercept">
+        <p className="text-accent-intercept font-mono text-[11px] tracking-wider uppercase">
           (overlay-host)/ + @overlay/(...)tour
         </p>
         <h1 className="text-xl font-semibold text-zinc-900 md:text-2xl dark:text-zinc-100">
@@ -48,7 +48,7 @@ export default function PlaygroundPage() {
       <div className="flex flex-wrap gap-2 text-sm">
         <Link
           to="/tour"
-          className="rounded-md bg-accent-intercept px-3 py-1.5 font-medium text-white shadow-sm transition hover:brightness-110"
+          className="bg-accent-intercept rounded-md px-3 py-1.5 font-medium text-white shadow-sm transition hover:brightness-110"
         >
           Open the tour →
         </Link>

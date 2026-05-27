@@ -25,7 +25,7 @@ export default function AboutPage() {
         <p>
           <Link
             to="/pricing"
-            className="font-medium text-accent-routing hover:underline"
+            className="text-accent-routing font-medium hover:underline"
           >
             /pricing
           </Link>{" "}

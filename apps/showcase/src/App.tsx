@@ -14,7 +14,7 @@ export function App(): JSX.Element {
     <div className="flex min-h-screen flex-col">
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-brand-700 focus:px-3 focus:py-2 focus:text-sm focus:font-semibold focus:text-white focus:shadow-lg focus:outline-2 focus:outline-offset-2 focus:outline-brand-500"
+        className="focus:bg-brand-700 focus:outline-brand-500 sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-md focus:px-3 focus:py-2 focus:text-sm focus:font-semibold focus:text-white focus:shadow-lg focus:outline-2 focus:outline-offset-2"
       >
         Skip to content
       </a>
@@ -37,10 +37,10 @@ function Hero() {
   return (
     <section className="from-brand-600 to-brand-800 relative isolate overflow-hidden bg-linear-to-br via-fuchsia-700 text-white">
       <div className="mx-auto max-w-6xl space-y-6 px-4 py-24 sm:px-6 sm:py-32">
-        <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-white">
+        <p className="font-mono text-xs font-semibold tracking-[0.18em] text-white uppercase">
           @evolonix/react-router-next
         </p>
-        <h1 className="text-4xl font-bold leading-tight tracking-tight sm:text-5xl md:text-6xl">
+        <h1 className="text-4xl leading-tight font-bold tracking-tight sm:text-5xl md:text-6xl">
           Next.js-style filesystem routing for React Router 7
         </h1>
         <p className="max-w-2xl text-base leading-relaxed text-white sm:text-lg">
@@ -56,7 +56,7 @@ function Hero() {
         <div className="flex flex-wrap gap-3 pt-2">
           <a
             href={`${BASE}vite/`}
-            className="group inline-flex items-center gap-1.5 rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-brand-800 shadow-lg ring-1 ring-white/20 transition hover:bg-zinc-50"
+            className="group text-brand-800 inline-flex items-center gap-1.5 rounded-full bg-white px-5 py-2.5 text-sm font-semibold shadow-lg ring-1 ring-white/20 transition hover:bg-zinc-50"
           >
             Open the Vite demo
             <span
@@ -373,7 +373,7 @@ function Step({
     <li>
       <Card className="space-y-3">
         <header className="flex items-center gap-2">
-          <span className="bg-brand-100 text-brand-800 dark:bg-brand-900/60 dark:text-brand-200 inline-flex h-6 min-w-6 items-center justify-center whitespace-nowrap rounded-full px-2 text-xs font-semibold">
+          <span className="bg-brand-100 text-brand-800 dark:bg-brand-900/60 dark:text-brand-200 inline-flex h-6 min-w-6 items-center justify-center rounded-full px-2 text-xs font-semibold whitespace-nowrap">
             {n}
           </span>
           <h3 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
@@ -408,9 +408,9 @@ function DemoCard({
           {name}
         </h3>
         <span
-          className={`whitespace-nowrap rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider ring-1 ring-inset ${
+          className={`rounded-full px-2 py-0.5 text-[10px] font-semibold tracking-wider whitespace-nowrap uppercase ring-1 ring-inset ${
             recommended
-              ? "bg-brand-800 text-white ring-brand-700 dark:bg-brand-700 dark:ring-brand-400"
+              ? "bg-brand-800 ring-brand-700 dark:bg-brand-700 dark:ring-brand-400 text-white"
               : "bg-zinc-100 text-zinc-700 ring-zinc-200 dark:bg-zinc-800 dark:text-zinc-300 dark:ring-zinc-700"
           }`}
         >
@@ -442,7 +442,7 @@ function Feature({
 }) {
   return (
     <Card accent={tone} className="space-y-1">
-      <p className="font-mono text-[11px] uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
+      <p className="font-mono text-[11px] tracking-wider text-zinc-600 uppercase dark:text-zinc-400">
         {pattern}
       </p>
       <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">

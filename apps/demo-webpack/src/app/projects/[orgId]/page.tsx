@@ -13,7 +13,7 @@ export default function ProjectsOrgPage({ params }: RouteProps) {
   return (
     <div className="space-y-4">
       <header>
-        <p className="font-mono text-[11px] uppercase tracking-wider text-accent-intercept">
+        <p className="text-accent-intercept font-mono text-[11px] tracking-wider uppercase">
           /projects/{org.id}
         </p>
         <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
@@ -28,7 +28,7 @@ export default function ProjectsOrgPage({ params }: RouteProps) {
           links go straight to each project's full page. The{" "}
           <Link
             to={`/projects/${org.id}/feed`}
-            className="font-medium text-accent-intercept hover:underline"
+            className="text-accent-intercept font-medium hover:underline"
           >
             feed view
           </Link>{" "}
@@ -45,7 +45,7 @@ export default function ProjectsOrgPage({ params }: RouteProps) {
               to={`/projects/${org.id}/${project.id}`}
               className="block rounded-xl border border-zinc-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900"
             >
-              <p className="font-mono text-[11px] uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
+              <p className="font-mono text-[11px] tracking-wider text-zinc-600 uppercase dark:text-zinc-400">
                 /projects/{org.id}/{project.id}
               </p>
               <p className="mt-1 text-sm font-semibold text-zinc-900 dark:text-zinc-100">

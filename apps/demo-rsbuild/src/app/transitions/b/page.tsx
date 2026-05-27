@@ -1,7 +1,7 @@
 export default function TransitionsB() {
   return (
     <div className="space-y-2">
-      <p className="font-mono text-[11px] uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
+      <p className="font-mono text-[11px] tracking-wider text-zinc-600 uppercase dark:text-zinc-400">
         transitions/b/page.tsx
       </p>
       <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">

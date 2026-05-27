@@ -1,7 +1,7 @@
 export default function PostsLoading() {
   return (
     <div className="space-y-3">
-      <p className="font-mono text-[11px] uppercase tracking-wider text-accent-data">
+      <p className="text-accent-data font-mono text-[11px] tracking-wider uppercase">
         loading.tsx
       </p>
       <div className="space-y-2">

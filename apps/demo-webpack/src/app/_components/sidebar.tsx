@@ -149,7 +149,7 @@ function SidebarItem({ item }: { item: Item }) {
       aria-current={forcedActive ? "page" : undefined}
       className={({ isActive }) => {
         const active = forcedActive || isActive;
-        return `group relative block py-1.5 pl-6 pr-6 transition ${
+        return `group relative block py-1.5 pr-6 pl-6 transition ${
           active
             ? "bg-zinc-200 text-zinc-900 dark:bg-zinc-800 dark:text-zinc-100"
             : "text-zinc-700 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-800/60"
@@ -158,7 +158,7 @@ function SidebarItem({ item }: { item: Item }) {
     >
       <span
         aria-hidden
-        className={`absolute bottom-1.5 left-4 top-1.5 w-0.5 rounded-full transition-opacity ${ACCENT_BAR[item.accent]} opacity-60 group-hover:opacity-100 group-aria-[current=page]:opacity-100`}
+        className={`absolute top-1.5 bottom-1.5 left-4 w-0.5 rounded-full transition-opacity ${ACCENT_BAR[item.accent]} opacity-60 group-hover:opacity-100 group-aria-[current=page]:opacity-100`}
       />
       <span className="block text-sm font-medium">{item.label}</span>
       {item.hint ? (
@@ -175,7 +175,7 @@ function SidebarGroups() {
     <>
       {GROUPS.map((group) => (
         <div key={group.title} className="space-y-1">
-          <p className="px-6 text-xs font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
+          <p className="px-6 text-xs font-semibold tracking-wider text-zinc-600 uppercase dark:text-zinc-400">
             {group.title}
           </p>
           <ul className="space-y-0.5">
@@ -211,7 +211,7 @@ export function Sidebar() {
         <div className="flex items-center justify-between gap-3">
           <a
             href="/react-router-next/"
-            className="inline-flex w-fit items-center gap-1 whitespace-nowrap text-xs text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+            className="inline-flex w-fit items-center gap-1 text-xs whitespace-nowrap text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
           >
             <span aria-hidden>←</span>
             Back to overview
@@ -273,13 +273,13 @@ export function MobileNavDialog({ open, onClose }: MobileNavDialogProps) {
       <div className="flex flex-col gap-1 px-6">
         <a
           href="/react-router-next/"
-          className="-mb-1 inline-flex w-fit items-center gap-1 whitespace-nowrap text-xs text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+          className="-mb-1 inline-flex w-fit items-center gap-1 text-xs whitespace-nowrap text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
         >
           <span aria-hidden>←</span>
           Back to overview
         </a>
         <div className="flex items-center justify-between">
-          <p className="font-mono text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
+          <p className="font-mono text-xs tracking-wider text-zinc-600 uppercase dark:text-zinc-400">
             Examples
           </p>
           <button

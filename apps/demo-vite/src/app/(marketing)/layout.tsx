@@ -3,8 +3,8 @@ import { Link, NavLink, Outlet } from "react-router";
 export default function MarketingLayout() {
   return (
     <div className="space-y-6">
-      <header className="rounded-xl border border-dashed border-accent-routing/40 bg-accent-routing/5 px-4 py-3">
-        <p className="font-mono text-[11px] uppercase tracking-wider text-accent-routing">
+      <header className="border-accent-routing/40 bg-accent-routing/5 rounded-xl border border-dashed px-4 py-3">
+        <p className="text-accent-routing font-mono text-[11px] tracking-wider uppercase">
           (marketing)/layout.tsx
         </p>
         <p className="text-sm text-zinc-700 dark:text-zinc-300">
@@ -24,7 +24,7 @@ export default function MarketingLayout() {
         This footer is also part of the marketing layout — visit{" "}
         <Link
           to="/"
-          className="font-medium text-accent-routing hover:underline"
+          className="text-accent-routing font-medium hover:underline"
         >
           home
         </Link>{" "}

@@ -18,7 +18,7 @@ export default function ProjectsFeedPage({
   return (
     <div className="space-y-4">
       <header>
-        <p className="font-mono text-[11px] uppercase tracking-wider text-accent-intercept">
+        <p className="text-accent-intercept font-mono text-[11px] tracking-wider uppercase">
           /projects/{org.id}/feed
         </p>
         <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">

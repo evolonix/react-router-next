@@ -6,7 +6,7 @@ export default function HomePage() {
   return (
     <>
       <header className="space-y-3">
-        <p className="font-mono text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
+        <p className="font-mono text-xs tracking-wider text-zinc-600 uppercase dark:text-zinc-400">
           @evolonix/react-router-next
         </p>
         <h1 className="text-2xl font-semibold text-zinc-900 md:text-3xl dark:text-zinc-100">

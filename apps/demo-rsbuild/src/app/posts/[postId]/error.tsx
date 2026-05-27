@@ -33,7 +33,7 @@ export default function PostError() {
       <p>
         <Link
           to="/posts"
-          className="font-medium text-accent-error hover:underline"
+          className="text-accent-error font-medium hover:underline"
         >
           ← back to all posts
         </Link>

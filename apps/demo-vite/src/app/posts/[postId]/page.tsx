@@ -44,7 +44,7 @@ export default function PostPage({ params }: RouteProps) {
       </Explain>
 
       <article className="space-y-2 rounded-xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
-        <p className="font-mono text-[11px] uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
+        <p className="font-mono text-[11px] tracking-wider text-zinc-600 uppercase dark:text-zinc-400">
           /posts/{params.postId}
         </p>
         <h1 className="text-xl font-semibold text-zinc-900 dark:text-zinc-100">
@@ -66,14 +66,14 @@ export default function PostPage({ params }: RouteProps) {
           Try{" "}
           <Link
             to={`/posts/${params.postId}?fail=1`}
-            className="font-medium text-accent-error hover:underline"
+            className="text-accent-error font-medium hover:underline"
           >
             ?fail=1
           </Link>{" "}
           to see <code className="font-mono">error.tsx</code> take over, or{" "}
           <Link
             to="/posts/999"
-            className="font-medium text-accent-error hover:underline"
+            className="text-accent-error font-medium hover:underline"
           >
             /posts/999
           </Link>{" "}

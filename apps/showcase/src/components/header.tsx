@@ -67,7 +67,7 @@ export function Header() {
             className="h-9 w-9 shrink-0"
           />
           <span className="flex flex-col leading-tight">
-            <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-zinc-600 dark:text-zinc-400">
+            <span className="text-[10px] font-semibold tracking-[0.18em] text-zinc-600 uppercase dark:text-zinc-400">
               Evolonix
             </span>
             <span className="group-hover:text-brand-700 dark:group-hover:text-brand-300 text-sm font-semibold text-zinc-900 dark:text-zinc-100">

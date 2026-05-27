@@ -8,7 +8,7 @@ export default function AnalyticsError() {
     error instanceof Error ? error.message : "Unknown analytics failure.";
   return (
     <div className="space-y-2">
-      <p className="font-mono text-[11px] uppercase tracking-wider text-accent-error">
+      <p className="text-accent-error font-mono text-[11px] tracking-wider uppercase">
         @analytics/error.tsx
       </p>
       <p className="text-sm text-zinc-700 dark:text-zinc-300">
@@ -21,7 +21,7 @@ export default function AnalyticsError() {
       <p>
         <Link
           to="/dashboard"
-          className="text-xs font-medium text-accent-error hover:underline"
+          className="text-accent-error text-xs font-medium hover:underline"
         >
           ← reset
         </Link>
