@@ -44,6 +44,8 @@ npm install                       # install all workspaces
 npm run dev                       # run the package build (tsup --watch) and the demo's Vite dev server concurrently
 ```
 
+> **Reinstalling:** after a `git pull` or branch switch that changes `package-lock.json`, run `npm ci` instead of `npm install`. `npm ci` wipes `node_modules` and installs exactly from the lockfile, so the platform-specific native binaries (esbuild, rollup, lightningcss, …) always match your OS/arch. Plain `npm install` reconciles incrementally and can occasionally leave one of those binaries missing — surfacing as a `Cannot find module @esbuild/<platform>` error at build or test time. There's no need to delete `package-lock.json`; `npm ci` is also what CI runs.
+
 Per-workspace commands:
 
 ```sh
