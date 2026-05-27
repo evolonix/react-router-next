@@ -1,7 +1,7 @@
 import { NavLink } from "react-router";
 
 import { GitHubLink } from "./github-link";
-import { ThemeSwitcher } from "./theme-switcher";
+import { ThemeToggle } from "./theme-toggle";
 
 export interface MobileTopBarProps {
   menuOpen: boolean;
@@ -41,7 +41,7 @@ export function MobileTopBar({ menuOpen, onMenuClick }: MobileTopBarProps) {
         </span>
       </NavLink>
       <GitHubLink />
-      <ThemeSwitcher />
+      <ThemeToggle />
     </header>
   );
 }
