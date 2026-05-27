@@ -3,7 +3,7 @@ import { NavLink, useLocation } from "react-router";
 
 import type { Accent } from "./explain";
 import { GitHubLink } from "./github-link";
-import { ThemeSwitcher } from "./theme-switcher";
+import { ThemeToggle } from "./theme-toggle";
 
 const ACCENT_BAR: Record<Accent, string> = {
   neutral: "bg-linear-to-b from-zinc-400 to-zinc-300",
@@ -208,25 +208,22 @@ export function Sidebar() {
       className="z-40 mx-6 hidden w-72 shrink-0 flex-col gap-6 overflow-y-auto border-x border-zinc-200 bg-white/70 py-6 backdrop-blur md:sticky md:top-0 md:flex md:h-screen dark:border-zinc-800 dark:bg-zinc-900/70"
     >
       <div className="flex flex-col gap-1 px-6">
-        <a
-          href="/react-router-next/"
-          className="-mb-1 inline-flex w-fit items-center gap-1 whitespace-nowrap text-xs text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
-        >
-          <span aria-hidden>←</span>
-          Back to overview
-        </a>
         <div className="flex items-center justify-between gap-3">
-          <span className="font-mono text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
-            evolonix
-          </span>
+          <a
+            href="/react-router-next/"
+            className="inline-flex w-fit items-center gap-1 whitespace-nowrap text-xs text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+          >
+            <span aria-hidden>←</span>
+            Back to overview
+          </a>
           <div className="flex items-center gap-1.5">
             <GitHubLink />
-            <ThemeSwitcher />
+            <ThemeToggle />
           </div>
         </div>
         <NavLink to="/" className="block">
-          <span className="block text-lg font-semibold text-zinc-900 dark:text-zinc-100">
-            react-router-next
+          <span className="block text-base font-semibold text-zinc-900 dark:text-zinc-100">
+            @evolonix/react-router-next
           </span>
           <span className="block text-xs text-zinc-600 dark:text-zinc-400">
             demo & playground
