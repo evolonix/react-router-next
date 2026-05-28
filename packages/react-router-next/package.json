@@ -48,7 +48,7 @@
   "bugs": {
     "url": "https://github.com/evolonix/react-router-next/issues"
   },
-  "homepage": "https://github.com/evolonix/react-router-next#readme",
+  "homepage": "https://evolonix.com/react-router-next",
   "peerDependencies": {
     "chokidar": "^5.0.0",
     "react": ">=19",
