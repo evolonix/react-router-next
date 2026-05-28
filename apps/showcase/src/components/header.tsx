@@ -56,13 +56,13 @@ export function Header() {
       <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3 sm:px-6">
         <a
           href="/"
-          className="flex items-center gap-1 text-base font-semibold tracking-tight"
+          className="flex items-center gap-2 text-base font-semibold tracking-tight"
         >
           <img
             src={`${BASE}logo.svg`}
             alt=""
             aria-hidden="true"
-            className="h-6 w-6 py-1"
+            className="h-4 w-4"
           />
           <span>Evolonix</span>
         </a>
