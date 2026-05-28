@@ -36,14 +36,22 @@ export function App(): JSX.Element {
 function Hero() {
   return (
     <section className="from-brand-600 to-brand-800 relative isolate overflow-hidden bg-linear-to-br via-fuchsia-700 text-white">
-      <div className="mx-auto max-w-6xl space-y-6 px-4 py-24 sm:px-6 sm:py-32">
-        <p className="font-mono text-xs font-semibold tracking-[0.18em] text-white uppercase">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -top-32 -right-24 h-96 w-96 rounded-full bg-white/15 blur-3xl"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -bottom-32 -left-24 h-96 w-96 rounded-full bg-black/10 blur-3xl"
+      />
+      <div className="relative mx-auto max-w-6xl px-6 py-24 sm:py-32">
+        <p className="mb-4 text-xs font-semibold tracking-[0.22em] text-white uppercase">
           @evolonix/react-router-next
         </p>
-        <h1 className="text-4xl leading-tight font-bold tracking-tight sm:text-5xl md:text-6xl">
+        <h1 className="max-w-4xl text-4xl font-bold tracking-tight sm:text-6xl">
           Next.js-style filesystem routing for React Router 7
         </h1>
-        <p className="max-w-2xl text-base leading-relaxed text-white sm:text-lg">
+        <p className="mt-6 max-w-2xl text-lg text-white sm:text-xl">
           Drop a <code className="font-mono">page.tsx</code> into a folder, get
           a typed route — including nested layouts, parallel routes (
           <code className="font-mono">@slot</code>), intercepting routes (
@@ -53,10 +61,10 @@ function Hero() {
           <code className="font-mono">template.tsx</code> remount-on-navigation,
           and <code className="font-mono">_private</code> colocation folders.
         </p>
-        <div className="flex flex-wrap gap-3 pt-2">
+        <div className="mt-10 flex flex-wrap gap-3">
           <a
             href={`${BASE}vite/`}
-            className="group text-brand-800 inline-flex items-center gap-1.5 rounded-full bg-white px-5 py-2.5 text-sm font-semibold shadow-lg ring-1 ring-white/20 transition hover:bg-zinc-50"
+            className="group text-brand-700 inline-flex items-center gap-1.5 rounded-full bg-white px-5 py-2.5 text-sm font-semibold shadow-sm transition hover:bg-zinc-100"
           >
             Open the Vite demo
             <span
@@ -70,7 +78,7 @@ function Hero() {
             href={GITHUB_URL}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-2 rounded-full bg-white/20 px-5 py-2.5 text-sm font-semibold text-white ring-1 ring-white/60 transition hover:bg-white/30"
+            className="inline-flex items-center gap-2 rounded-full bg-white/10 px-5 py-2.5 text-sm font-semibold text-white ring-1 ring-white/30 ring-inset hover:bg-white/20"
           >
             <GitHubIcon className="h-4 w-4" />
             View on GitHub
