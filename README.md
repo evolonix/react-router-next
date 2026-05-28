@@ -88,4 +88,4 @@ Contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for setup, the
 
 ## License
 
-[MIT](LICENSE) © Jason Ruesch
+[MIT](LICENSE) © Evolonix

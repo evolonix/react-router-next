@@ -104,6 +104,7 @@ jobs:
           publish: npm run release # release runs build
           commit: "chore(release): version packages${{ steps.next_version.outputs.version && format(' {0}', steps.next_version.outputs.version) || '' }}"
           title: "chore(release): version packages${{ steps.next_version.outputs.version && format(' {0}', steps.next_version.outputs.version) || '' }}"
+          commitMode: "github-api"
         env:
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
