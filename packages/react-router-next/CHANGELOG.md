@@ -1,5 +1,11 @@
 # @evolonix/react-router-next
 
+## 3.3.3
+
+### Patch Changes
+
+- [`5862075`](https://github.com/evolonix/react-router-next/commit/58620751b8f60119264fdbf67f709d2b51874c3a) Thanks [@jasonruesch](https://github.com/jasonruesch)! - Update LICENSE copyright holder to Evolonix
+
 ## 3.3.2
 
 ### Patch Changes
