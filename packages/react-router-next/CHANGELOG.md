@@ -1,5 +1,11 @@
 # @evolonix/react-router-next
 
+## 3.3.2
+
+### Patch Changes
+
+- [`9625c89`](https://github.com/evolonix/react-router-next/commit/9625c894404edd3dcd5b830abbd453385ddce8fe) Thanks [@jasonruesch](https://github.com/jasonruesch)! - Update homepage URL to the showcase site
+
 ## 3.3.1
 
 ### Patch Changes
