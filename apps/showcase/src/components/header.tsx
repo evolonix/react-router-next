@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { GitHubLink } from "./github-link";
 import { ThemeToggle } from "./theme-toggle";
 
 const BASE = import.meta.env.BASE_URL;
@@ -57,20 +56,15 @@ export function Header() {
       <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3 sm:px-6">
         <a
           href="/"
-          aria-label="@evolonix/react-router-next — home"
-          className="group flex items-center gap-2.5"
+          className="flex items-center gap-1 text-base font-semibold tracking-tight"
         >
           <img
             src={`${BASE}logo.svg`}
             alt=""
             aria-hidden="true"
-            className="h-7 w-7 shrink-0"
+            className="h-6 w-6 py-1"
           />
-          <span className="flex flex-col leading-tight">
-            <span className="group-hover:text-brand-700 dark:group-hover:text-brand-300 text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-              @evolonix/react-router-next
-            </span>
-          </span>
+          <span>Evolonix</span>
         </a>
 
         <nav
@@ -97,8 +91,7 @@ export function Header() {
           })}
         </nav>
 
-        <div className="ml-auto flex items-center gap-2 sm:ml-0">
-          <GitHubLink />
+        <div className="ml-auto sm:ml-0">
           <ThemeToggle />
         </div>
       </div>
