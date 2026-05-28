@@ -17,17 +17,6 @@
       <stop offset="0" stop-color="#22d3ee" stop-opacity="0.5" />
       <stop offset="1" stop-color="#22d3ee" stop-opacity="0" />
     </radialGradient>
-
-    <linearGradient id="bar-gradient" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#a855f7" />
-      <stop offset="0.5" stop-color="#d946ef" />
-      <stop offset="1" stop-color="#22d3ee" />
-    </linearGradient>
-
-    <linearGradient id="package-accent" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#c084fc" />
-      <stop offset="1" stop-color="#22d3ee" />
-    </linearGradient>
   </defs>
 
   <!-- Base -->
@@ -48,25 +37,26 @@
     <line x1="960" y1="0" x2="960" y2="640" />
   </g>
 
-  <!-- Safe area content begins (80px inset = 40pt) -->
+  <!-- Brand mark + wordmark — paired as on the About page (logo at 1em, gap, Evolonix in Manrope) -->
+  <g transform="translate(230, 200)">
+    <!-- Logo: source viewBox 64×64, scaled 2.5× to 160×160 -->
+    <g transform="scale(2.5)">
+      <rect y="0" width="64" height="12.4" rx="6.2" fill="#a855f7" />
+      <rect y="25.8" width="44" height="12.4" rx="6.2" fill="#d946ef" />
+      <rect y="51.6" width="64" height="12.4" rx="6.2" fill="#22d3ee" />
+    </g>
 
-  <!-- Evolonix three-bar wordmark — square 200×200, matches logo.svg proportions (viewBox 64×64) -->
-  <g transform="translate(540, 130)">
-    <rect x="0" y="0" width="200" height="38.75" rx="19.375" fill="#a855f7" />
-    <rect x="0" y="80.625" width="137.5" height="38.75" rx="19.375" fill="#d946ef" />
-    <rect x="0" y="161.25" width="200" height="38.75" rx="19.375" fill="#22d3ee" />
+    <!-- Wordmark: cap-height optically centered with logo -->
+    <text x="196" y="138" font-family="Manrope, 'SF Pro Display', Helvetica, Arial, sans-serif" font-weight="700"
+      font-size="160" letter-spacing="-4" fill="#ffffff">Evolonix</text>
   </g>
 
-  <!-- Package name -->
-  <text x="640" y="412" text-anchor="middle"
-    font-family="Manrope, ManropeExtraLight, 'SF Pro Display', Helvetica, Arial, sans-serif" font-weight="800"
-    font-size="78" letter-spacing="-2" fill="#ffffff">@evolonix/react-router-next</text>
-
-  <!-- Accent rule — spans the rendered width of the package name -->
-  <rect x="102" y="444" width="1076" height="4" rx="2" fill="#ffffff" />
-
   <!-- Tagline -->
-  <text x="640" y="514" text-anchor="middle" font-family="Manrope, 'SF Pro Display', Helvetica, Arial, sans-serif"
-    font-weight="500" font-size="32" letter-spacing="0" fill="#cbd5e1">Next.js-style filesystem routing for React Router
+  <text x="640" y="460" text-anchor="middle" font-family="Manrope, 'SF Pro Display', Helvetica, Arial, sans-serif"
+    font-weight="500" font-size="38" letter-spacing="-1" fill="#cbd5e1">@evolonix/react-router-next</text>
+
+  <!-- Categories -->
+  <text x="640" y="524" text-anchor="middle" font-family="Manrope, 'SF Pro Display', Helvetica, Arial, sans-serif"
+    font-weight="500" font-size="22" letter-spacing="3" fill="#94a3b8">Next.js-style filesystem routing for React Router
     7</text>
 </svg>
