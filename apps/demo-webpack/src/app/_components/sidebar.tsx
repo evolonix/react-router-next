@@ -226,7 +226,10 @@ export function Sidebar() {
             @evolonix/react-router-next
           </span>
           <span className="block text-xs text-zinc-600 dark:text-zinc-400">
-            demo & playground
+            demo & playground ·{" "}
+            <span className="font-mono text-zinc-800 dark:text-zinc-300">
+              Webpack
+            </span>
           </span>
         </NavLink>
       </div>
@@ -280,7 +283,8 @@ export function MobileNavDialog({ open, onClose }: MobileNavDialogProps) {
         </a>
         <div className="flex items-center justify-between">
           <p className="font-mono text-xs tracking-wider text-zinc-600 uppercase dark:text-zinc-400">
-            Examples
+            Examples ·{" "}
+            <span className="text-zinc-800 dark:text-zinc-300">Webpack</span>
           </p>
           <button
             type="button"
