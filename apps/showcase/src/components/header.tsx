@@ -62,7 +62,7 @@ export function Header() {
             src={`${BASE}logo.svg`}
             alt=""
             aria-hidden="true"
-            className="h-4 w-4"
+            className="h-[1em] w-[1em]"
           />
           <span>Evolonix</span>
         </a>
