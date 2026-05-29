@@ -9,8 +9,8 @@ function getHighlighter(): Promise<HighlighterCore> {
   if (!highlighterPromise) {
     highlighterPromise = createHighlighterCore({
       themes: [
-        import("@shikijs/themes/github-light"),
-        import("@shikijs/themes/github-dark"),
+        import("@shikijs/themes/github-light-high-contrast"),
+        import("@shikijs/themes/github-dark-high-contrast"),
       ],
       langs: [import("@shikijs/langs/tsx")],
       engine: createJavaScriptRegexEngine(),
@@ -28,7 +28,10 @@ export function highlight(code: string, lang: HighlightLang): Promise<string> {
     p = getHighlighter().then((h) =>
       h.codeToHtml(code, {
         lang,
-        themes: { light: "github-light", dark: "github-dark" },
+        themes: {
+          light: "github-light-high-contrast",
+          dark: "github-dark-high-contrast",
+        },
         defaultColor: false,
       }),
     );
