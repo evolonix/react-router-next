@@ -34,7 +34,7 @@ export default function GalleryPage() {
 ├── layout.tsx              # ({ modal }) => <><Outlet />{modal}</>
 ├── page.tsx                # grid (this file)
 ├── [id]/
-│   ├── page.tsx            # full-page detail (refresh / back)
+│   ├── page.tsx            # full-page detail (refresh / POP)
 │   └── template.tsx        # remounts on every nav
 └── @modal/
     ├── default.tsx         # null fallback when no photo selected
