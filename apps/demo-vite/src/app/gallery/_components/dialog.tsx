@@ -36,9 +36,9 @@ export function Dialog({ title, closeTo, children }: DialogProps) {
     <dialog
       ref={dialogRef}
       aria-labelledby={titleId}
-      className="m-auto max-h-[85vh] w-full max-w-lg overflow-hidden rounded-xl bg-white p-0 shadow-2xl backdrop:bg-zinc-900/60 backdrop:backdrop-blur-sm dark:bg-zinc-800"
+      className="m-auto w-full overflow-auto bg-white p-0 shadow-2xl backdrop:bg-zinc-900/60 backdrop:backdrop-blur-sm max-sm:h-dvh max-sm:max-h-dvh max-sm:max-w-none max-sm:rounded-none sm:max-h-[85vh] sm:max-w-lg sm:rounded-xl dark:bg-zinc-800"
     >
-      <div className="flex items-center justify-between border-b border-zinc-200 px-5 py-3 dark:border-zinc-700">
+      <div className="flex items-center justify-between border-b border-zinc-200 pt-[max(0.75rem,env(safe-area-inset-top))] pr-[max(1.25rem,env(safe-area-inset-right))] pb-3 pl-[max(1.25rem,env(safe-area-inset-left))] dark:border-zinc-700">
         <h2
           id={titleId}
           className="text-sm font-semibold text-zinc-900 dark:text-zinc-100"
@@ -54,7 +54,9 @@ export function Dialog({ title, closeTo, children }: DialogProps) {
           Close (Esc)
         </button>
       </div>
-      <div className="p-5">{children}</div>
+      <div className="pt-5 pr-[max(1.25rem,env(safe-area-inset-right))] pb-[max(1.25rem,env(safe-area-inset-bottom))] pl-[max(1.25rem,env(safe-area-inset-left))]">
+        {children}
+      </div>
     </dialog>
   );
 }

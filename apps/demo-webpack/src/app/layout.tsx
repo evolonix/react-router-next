@@ -42,7 +42,7 @@ export default function RootLayout() {
           <main
             id="main-content"
             tabIndex={-1}
-            className="min-w-0 flex-1 px-4 py-6 md:px-6 md:py-10"
+            className="px-safe pb-safe md:px-safe-lg min-w-0 flex-1 pt-6 md:py-10"
           >
             <div className="space-y-6">
               <Outlet />
