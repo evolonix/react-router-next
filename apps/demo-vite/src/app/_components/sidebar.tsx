@@ -5,20 +5,31 @@ import type { Accent } from "./explain";
 import { GitHubLink } from "./github-link";
 import { ThemeToggle } from "./theme-toggle";
 
-const ACCENT_BAR: Record<Accent, string> = {
-  neutral: "bg-linear-to-b from-zinc-400 to-zinc-300",
-  routing: "bg-linear-to-b from-blue-500 to-sky-400",
-  data: "bg-linear-to-b from-emerald-500 to-green-400",
-  error: "bg-linear-to-b from-emerald-500 to-green-400",
-  parallel: "bg-linear-to-b from-fuchsia-500 to-pink-400",
-  intercept: "bg-linear-to-b from-amber-500 to-orange-400",
+/** Leading dot that ties each item to its feature card's accent color. */
+const ACCENT_DOT: Record<Accent, string> = {
+  neutral: "bg-zinc-400 dark:bg-zinc-500",
+  routing: "bg-accent-routing",
+  data: "bg-accent-data",
+  error: "bg-accent-error",
+  parallel: "bg-accent-parallel",
+  intercept: "bg-accent-intercept",
+};
+
+/** Active pill tint, matching the card accent instead of the generic brand. */
+const ACCENT_ACTIVE: Record<Accent, string> = {
+  neutral:
+    "bg-zinc-200/70 text-zinc-900 dark:bg-zinc-700/50 dark:text-zinc-100",
+  routing: "bg-accent-routing/15 text-accent-routing",
+  data: "bg-accent-data/15 text-accent-data",
+  error: "bg-accent-error/15 text-accent-error",
+  parallel: "bg-accent-parallel/15 text-accent-parallel",
+  intercept: "bg-accent-intercept/15 text-accent-intercept",
 };
 
 interface Item {
   to: string;
   label: string;
   accent: Accent;
-  hint?: string;
   /** If set, the item is considered active when pathname starts with this prefix */
   matchPrefix?: string;
   /** Additional paths that should make this item active */
@@ -34,19 +45,9 @@ const GROUPS: Group[] = [
   {
     title: "Start here",
     items: [
-      { to: "/", label: "Home", accent: "neutral", hint: "AppRouter mount" },
-      {
-        to: "/installation",
-        label: "Installation",
-        accent: "neutral",
-        hint: "install + setup",
-      },
-      {
-        to: "/basics",
-        label: "Basics",
-        accent: "neutral",
-        hint: "page.tsx + layout.tsx",
-      },
+      { to: "/", label: "Home", accent: "neutral" },
+      { to: "/installation", label: "Installation", accent: "neutral" },
+      { to: "/basics", label: "Basics", accent: "neutral" },
     ],
   },
   {
@@ -56,77 +57,53 @@ const GROUPS: Group[] = [
         to: "/about",
         label: "Route groups",
         accent: "routing",
-        hint: "(marketing)/layout.tsx",
         matchPaths: ["/pricing"],
       },
       {
         to: "/docs/getting-started",
         label: "Catch-all",
         accent: "routing",
-        hint: "[...slug]",
         matchPrefix: "/docs",
       },
-      {
-        to: "/search",
-        label: "Optional catch-all",
-        accent: "routing",
-        hint: "[[...query]]",
-      },
+      { to: "/search", label: "Optional catch-all", accent: "routing" },
       {
         to: "/transitions",
         label: "Per-nav template",
         accent: "routing",
-        hint: "template.tsx",
         matchPrefix: "/transitions",
       },
     ],
   },
   {
     title: "Data & errors",
-    items: [
-      {
-        to: "/posts",
-        label: "Suspense + params",
-        accent: "data",
-        hint: "loading.tsx, error.tsx, notFound()",
-      },
-    ],
+    items: [{ to: "/posts", label: "Suspense + params", accent: "data" }],
   },
   {
     title: "Advanced",
     items: [
-      {
-        to: "/dashboard",
-        label: "Parallel routes",
-        accent: "parallel",
-        hint: "@slot + boundaries",
-      },
+      { to: "/dashboard", label: "Parallel routes", accent: "parallel" },
       {
         to: "/gallery",
         label: "Intercept same level",
         accent: "intercept",
-        hint: "(.)[id]",
         matchPrefix: "/gallery",
       },
       {
         to: "/mail",
         label: "Intercept one up",
         accent: "intercept",
-        hint: "(..)[id]",
         matchPrefix: "/mail",
       },
       {
         to: "/projects",
         label: "Intercept two up",
         accent: "intercept",
-        hint: "(..)(..)[id]",
         matchPrefix: "/projects",
       },
       {
         to: "/playground",
         label: "Intercept from root",
         accent: "intercept",
-        hint: "(...)x",
         matchPaths: ["/tour"],
       },
     ],
@@ -149,23 +126,19 @@ function SidebarItem({ item }: { item: Item }) {
       aria-current={forcedActive ? "page" : undefined}
       className={({ isActive }) => {
         const active = forcedActive || isActive;
-        return `group relative block py-1.5 pr-6 pl-6 transition ${
+        return [
+          "group flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
           active
-            ? "bg-zinc-200 text-zinc-900 dark:bg-zinc-800 dark:text-zinc-100"
-            : "text-zinc-700 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-800/60"
-        }`;
+            ? ACCENT_ACTIVE[item.accent]
+            : "text-zinc-600 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800",
+        ].join(" ");
       }}
     >
       <span
         aria-hidden
-        className={`absolute top-1.5 bottom-1.5 left-4 w-0.5 rounded-full transition-opacity ${ACCENT_BAR[item.accent]} opacity-60 group-hover:opacity-100 group-aria-[current=page]:opacity-100`}
+        className={`h-1.5 w-1.5 shrink-0 rounded-full ${ACCENT_DOT[item.accent]} opacity-70 transition-opacity group-hover:opacity-100 group-aria-[current=page]:opacity-100`}
       />
-      <span className="block text-sm font-medium">{item.label}</span>
-      {item.hint ? (
-        <span className="block font-mono text-[11px] text-zinc-600 group-aria-[current=page]:text-zinc-700 dark:text-zinc-500 dark:group-aria-[current=page]:text-zinc-400">
-          {item.hint}
-        </span>
-      ) : null}
+      {item.label}
     </NavLink>
   );
 }
@@ -174,8 +147,8 @@ function SidebarGroups() {
   return (
     <>
       {GROUPS.map((group) => (
-        <div key={group.title} className="space-y-1">
-          <p className="px-6 text-xs font-semibold tracking-wider text-zinc-600 uppercase dark:text-zinc-400">
+        <div key={group.title} className="space-y-1 px-3">
+          <p className="px-3 text-xs font-semibold tracking-[0.18em] text-zinc-500 uppercase dark:text-zinc-400">
             {group.title}
           </p>
           <ul className="space-y-0.5">
@@ -205,7 +178,7 @@ export function Sidebar() {
     <nav
       id="primary-nav"
       aria-label="Examples"
-      className="z-40 mx-6 hidden w-72 shrink-0 flex-col gap-6 overflow-y-auto border-x border-zinc-200 bg-white/70 py-6 backdrop-blur md:sticky md:top-0 md:flex md:h-screen dark:border-zinc-800 dark:bg-zinc-900/70"
+      className="z-40 mx-6 hidden w-72 shrink-0 flex-col gap-6 overflow-y-auto py-6 md:sticky md:top-0 md:flex md:h-screen"
     >
       <div className="flex flex-col gap-1 px-6">
         <div className="flex items-center justify-between gap-3">
@@ -221,8 +194,11 @@ export function Sidebar() {
             <ThemeToggle />
           </div>
         </div>
-        <NavLink to="/" className="block">
-          <span className="block text-base font-semibold text-zinc-900 dark:text-zinc-100">
+        <NavLink to="/" className="mt-2 block">
+          <span className="text-brand-700 dark:text-brand-300 block text-xs font-semibold tracking-[0.18em] uppercase">
+            Examples
+          </span>
+          <span className="mt-1 block text-base font-semibold text-zinc-900 dark:text-zinc-100">
             @evolonix/react-router-next
           </span>
           <span className="block text-xs text-zinc-600 dark:text-zinc-400">
