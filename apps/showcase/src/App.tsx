@@ -21,7 +21,7 @@ export function App(): JSX.Element {
       <Header />
       <main id="main-content" tabIndex={-1} className="flex-1">
         <Hero />
-        <div className="mx-auto max-w-6xl space-y-20 px-4 pb-20 sm:px-6">
+        <div className="px-safe sm:px-safe-lg mx-auto max-w-6xl space-y-20 pb-20">
           <Quickstart />
           <Demos />
           <Features />
@@ -44,7 +44,7 @@ function Hero() {
         aria-hidden
         className="pointer-events-none absolute -bottom-32 -left-24 h-96 w-96 rounded-full bg-black/10 blur-3xl"
       />
-      <div className="relative mx-auto max-w-6xl px-6 py-24 sm:py-32">
+      <div className="px-safe-lg relative mx-auto max-w-6xl py-24 sm:py-32">
         <p className="mb-4 text-xs font-semibold tracking-[0.22em] text-white uppercase">
           @evolonix/react-router-next
         </p>

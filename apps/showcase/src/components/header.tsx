@@ -52,8 +52,8 @@ export function Header() {
   const activeId = useActiveSection(NAV_IDS);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-zinc-200 bg-white/80 backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/80">
-      <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3 sm:px-6">
+    <header className="pt-safe sticky top-0 z-40 border-b border-zinc-200 bg-white/80 backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/80">
+      <div className="px-safe sm:px-safe-lg mx-auto flex max-w-6xl items-center gap-3 py-3">
         <a
           href="/"
           className="flex items-center gap-2 text-base font-semibold tracking-tight"
