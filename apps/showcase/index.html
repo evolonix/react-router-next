@@ -231,6 +231,20 @@
         }
       })(window.location);
     </script>
+    <style>
+      /* Initial loading background, mirrored from index.css (bg-white /
+         dark:bg-zinc-950) so the page is painted in the right color before the
+         bundled stylesheet loads — eliminates the white flicker between the
+         splash screen being dismissed and the bundled CSS / React mounting. The
+         theme bootstrap script above sets html.dark before first paint. Keep
+         these values in sync with index.css. */
+      html {
+        background-color: #ffffff;
+      }
+      html.dark {
+        background-color: oklch(14.1% 0.005 285.823);
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>
