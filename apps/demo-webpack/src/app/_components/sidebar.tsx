@@ -178,7 +178,7 @@ export function Sidebar() {
     <nav
       id="primary-nav"
       aria-label="Examples"
-      className="pb-safe z-40 mx-6 hidden w-72 shrink-0 flex-col gap-6 overflow-y-auto pt-6 md:sticky md:top-0 md:flex md:h-screen"
+      className="pb-safe z-40 mr-6 ml-[max(1.5rem,env(safe-area-inset-left))] hidden w-72 shrink-0 flex-col gap-6 overflow-y-auto pt-[max(1.5rem,env(safe-area-inset-top))] md:sticky md:top-0 md:flex md:h-screen"
     >
       <div className="flex flex-col gap-1 px-6">
         <div className="flex items-center justify-between gap-3">
@@ -247,7 +247,7 @@ export function MobileNavDialog({ open, onClose }: MobileNavDialogProps) {
     <dialog
       ref={dialogRef}
       aria-label="Examples"
-      className="pb-safe fixed top-0 left-0 m-0 h-dvh max-h-dvh w-72 max-w-full flex-col gap-6 overflow-y-auto border-x border-zinc-200 bg-white px-0 pt-6 backdrop:bg-zinc-900/50 backdrop:backdrop-blur-sm open:flex md:hidden dark:border-zinc-800 dark:bg-zinc-900"
+      className="pb-safe fixed top-0 left-0 m-0 h-dvh max-h-dvh w-72 max-w-full flex-col gap-6 overflow-y-auto border-x border-zinc-200 bg-white pt-[max(1.5rem,env(safe-area-inset-top))] pr-0 pl-[env(safe-area-inset-left)] backdrop:bg-zinc-900/50 backdrop:backdrop-blur-sm open:flex md:hidden dark:border-zinc-800 dark:bg-zinc-900"
     >
       <div className="flex flex-col gap-1 px-6">
         <a
