@@ -14,6 +14,10 @@ dist-pages
 dist-ssr
 *.local
 
+# Generated scratch output from scripts/generate-splash.mjs (the <link> tags are
+# pasted into index.html; the file itself is not deployed or committed).
+apps/showcase/scripts/splash-links.html
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

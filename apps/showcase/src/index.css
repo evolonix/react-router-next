@@ -22,6 +22,24 @@
   --color-accent-600: oklch(0.7 0.16 200);
 }
 
+/* Safe-area insets for standalone PWA mode (viewport-fit=cover). Each utility
+   floors the inset at the design gutter so the layout is unchanged on devices
+   without notches/home indicators, then expands to clear them when present. */
+@utility px-safe {
+  padding-left: max(1rem, env(safe-area-inset-left));
+  padding-right: max(1rem, env(safe-area-inset-right));
+}
+@utility px-safe-lg {
+  padding-left: max(1.5rem, env(safe-area-inset-left));
+  padding-right: max(1.5rem, env(safe-area-inset-right));
+}
+@utility pt-safe {
+  padding-top: env(safe-area-inset-top);
+}
+@utility pb-safe {
+  padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+}
+
 html,
 body,
 #root {
