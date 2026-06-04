@@ -48,6 +48,7 @@ export default function PlaygroundPage() {
       <div className="flex flex-wrap gap-2 text-sm">
         <Link
           to="/tour"
+          preventScrollReset
           className="bg-accent-intercept rounded-md px-3 py-1.5 font-medium text-white shadow-sm transition hover:brightness-110"
         >
           Open the tour →

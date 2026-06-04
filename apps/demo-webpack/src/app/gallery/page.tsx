@@ -46,6 +46,7 @@ export default function GalleryPage() {
           <li key={photo.id}>
             <Link
               to={generatePhoto({ id: photo.id })}
+              preventScrollReset
               className="group block overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900"
             >
               <div

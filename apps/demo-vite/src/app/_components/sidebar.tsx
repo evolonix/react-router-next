@@ -151,7 +151,7 @@ function SidebarGroups() {
           <p className="px-3 text-xs font-semibold tracking-[0.18em] text-zinc-500 uppercase dark:text-zinc-400">
             {group.title}
           </p>
-          <ul className="space-y-0.5">
+          <ul className="space-y-0.5" aria-label={group.title}>
             {group.items.map((item) => (
               <li key={item.to}>
                 <SidebarItem item={item} />
@@ -184,7 +184,7 @@ export function Sidebar() {
         <div className="flex items-center justify-between gap-3">
           <a
             href="/react-router-next/"
-            className="inline-flex w-fit items-center gap-1 text-xs whitespace-nowrap text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+            className="inline-flex min-h-6 w-fit items-center gap-1 text-xs whitespace-nowrap text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
           >
             <span aria-hidden>←</span>
             Back to overview
@@ -246,22 +246,20 @@ export function MobileNavDialog({ open, onClose }: MobileNavDialogProps) {
   return (
     <dialog
       ref={dialogRef}
+      id="mobile-nav"
+      aria-modal="true"
       aria-label="Examples"
       className="pb-safe fixed top-0 left-0 m-0 h-dvh max-h-dvh w-72 max-w-full flex-col gap-6 overflow-y-auto border-x border-zinc-200 bg-white pt-[max(1.5rem,env(safe-area-inset-top))] pr-0 pl-[env(safe-area-inset-left)] backdrop:bg-zinc-900/50 backdrop:backdrop-blur-sm open:flex md:hidden dark:border-zinc-800 dark:bg-zinc-900"
     >
       <div className="flex flex-col gap-1 px-6">
-        <a
-          href="/react-router-next/"
-          className="-mb-1 inline-flex w-fit items-center gap-1 text-xs whitespace-nowrap text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
-        >
-          <span aria-hidden>←</span>
-          Back to overview
-        </a>
-        <div className="flex items-center justify-between">
-          <p className="font-mono text-xs tracking-wider text-zinc-600 uppercase dark:text-zinc-400">
-            Examples ·{" "}
-            <span className="text-zinc-800 dark:text-zinc-300">Vite</span>
-          </p>
+        <div className="flex items-center justify-between gap-2">
+          <a
+            href="/react-router-next/"
+            className="inline-flex min-h-6 w-fit items-center gap-1 text-xs whitespace-nowrap text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+          >
+            <span aria-hidden>←</span>
+            Back to overview
+          </a>
           <button
             type="button"
             autoFocus
@@ -283,6 +281,10 @@ export function MobileNavDialog({ open, onClose }: MobileNavDialogProps) {
             </svg>
           </button>
         </div>
+        <p className="font-mono text-xs tracking-wider text-zinc-600 uppercase dark:text-zinc-400">
+          Examples ·{" "}
+          <span className="text-zinc-800 dark:text-zinc-300">Vite</span>
+        </p>
       </div>
       <SidebarGroups />
       <SidebarFooterHint />

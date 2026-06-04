@@ -42,6 +42,7 @@ export default function ProjectsFeedPage({ params }: RouteProps) {
                 orgId: org.id,
                 projectId: project.id,
               })}
+              preventScrollReset
               className="group block overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900"
             >
               <div

@@ -41,6 +41,9 @@ module.exports = (_env, argv) => {
     output: {
       path: path.resolve(__dirname, "dist"),
       filename: isDev ? "[name].js" : "[name].[contenthash].js",
+      // Give lazily-imported chunks (shiki core/engine, grammars, themes)
+      // stable, content-hashed names instead of bare numeric ids.
+      chunkFilename: isDev ? "[name].js" : "[name].[contenthash].js",
       publicPath: isDev ? "/" : "/react-router-next/webpack/",
       clean: true,
     },
@@ -87,6 +90,21 @@ module.exports = (_env, argv) => {
             }),
           ]),
     ],
+    optimization: {
+      // Split node_modules (react, react-dom, react-router, the router package)
+      // out of the entry into cacheable vendor chunks — webpack doesn't do this
+      // by default the way Rsbuild/Vite do, which is what left `main` huge.
+      splitChunks: { chunks: "all" },
+    },
+    performance: {
+      // Webpack's default budget (244 KiB) predates modern React — react-dom
+      // alone exceeds it, so the figure is unrealistic and Rsbuild/Vite don't
+      // flag these sizes. Align the per-asset limit with Vite's 500 kB chunk
+      // warning and allow the (unavoidable) React-DOM entrypoint, so the hint
+      // still catches real regressions.
+      maxAssetSize: 512000,
+      maxEntrypointSize: 600000,
+    },
     devServer: {
       historyApiFallback: true,
       port: 8080,

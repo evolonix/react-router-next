@@ -7,7 +7,7 @@ export default function AnalyticsError() {
   const message =
     error instanceof Error ? error.message : "Unknown analytics failure.";
   return (
-    <div className="space-y-2">
+    <div role="alert" className="space-y-2">
       <p className="text-accent-error font-mono text-[11px] tracking-wider uppercase">
         @analytics/error.tsx
       </p>

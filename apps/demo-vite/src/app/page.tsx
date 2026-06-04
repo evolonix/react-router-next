@@ -22,6 +22,9 @@ export default function HomePage() {
               event.preventDefault();
               target.scrollIntoView({ behavior: "smooth", block: "start" });
               history.replaceState(null, "", "#pick-a-feature");
+              // Move focus to the heading so keyboard/AT users land at the
+              // target, not just visually scroll there (WCAG 2.4.3).
+              target.focus({ preventScroll: true });
             }}
             className="font-medium text-zinc-900 underline decoration-zinc-400 underline-offset-2 hover:decoration-zinc-900 dark:text-zinc-100 dark:decoration-zinc-500 dark:hover:decoration-zinc-100"
           >
@@ -118,7 +121,8 @@ export default defineConfig({
       <section className="space-y-3">
         <h2
           id="pick-a-feature"
-          className="scroll-mt-6 text-lg font-semibold text-zinc-900 dark:text-zinc-100"
+          tabIndex={-1}
+          className="scroll-mt-6 text-lg font-semibold text-zinc-900 outline-none dark:text-zinc-100"
         >
           Pick a feature to explore
         </h2>

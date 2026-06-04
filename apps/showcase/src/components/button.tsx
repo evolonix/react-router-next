@@ -39,7 +39,7 @@ const SIZE: Record<Size, string> = {
 const VARIANT_INTENT: Record<Variant, Record<Intent, string>> = {
   solid: {
     brand:
-      "bg-brand-600 text-white font-semibold shadow-sm hover:bg-brand-700 dark:bg-brand-500 dark:hover:bg-brand-400",
+      "bg-brand-600 text-white font-semibold shadow-sm hover:bg-brand-700 dark:bg-brand-500 dark:text-zinc-950 dark:hover:bg-brand-400",
     neutral:
       "bg-zinc-900 text-white font-semibold shadow-sm hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white",
   },

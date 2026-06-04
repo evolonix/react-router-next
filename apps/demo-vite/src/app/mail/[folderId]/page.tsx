@@ -50,6 +50,7 @@ export default function MailFolderPage({ params }: RouteProps) {
                   folderId: folder.id,
                   messageId: message.id,
                 })}
+                preventScrollReset
                 className="flex flex-col gap-1 p-4 transition hover:bg-zinc-50 dark:hover:bg-zinc-800"
               >
                 <div className="flex items-center justify-between gap-3">

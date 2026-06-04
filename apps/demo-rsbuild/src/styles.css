@@ -3,6 +3,10 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
+  --font-display:
+    "Manrope", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+
   --color-brand-50: oklch(0.97 0.03 300);
   --color-brand-100: oklch(0.94 0.06 300);
   --color-brand-200: oklch(0.88 0.1 300);
@@ -16,6 +20,19 @@
   --color-accent-400: oklch(0.84 0.14 200);
   --color-accent-500: oklch(0.78 0.16 200);
   --color-accent-600: oklch(0.7 0.16 200);
+  /* Light-mode defaults: darkened so the accents clear WCAG 1.4.3 (≥4.5:1) when
+     used as text on white. The original, lighter values are restored under
+     `.dark` below, where they sit on near-black and pass there instead. */
+  --color-accent-routing: oklch(0.5 0.18 259.815);
+  --color-accent-data: oklch(0.5 0.13 162.48);
+  --color-accent-error: oklch(0.5 0.16 151.711);
+  --color-accent-parallel: oklch(0.5 0.25 322.15);
+  --color-accent-intercept: oklch(0.5 0.13 70.08);
+}
+
+/* Dark mode restores the brighter accents — on zinc-950 these pass 1.4.3
+   (5–11:1) while the darkened light-mode values would be too dim. */
+.dark {
   --color-accent-routing: oklch(0.623 0.214 259.815);
   --color-accent-data: oklch(0.696 0.17 162.48);
   --color-accent-error: oklch(0.792 0.209 151.711);
@@ -62,7 +79,9 @@ body {
     border-radius: 4px;
   }
   html {
-    scroll-padding-top: 5rem;
+    /* Clear the sticky top bar (incl. the safe-area inset on notched devices)
+       when scrolling focus/anchors into view — WCAG 2.4.11 Focus Not Obscured. */
+    scroll-padding-top: calc(5rem + env(safe-area-inset-top));
   }
 }
 

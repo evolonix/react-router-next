@@ -17,16 +17,27 @@ export function Footer() {
           . MIT · @evolonix/react-router-next
         </p>
         <div className="flex items-center gap-4">
-          <AppLink href={GITHUB_URL} variant="external" icon={<GitHubIcon />}>
+          <AppLink
+            href={GITHUB_URL}
+            variant="external"
+            icon={<GitHubIcon />}
+            className="min-h-6"
+          >
             Source
           </AppLink>
-          <AppLink href={NPM_URL} variant="external" icon={<NpmIcon />}>
+          <AppLink
+            href={NPM_URL}
+            variant="external"
+            icon={<NpmIcon />}
+            className="min-h-6"
+          >
             npm
           </AppLink>
           <AppLink
             href={`${GITHUB_URL}/issues`}
             variant="external"
             icon={<GitHubIcon />}
+            className="min-h-6"
           >
             Issues
           </AppLink>

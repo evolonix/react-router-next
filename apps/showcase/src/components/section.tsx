@@ -38,7 +38,9 @@ export function Section({
   const isBrand = tone === "brand";
   return (
     <section id={id} className={OUTER[tone]}>
-      <div className={`mx-auto ${INNER_WIDTH[width]} px-6 py-16 sm:py-20`}>
+      <div
+        className={`px-safe sm:px-safe-lg mx-auto ${INNER_WIDTH[width]} py-16 sm:py-20`}
+      >
         {eyebrow &&
           (isBrand ? (
             <p className="mb-3 text-xs font-semibold tracking-[0.18em] text-white uppercase">
@@ -47,7 +49,7 @@ export function Section({
           ) : (
             <Eyebrow className="mb-3">{eyebrow}</Eyebrow>
           ))}
-        <h1
+        <h2
           className={
             isBrand
               ? "text-4xl font-bold tracking-tight sm:text-5xl"
@@ -55,7 +57,7 @@ export function Section({
           }
         >
           {title}
-        </h1>
+        </h2>
         {description && (
           <p
             className={

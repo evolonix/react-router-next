@@ -7,7 +7,10 @@ export default function MarketingLayout() {
         <p className="text-accent-routing font-mono text-[11px] tracking-wider uppercase">
           (marketing)/layout.tsx
         </p>
-        <p className="text-sm text-zinc-700 dark:text-zinc-300">
+        <h1 className="text-xl font-semibold text-zinc-900 md:text-2xl dark:text-zinc-100">
+          Route groups
+        </h1>
+        <p className="mt-1 text-sm text-zinc-700 dark:text-zinc-300">
           Shared chrome for every page in the{" "}
           <code className="font-mono">(marketing)</code> group. The folder is
           stripped from the URL, but its{" "}

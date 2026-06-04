@@ -22,7 +22,10 @@ export default function SearchPage({ params }: RouteProps) {
 }`}</CodeBlock>
       </Explain>
 
-      <section className="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+      <section
+        aria-live="polite"
+        className="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900"
+      >
         {terms.length === 0 ? (
           <p className="text-sm text-zinc-600 dark:text-zinc-400">
             <code className="font-mono">params.query</code> is{" "}

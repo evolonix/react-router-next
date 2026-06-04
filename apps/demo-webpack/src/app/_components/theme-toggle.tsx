@@ -22,7 +22,7 @@ export function ThemeToggle() {
       onClick={cycleTheme}
       title={NEXT_LABEL[theme]}
       aria-label={`${CURRENT_LABEL[theme]}. ${NEXT_LABEL[theme]}.`}
-      className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-zinc-200 bg-white text-zinc-700 transition hover:bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800"
+      className="hover:text-brand-700 dark:hover:text-brand-300 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white text-zinc-700 ring-1 ring-zinc-200 transition-colors hover:bg-zinc-50 dark:bg-zinc-900 dark:text-zinc-300 dark:ring-zinc-700 dark:hover:bg-zinc-800"
     >
       {theme === "system" && <MonitorIcon />}
       {theme === "light" && <SunIcon />}
@@ -35,8 +35,8 @@ function SunIcon() {
   return (
     <svg
       viewBox="0 0 24 24"
-      width="14"
-      height="14"
+      width="18"
+      height="18"
       fill="none"
       stroke="currentColor"
       strokeWidth="1.75"
@@ -54,8 +54,8 @@ function MoonIcon() {
   return (
     <svg
       viewBox="0 0 24 24"
-      width="14"
-      height="14"
+      width="18"
+      height="18"
       fill="none"
       stroke="currentColor"
       strokeWidth="1.75"
@@ -72,8 +72,8 @@ function MonitorIcon() {
   return (
     <svg
       viewBox="0 0 24 24"
-      width="14"
-      height="14"
+      width="18"
+      height="18"
       fill="none"
       stroke="currentColor"
       strokeWidth="1.75"

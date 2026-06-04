@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { codeToHtml } from "shiki";
+
+import { highlight } from "../_lib/highlight";
 
 export interface CodeBlockProps {
   filename?: string;
@@ -27,11 +28,7 @@ export function CodeBlock({ filename, lang, children }: CodeBlockProps) {
 
   useEffect(() => {
     let cancelled = false;
-    codeToHtml(children, {
-      lang: resolvedLang,
-      themes: { light: "github-light", dark: "github-dark" },
-      defaultColor: false,
-    })
+    highlight(children, resolvedLang)
       .then((result) => {
         if (!cancelled) setHtml(result);
       })

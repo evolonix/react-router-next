@@ -27,7 +27,10 @@ export default function PostError() {
   if (isNotFoundError(error)) return null; // not-found.tsx handles 404s
   return <p>{(error as Error).message}</p>;
 }`}</CodeBlock>
-      <pre className="overflow-x-auto rounded-md bg-zinc-100 px-3 py-2 font-mono text-xs text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300">
+      <pre
+        role="alert"
+        className="overflow-x-auto rounded-md bg-zinc-100 px-3 py-2 font-mono text-xs text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300"
+      >
         {message}
       </pre>
       <p>

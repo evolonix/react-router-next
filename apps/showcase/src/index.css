@@ -68,7 +68,9 @@ body {
     border-radius: 4px;
   }
   html {
-    scroll-padding-top: 5rem;
+    /* Clear the sticky header (incl. the safe-area inset on notched devices)
+       when scrolling focus/anchors into view — WCAG 2.4.11 Focus Not Obscured. */
+    scroll-padding-top: calc(5rem + env(safe-area-inset-top));
     scroll-behavior: smooth;
   }
 }
