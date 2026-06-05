@@ -1,5 +1,3 @@
-import { Link } from "react-router";
-
 import { GitHubLink } from "./github-link";
 import { ThemeToggle } from "./theme-toggle";
 
@@ -24,13 +22,13 @@ export function MobileTopBar({ menuOpen, onMenuClick }: MobileTopBarProps) {
           {menuOpen ? <CloseIcon /> : <MenuIcon />}
         </button>
 
-        <Link
-          to="/"
+        <a
+          href="/"
           className="flex items-center gap-2 text-base font-semibold tracking-tight"
         >
           <Logo className="h-[1em] w-[1em]" />
           <span className="font-display font-bold">Evolonix</span>
-        </Link>
+        </a>
 
         <div className="ml-auto flex items-center gap-1.5">
           <GitHubLink />

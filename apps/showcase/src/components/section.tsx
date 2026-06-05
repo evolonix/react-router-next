@@ -39,7 +39,7 @@ export function Section({
   return (
     <section id={id} className={OUTER[tone]}>
       <div
-        className={`px-safe sm:px-safe-lg mx-auto ${INNER_WIDTH[width]} py-16 sm:py-20`}
+        className={`px-safe-lg mx-auto ${INNER_WIDTH[width]} py-16 sm:py-20`}
       >
         {eyebrow &&
           (isBrand ? (

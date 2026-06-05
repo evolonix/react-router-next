@@ -21,7 +21,7 @@ export function App(): JSX.Element {
       <Header />
       <main id="main-content" tabIndex={-1} className="flex-1">
         <Hero />
-        <div className="px-safe sm:px-safe-lg mx-auto max-w-6xl space-y-20 pb-20">
+        <div className="px-safe-lg mx-auto max-w-6xl space-y-20 pb-20">
           <Quickstart />
           <Demos />
           <Features />
