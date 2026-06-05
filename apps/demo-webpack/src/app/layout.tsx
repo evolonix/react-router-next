@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Outlet, ScrollRestoration, useLocation } from "react-router";
 
-import { MobileTopBar } from "./_components/mobile-top-bar";
+import { Footer } from "./_components/footer";
+import { Header } from "./_components/header";
 import { ProgressBar } from "./_components/progress-bar";
 import { MobileNavDialog, Sidebar } from "./_components/sidebar";
 import { ThemeProvider } from "./_components/theme";
@@ -25,7 +26,7 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider>
-      <div className="min-h-screen bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100">
+      <div className="flex min-h-screen flex-col bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100">
         <a
           href="#main-content"
           className="focus:bg-brand-700 focus:outline-brand-500 sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-md focus:px-3 focus:py-2 focus:text-sm focus:font-semibold focus:text-white focus:shadow-lg focus:outline-2 focus:outline-offset-2"
@@ -33,11 +34,8 @@ export default function RootLayout() {
           Skip to content
         </a>
         <ProgressBar />
-        <MobileTopBar
-          menuOpen={navOpen}
-          onMenuClick={() => setNavOpen((v) => !v)}
-        />
-        <div className="mx-auto flex max-w-6xl">
+        <Header menuOpen={navOpen} onMenuClick={() => setNavOpen((v) => !v)} />
+        <div className="mx-auto flex w-full max-w-6xl flex-1">
           <Sidebar />
           <main
             id="main-content"
@@ -49,6 +47,7 @@ export default function RootLayout() {
             </div>
           </main>
         </div>
+        <Footer />
         <MobileNavDialog open={navOpen} onClose={() => setNavOpen(false)} />
         <ScrollRestoration />
       </div>

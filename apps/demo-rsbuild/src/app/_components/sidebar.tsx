@@ -2,8 +2,6 @@ import { useEffect, useRef } from "react";
 import { NavLink, useLocation } from "react-router";
 
 import type { Accent } from "./explain";
-import { GitHubLink } from "./github-link";
-import { ThemeToggle } from "./theme-toggle";
 
 /** Leading dot that ties each item to its feature card's accent color. */
 const ACCENT_DOT: Record<Accent, string> = {
@@ -178,22 +176,16 @@ export function Sidebar() {
     <nav
       id="primary-nav"
       aria-label="Examples"
-      className="pb-safe z-40 mr-6 ml-[max(1.5rem,env(safe-area-inset-left))] hidden w-72 shrink-0 flex-col gap-6 overflow-y-auto pt-[max(1.5rem,env(safe-area-inset-top))] md:sticky md:top-0 md:flex md:h-screen"
+      className="pb-safe z-30 mr-6 hidden w-72 shrink-0 flex-col gap-6 overflow-y-auto pt-6 md:sticky md:top-(--header-h) md:flex md:h-[calc(100dvh-var(--header-h)-var(--footer-h))]"
     >
       <div className="flex flex-col gap-1 px-6">
-        <div className="flex items-center justify-between gap-3">
-          <a
-            href="/react-router-next/"
-            className="inline-flex min-h-6 w-fit items-center gap-1 text-xs whitespace-nowrap text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
-          >
-            <span aria-hidden>←</span>
-            Back to overview
-          </a>
-          <div className="flex items-center gap-1.5">
-            <GitHubLink />
-            <ThemeToggle />
-          </div>
-        </div>
+        <a
+          href="/react-router-next/"
+          className="inline-flex min-h-6 w-fit items-center gap-1 text-xs whitespace-nowrap text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+        >
+          <span aria-hidden>←</span>
+          Back to overview
+        </a>
         <NavLink to="/" className="mt-2 block">
           <span className="text-brand-700 dark:text-brand-300 block text-xs font-semibold tracking-[0.18em] uppercase">
             Examples

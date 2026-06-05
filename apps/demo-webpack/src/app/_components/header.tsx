@@ -1,15 +1,21 @@
-import { GitHubLink } from "./github-link";
 import { ThemeToggle } from "./theme-toggle";
 
-export interface MobileTopBarProps {
+export interface HeaderProps {
+  /** Whether the mobile nav dialog is open — drives the toggle's icon/state. */
   menuOpen: boolean;
   onMenuClick: () => void;
 }
 
-export function MobileTopBar({ menuOpen, onMenuClick }: MobileTopBarProps) {
+/**
+ * App chrome shared with the marketing site: a full-width sticky bar carrying
+ * the Evolonix wordmark and the theme switcher across every breakpoint. On
+ * mobile it also exposes the hamburger that opens the sidebar nav (which is a
+ * sticky column on desktop, so the toggle is hidden there).
+ */
+export function Header({ menuOpen, onMenuClick }: HeaderProps) {
   return (
-    <header className="pt-safe sticky top-0 z-40 border-b border-zinc-200 bg-white/80 backdrop-blur md:hidden dark:border-zinc-800 dark:bg-zinc-950/80">
-      <div className="px-safe-lg flex items-center gap-3 py-3">
+    <header className="pt-safe sticky top-0 z-40 border-b border-zinc-200 bg-white/80 backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/80">
+      <div className="px-safe-lg mx-auto flex max-w-6xl items-center gap-3 py-3">
         <button
           type="button"
           id="mobile-nav-toggle"
@@ -17,7 +23,7 @@ export function MobileTopBar({ menuOpen, onMenuClick }: MobileTopBarProps) {
           aria-label={menuOpen ? "Close menu" : "Open menu"}
           aria-controls="mobile-nav"
           aria-expanded={menuOpen}
-          className="hover:text-brand-700 dark:hover:text-brand-300 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white text-zinc-700 ring-1 ring-zinc-200 transition-colors hover:bg-zinc-50 dark:bg-zinc-900 dark:text-zinc-300 dark:ring-zinc-700 dark:hover:bg-zinc-800"
+          className="hover:text-brand-700 dark:hover:text-brand-300 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white text-zinc-700 ring-1 ring-zinc-200 transition-colors hover:bg-zinc-50 md:hidden dark:bg-zinc-900 dark:text-zinc-300 dark:ring-zinc-700 dark:hover:bg-zinc-800"
         >
           {menuOpen ? <CloseIcon /> : <MenuIcon />}
         </button>
@@ -30,8 +36,7 @@ export function MobileTopBar({ menuOpen, onMenuClick }: MobileTopBarProps) {
           <span className="font-display font-bold">Evolonix</span>
         </a>
 
-        <div className="ml-auto flex items-center gap-1.5">
-          <GitHubLink />
+        <div className="ml-auto">
           <ThemeToggle />
         </div>
       </div>

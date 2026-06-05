@@ -58,6 +58,15 @@
   padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
 }
 
+:root {
+  /* Heights of the sticky chrome. The header is py-3 (1.5rem) around an h-9
+     (2.25rem) control = 3.75rem; the footer is pt-6 (1.5rem) + a 1.5rem row +
+     pb-safe. The sidebar subtracts both so its scroll area sits exactly between
+     them, and scroll-padding keeps focused anchors clear of both. */
+  --header-h: calc(3.75rem + env(safe-area-inset-top));
+  --footer-h: calc(3rem + max(1.5rem, env(safe-area-inset-bottom)));
+}
+
 html,
 body,
 #root {
@@ -79,9 +88,11 @@ body {
     border-radius: 4px;
   }
   html {
-    /* Clear the sticky top bar (incl. the safe-area inset on notched devices)
-       when scrolling focus/anchors into view — WCAG 2.4.11 Focus Not Obscured. */
+    /* Clear the sticky header/footer (incl. the safe-area insets on notched
+       devices) when scrolling focus/anchors into view — WCAG 2.4.11 Focus Not
+       Obscured. */
     scroll-padding-top: calc(5rem + env(safe-area-inset-top));
+    scroll-padding-bottom: calc(var(--footer-h) + 1.25rem);
   }
 }
 
