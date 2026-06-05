@@ -1,6 +1,8 @@
 import { useEffect, useId, useRef } from "react";
 import { useNavigate } from "react-router";
 
+import { useBodyScrollLock } from "../../_lib/use-body-scroll-lock";
+
 export interface DialogProps {
   title: string;
   closeTo: string;
@@ -24,6 +26,10 @@ export function Dialog({
   const dialogRef = useRef<HTMLDialogElement>(null);
   const openerRef = useRef<HTMLElement | null>(null);
   const titleId = useId();
+
+  // Native `showModal()` does not reliably stop the page behind from scrolling,
+  // so lock the body for as long as this route-driven dialog is mounted.
+  useBodyScrollLock(true);
 
   useEffect(() => {
     const el = dialogRef.current;

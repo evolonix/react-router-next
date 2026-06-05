@@ -11,7 +11,7 @@ const NPM_URL = "https://www.npmjs.com/package/@evolonix/react-router-next";
 export function Footer() {
   const year = new Date().getFullYear();
   return (
-    <footer className="sticky bottom-0 z-40 border-t border-zinc-200 bg-white/80 backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/80">
+    <footer className="static z-40 border-t border-zinc-200 bg-white/80 backdrop-blur md:sticky md:bottom-0 dark:border-zinc-800 dark:bg-zinc-950/80">
       <div className="px-safe-lg pb-safe mx-auto flex max-w-6xl flex-col items-start justify-between gap-3 pt-6 text-sm text-zinc-600 sm:flex-row sm:items-center dark:text-zinc-400">
         <p>
           &copy; {year}{" "}

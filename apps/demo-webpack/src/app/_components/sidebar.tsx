@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { NavLink, useLocation } from "react-router";
 
+import { useBodyScrollLock } from "../_lib/use-body-scroll-lock";
 import type { Accent } from "./explain";
 
 /** Leading dot that ties each item to its feature card's accent color. */
@@ -214,6 +215,9 @@ export interface MobileNavDialogProps {
 
 export function MobileNavDialog({ open, onClose }: MobileNavDialogProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
+
+  // Stop the page behind the mobile nav from scrolling while it is open.
+  useBodyScrollLock(open);
 
   useEffect(() => {
     const el = dialogRef.current;
