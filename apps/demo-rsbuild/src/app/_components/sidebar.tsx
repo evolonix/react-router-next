@@ -229,7 +229,17 @@ export function MobileNavDialog({ open, onClose }: MobileNavDialogProps) {
       onClose();
     };
     const onClick = (event: MouseEvent) => {
-      if (event.target === el) onClose();
+      // The drawer's own padding/gaps report the same target as the backdrop, so
+      // a click on its edges would otherwise close it. Close only when the click
+      // lands outside the dialog box, on the real backdrop.
+      if (event.target !== el) return;
+      const r = el.getBoundingClientRect();
+      const outside =
+        event.clientX < r.left ||
+        event.clientX > r.right ||
+        event.clientY < r.top ||
+        event.clientY > r.bottom;
+      if (outside) onClose();
     };
     el.addEventListener("cancel", onCancel);
     el.addEventListener("click", onClick);

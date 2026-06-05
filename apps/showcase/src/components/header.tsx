@@ -66,7 +66,17 @@ export function Header() {
       setMenuOpen(false);
     };
     const onClick = (event: MouseEvent) => {
-      if (event.target === el) setMenuOpen(false);
+      // The dialog's own padding reports the same target as the backdrop, so a
+      // click on the menu's edges would otherwise close it. Close only when the
+      // click lands outside the dialog box, on the real backdrop.
+      if (event.target !== el) return;
+      const r = el.getBoundingClientRect();
+      const outside =
+        event.clientX < r.left ||
+        event.clientX > r.right ||
+        event.clientY < r.top ||
+        event.clientY > r.bottom;
+      if (outside) setMenuOpen(false);
     };
     el.addEventListener("cancel", onCancel);
     el.addEventListener("click", onClick);
