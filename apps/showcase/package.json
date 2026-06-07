@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "typecheck": "tsc -b",
     "generate:icons": "node scripts/generate-icons.mjs",
+    "generate:social": "node scripts/generate-social.mjs",
     "generate:splash": "node scripts/generate-splash.mjs"
   },
   "dependencies": {
