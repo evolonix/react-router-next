@@ -1,5 +1,11 @@
 # @evolonix/react-router-next
 
+## 3.4.0
+
+### Minor Changes
+
+- [#56](https://github.com/evolonix/react-router-next/pull/56) [`037d87b`](https://github.com/evolonix/react-router-next/commit/037d87b98e007494842c4b8ce91d8a99cb110471) Thanks [@jasonruesch](https://github.com/jasonruesch)! - Rename the `routeTypegen` Vite plugin to `reactRouterNext` (and `RouteTypegenOptions` to `ReactRouterNextOptions`). The old `routeTypegen` and `RouteTypegenOptions` names remain exported as deprecated aliases and will be removed in a future release — switch your `vite.config` imports to `reactRouterNext` / `ReactRouterNextOptions`.
+
 ## 3.3.3
 
 ### Patch Changes
