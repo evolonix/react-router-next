@@ -114,12 +114,12 @@ function Quickstart() {
           <CodeBlock
             lang="tsx"
             filename="vite.config.ts"
-            code={`import { routeTypegen } from "@evolonix/react-router-next/vite";
+            code={`import { reactRouterNext } from "@evolonix/react-router-next/vite";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 
 export default defineConfig({
-  plugins: [routeTypegen(), react()],
+  plugins: [reactRouterNext(), react()],
 });`}
           />
         </Step>

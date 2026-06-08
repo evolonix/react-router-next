@@ -60,13 +60,13 @@ createRoot(document.getElementById("root")!).render(
           <code className="font-mono">src/app/</code>, exposes a virtual route
           tree, and writes typed shims so the editor knows every route's params:
         </p>
-        <CodeBlock filename="vite.config.ts">{`import { routeTypegen } from "@evolonix/react-router-next/vite";
+        <CodeBlock filename="vite.config.ts">{`import { reactRouterNext } from "@evolonix/react-router-next/vite";
 import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 
 export default defineConfig({
-  plugins: [routeTypegen(), react(), tailwindcss()],
+  plugins: [reactRouterNext(), react(), tailwindcss()],
 });`}</CodeBlock>
       </Explain>
 

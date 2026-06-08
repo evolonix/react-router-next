@@ -19,11 +19,11 @@ npm i @evolonix/react-router-next react-router
 ```ts
 // vite.config.ts
 import react from "@vitejs/plugin-react";
-import { routeTypegen } from "@evolonix/react-router-next/vite";
+import { reactRouterNext } from "@evolonix/react-router-next/vite";
 import { defineConfig } from "vite";
 
 export default defineConfig({
-  plugins: [routeTypegen(), react()],
+  plugins: [reactRouterNext(), react()],
 });
 ```
 
@@ -262,7 +262,7 @@ import {
   buildRoutesFromModules,
   type RouteModuleMap,
 } from "@evolonix/react-router-next";
-// @ts-expect-error virtual module is provided by the routeTypegen Vite plugin
+// @ts-expect-error virtual module is provided by the reactRouterNext Vite plugin
 import { modules, appDir } from "virtual:react-router-next/app-tree";
 
 const routes = buildRoutesFromModules(modules as RouteModuleMap, appDir);
@@ -400,11 +400,16 @@ In CI, run typegen before `tsc`:
 ## Plugin options
 
 ```ts
-routeTypegen({
+reactRouterNext({
   appDir: "src/app", // default
   outDir: "node_modules/.react-router-next", // default
 });
 ```
+
+> **Note:** The plugin was previously named `routeTypegen`. That name (and the
+> `RouteTypegenOptions` type) is still exported as a deprecated alias and will be
+> removed in a future release — switch to `reactRouterNext` /
+> `ReactRouterNextOptions`.
 
 The CLI mirrors these:
 

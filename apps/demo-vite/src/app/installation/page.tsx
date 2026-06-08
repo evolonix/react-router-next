@@ -71,12 +71,12 @@ export default function InstallationPage() {
           a virtual route tree, and writes typed shims so the editor knows every
           route's params:
         </p>
-        <CodeBlock filename="vite.config.ts">{`import { routeTypegen } from "@evolonix/react-router-next/vite";
+        <CodeBlock filename="vite.config.ts">{`import { reactRouterNext } from "@evolonix/react-router-next/vite";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 
 export default defineConfig({
-  plugins: [routeTypegen(), react()],
+  plugins: [reactRouterNext(), react()],
 });`}</CodeBlock>
       </Explain>
 
@@ -154,7 +154,7 @@ createRoot(document.getElementById("root")!).render(
 
       <Explain title="Plugin options" accent="neutral" tag="Reference">
         <p>The plugin and CLI accept the same options:</p>
-        <CodeBlock filename="vite.config.ts">{`routeTypegen({
+        <CodeBlock filename="vite.config.ts">{`reactRouterNext({
   appDir: "src/app",                         // default
   outDir: "node_modules/.react-router-next", // default
 });`}</CodeBlock>

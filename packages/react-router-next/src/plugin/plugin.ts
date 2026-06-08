@@ -5,12 +5,18 @@ import { renderRuntimeModule } from "./render";
 import { ROUTE_FILE_RE, routeKeyFor, scanAppDir, toPosix } from "./scan";
 import { generateRouteTypes } from "./typegen";
 
-export type RouteTypegenOptions = {
+export type ReactRouterNextOptions = {
   /** Source-of-truth directory containing `page.tsx`/`layout.tsx`. Defaults to `src/app`. */
   appDir?: string;
   /** Where the ambient `routes.d.ts` shim is written. Defaults to `<root>/node_modules/.react-router-next`. */
   outDir?: string;
 };
+
+/**
+ * @deprecated Use {@link ReactRouterNextOptions} instead. This alias will be
+ * removed in a future release.
+ */
+export type RouteTypegenOptions = ReactRouterNextOptions;
 
 const VIRTUAL_PREFIX = "virtual:react-router-next/";
 const APP_TREE_ID = `${VIRTUAL_PREFIX}app-tree`;
@@ -25,7 +31,7 @@ function resolveOpt(root: string, p: string): string {
   return isAbsolute(p) ? p : resolve(root, p);
 }
 
-export function routeTypegen(options: RouteTypegenOptions = {}): Plugin {
+export function reactRouterNext(options: ReactRouterNextOptions = {}): Plugin {
   let root = process.cwd();
   let appDir = "";
   let outDir = "";
@@ -115,3 +121,9 @@ export { modules, appDir };
     },
   };
 }
+
+/**
+ * @deprecated Use {@link reactRouterNext} instead. This alias will be removed
+ * in a future release.
+ */
+export const routeTypegen = reactRouterNext;
