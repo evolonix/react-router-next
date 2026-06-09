@@ -1,8 +1,10 @@
 export {
+  reactRouterNext as default,
+  /** @deprecated Use default instead. */
   reactRouterNext,
-  type ReactRouterNextOptions,
-  /** @deprecated Use `reactRouterNext` instead. */
+  /** @deprecated Use default instead. */
   routeTypegen,
+  type ReactRouterNextOptions,
   /** @deprecated Use `ReactRouterNextOptions` instead. */
   type RouteTypegenOptions,
 } from "./plugin/plugin";
