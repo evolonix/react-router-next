@@ -1,5 +1,11 @@
 # @evolonix/react-router-next
 
+## 3.5.0
+
+### Minor Changes
+
+- [#58](https://github.com/evolonix/react-router-next/pull/58) [`cfcb456`](https://github.com/evolonix/react-router-next/commit/cfcb45693cd704c6f0e17cc7fc1ca065bd4a5ba8) Thanks [@jasonruesch](https://github.com/jasonruesch)! - Export the `reactRouterNext` Vite plugin as the default export of `@evolonix/react-router-next/vite`. Update your `vite.config` import to `import reactRouterNext from "@evolonix/react-router-next/vite"`. The named `reactRouterNext` export and the older `routeTypegen` name remain as deprecated named exports and will be removed in a future release.
+
 ## 3.4.0
 
 ### Minor Changes
