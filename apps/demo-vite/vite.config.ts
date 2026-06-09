@@ -1,4 +1,4 @@
-import { reactRouterNext } from "@evolonix/react-router-next/vite";
+import reactRouterNext from "@evolonix/react-router-next/vite";
 import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";

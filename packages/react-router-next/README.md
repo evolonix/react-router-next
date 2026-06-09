@@ -19,7 +19,7 @@ npm i @evolonix/react-router-next react-router
 ```ts
 // vite.config.ts
 import react from "@vitejs/plugin-react";
-import { reactRouterNext } from "@evolonix/react-router-next/vite";
+import reactRouterNext from "@evolonix/react-router-next/vite";
 import { defineConfig } from "vite";
 
 export default defineConfig({
@@ -406,9 +406,11 @@ reactRouterNext({
 });
 ```
 
-> **Note:** The plugin was previously named `routeTypegen`. That name (and the
-> `RouteTypegenOptions` type) is still exported as a deprecated alias and will be
-> removed in a future release — switch to `reactRouterNext` /
+> **Note:** The plugin is now the **default export** (`import reactRouterNext
+from "@evolonix/react-router-next/vite"`). The named `reactRouterNext` export
+> and the older `routeTypegen` name are both retained as deprecated named
+> exports and will be removed in a future release — switch to the default
+> import. The `RouteTypegenOptions` type is likewise a deprecated alias of
 > `ReactRouterNextOptions`.
 
 The CLI mirrors these:
