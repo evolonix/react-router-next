@@ -46,7 +46,7 @@ const routes = buildRoutesFromModules(modules, appDir);
 ```
 
 Without `routes`, the panel still shows the current location, params, and search
-params — it just omits the full tree.
+params (params come straight from React Router) — it just omits the full tree.
 
 ## Props
 

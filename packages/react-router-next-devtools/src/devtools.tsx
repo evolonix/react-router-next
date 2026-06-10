@@ -4,7 +4,12 @@ import {
   type CSSProperties,
   type ReactElement,
 } from "react";
-import { matchRoutes, useLocation, type RouteObject } from "react-router";
+import {
+  matchRoutes,
+  useLocation,
+  useParams,
+  type RouteObject,
+} from "react-router";
 
 export type FlatRoute = {
   route: RouteObject;
@@ -128,7 +133,10 @@ export function RouteTreeDevtools({
     () => new Set(matches.map((m) => m.route)),
     [matches],
   );
-  const params = matches.length ? matches[matches.length - 1].params : {};
+  // Read params from React Router directly rather than from `matchRoutes`, so
+  // they show even when no `routes` prop was passed (e.g. the base entry without
+  // the Vite virtual module). `useParams()` reflects the actually-matched route.
+  const params = useParams();
   const flat = useMemo(() => (routes ? flattenRoutes(routes) : []), [routes]);
 
   if (enabled === false || (enabled === undefined && isProduction())) {
