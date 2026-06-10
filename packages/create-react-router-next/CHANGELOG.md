@@ -1,5 +1,11 @@
 # create-react-router-next
 
+## 0.1.1
+
+### Patch Changes
+
+- [#64](https://github.com/evolonix/react-router-next/pull/64) [`f18e585`](https://github.com/evolonix/react-router-next/commit/f18e585214956cedaa89c7875bea43ee8fa570ab) Thanks [@jasonruesch](https://github.com/jasonruesch)! - Fix `npm create react-router-next` silently doing nothing. The bin entry decided whether it was "invoked directly" by comparing `process.argv[1]` against `import.meta.url`, but npm/npx expose the bin as a symlink in `node_modules/.bin`, so `argv[1]` (the symlink) never matched the resolved module path and the CLI exited 0 without scaffolding. The entry now compares realpaths, and a smoke test invokes the built bin through a symlink to guard against regressions.
+
 ## 0.1.0
 
 ### Minor Changes
