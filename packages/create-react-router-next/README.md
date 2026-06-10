@@ -33,14 +33,29 @@ Pass one with `--template <name>` (`-t`), or pick interactively. Defaults to
 
 Every template ships the same `src/app/` route tree (home, a static route, a
 dynamic `[slug]` route, and a `not-found.tsx`) so the conventions are the same
-across bundlers, plus an `eslint.config.mjs` wired up with
-[`eslint-plugin-react-router-next`](https://github.com/evolonix/react-router-next/tree/main/packages/eslint-plugin-react-router-next)
-(`npm run lint`).
+across bundlers.
+
+## Optional features
+
+The CLI asks whether to include each of these (or pass the matching flag to skip
+the prompt). They work with every bundler template.
+
+| Feature      | Flag                         | Default | What it adds                                                                 |
+| ------------ | ---------------------------- | ------- | ---------------------------------------------------------------------------- |
+| **ESLint**   | `--eslint` / `--no-eslint`   | on      | `eslint.config.mjs` with the `eslint-plugin-react-router-next` rules         |
+| **Prettier** | `--prettier`/`--no-prettier` | on      | `.prettierrc.json` + `format` scripts (adds the Tailwind plugin if both on)  |
+| **Tailwind** | `--tailwind`/`--no-tailwind` | off     | Tailwind CSS v4 wired for the bundler, with the example components restyled  |
+| **Devtools** | `--devtools`/`--no-devtools` | off     | The `@evolonix/react-router-next-devtools` overlay, rendered in `layout.tsx` |
 
 ## Options
 
 ```
-create-react-router-next [directory] [--template vite|webpack|rspack]
-  -t, --template   Bundler template
-  -h, --help       Show help
+create-react-router-next [directory] [options]
+  -t, --template <vite|webpack|rspack>   Bundler template (default: vite)
+  --eslint / --no-eslint                 ESLint + route-convention rules (default: on)
+  --prettier / --no-prettier             Prettier (default: on)
+  --tailwind / --no-tailwind             Tailwind CSS v4 (default: off)
+  --devtools / --no-devtools             Devtools overlay (default: off)
+  -y, --yes                              Accept defaults without prompting
+  -h, --help                             Show help
 ```

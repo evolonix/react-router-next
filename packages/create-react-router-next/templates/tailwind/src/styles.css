@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+/* Tailwind v4 is configured in CSS. It scans your template files for class
+   usage automatically — no `content` array. Add design tokens under `@theme`
+   and shared component styles under `@layer components` as the app grows. */
+
+:root {
+  color-scheme: light dark;
+}
+
+body {
+  margin: 0;
+  background: #fff;
+  color: #18181b;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #09090b;
+    color: #fafafa;
+  }
+}
