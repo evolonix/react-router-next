@@ -91,19 +91,12 @@ jobs:
           cache: npm
           registry-url: https://registry.npmjs.org
       - run: npm ci
-      - name: Get next version
-        id: next_version
-        run: |
-          npx changeset status --output=release.json
-          VERSION=$(node -p "const r = require('./release.json').releases.find(r => r.name === '@evolonix/react-router-next' && r.type !== 'none'); r?.newVersion ?? ''")
-          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
-          rm -f release.json
       - uses: changesets/action@v1
         with:
           version: npm run version
           publish: npm run release # release runs build
-          commit: "chore(release): version packages${{ steps.next_version.outputs.version && format(' {0}', steps.next_version.outputs.version) || '' }}"
-          title: "chore(release): version packages${{ steps.next_version.outputs.version && format(' {0}', steps.next_version.outputs.version) || '' }}"
+          commit: "chore(release): version packages"
+          title: "chore(release): version packages"
           commitMode: "github-api"
         env:
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
