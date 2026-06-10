@@ -6,7 +6,10 @@
     "jsx": "react-jsx",
     "moduleResolution": "bundler",
     "noEmit": true,
-    "ignoreDeprecations": "6.0"
+    "ignoreDeprecations": "6.0",
+    "paths": {
+      "@evolonix/react-router-next": ["../react-router-next/src/index.ts"]
+    }
   },
   "include": ["src"]
 }
