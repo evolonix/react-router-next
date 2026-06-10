@@ -1,0 +1,78 @@
+{
+  "name": "@evolonix/react-router-next-devtools",
+  "version": "0.0.0",
+  "description": "Dev-only route-tree overlay for @evolonix/react-router-next — visualize the route tree, the matched route, params, and search params.",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./vite-client": {
+      "types": "./dist/vite-client.d.ts",
+      "import": "./dist/vite-client.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run build"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/evolonix/react-router-next.git",
+    "directory": "packages/react-router-next-devtools"
+  },
+  "bugs": {
+    "url": "https://github.com/evolonix/react-router-next/issues"
+  },
+  "homepage": "https://evolonix.com/react-router-next",
+  "peerDependencies": {
+    "@evolonix/react-router-next": ">=3",
+    "react": ">=19",
+    "react-dom": ">=19",
+    "react-router": ">=7"
+  },
+  "peerDependenciesMeta": {
+    "@evolonix/react-router-next": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@evolonix/react-router-next": "*",
+    "@types/node": "^25.9.2",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "react-router": "^7.17.0",
+    "tsup": "^8.3.0",
+    "typescript": "~6.0.2",
+    "vitest": "^4.1.8"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "keywords": [
+    "react-router",
+    "devtools",
+    "filesystem-routing",
+    "nextjs",
+    "overlay"
+  ]
+}

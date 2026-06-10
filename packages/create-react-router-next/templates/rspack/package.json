@@ -1,0 +1,26 @@
+{
+  "name": "react-router-next-app",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "rsbuild dev",
+    "build": "tsc --noEmit && rsbuild build",
+    "preview": "rsbuild preview",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@evolonix/react-router-next": "^3.5.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-router": "^7.17.0"
+  },
+  "devDependencies": {
+    "@rsbuild/core": "^2.0.0",
+    "@rsbuild/plugin-react": "^2.0.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@types/webpack-env": "^1.18.5",
+    "typescript": "~6.0.2"
+  }
+}
