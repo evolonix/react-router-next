@@ -1,0 +1,30 @@
+{
+  "name": "react-router-next-app",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "webpack serve --mode development",
+    "build": "tsc --noEmit && webpack --mode production",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@evolonix/react-router-next": "^3.5.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-router": "^7.17.0"
+  },
+  "devDependencies": {
+    "@swc/core": "^1.15.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@types/webpack-env": "^1.18.5",
+    "css-loader": "^7.1.2",
+    "html-webpack-plugin": "^5.6.0",
+    "style-loader": "^4.0.0",
+    "swc-loader": "^0.2.6",
+    "typescript": "~6.0.2",
+    "webpack": "^5.103.0",
+    "webpack-cli": "^7.0.0",
+    "webpack-dev-server": "^5.2.0"
+  }
+}

@@ -1,3 +1,4 @@
+import { RouteTreeDevtools } from "@evolonix/react-router-next-devtools/vite-client";
 import { useEffect, useState } from "react";
 import { Outlet, ScrollRestoration, useLocation } from "react-router";
 
@@ -50,6 +51,7 @@ export default function RootLayout() {
         <Footer />
         <MobileNavDialog open={navOpen} onClose={() => setNavOpen(false)} />
         <ScrollRestoration />
+        <RouteTreeDevtools />
       </div>
     </ThemeProvider>
   );
