@@ -1,3 +1,4 @@
+import type { StandardSchemaV1 } from "@standard-schema/spec";
 import type { ComponentType, ReactElement, ReactNode } from "react";
 import type { RouteObject } from "react-router";
 import {
@@ -7,6 +8,7 @@ import {
   type SlotConfig,
 } from "./parallel-routes";
 import {
+  ComponentWithPageProps,
   ComponentWithParams,
   LoadingBoundary,
   NotFoundBoundary,
@@ -23,8 +25,11 @@ type RouteParamsRecord = Record<string, string | string[] | undefined>;
 export type RouteModule = {
   default?: ComponentType<{
     params?: RouteParamsRecord;
+    searchParams?: unknown;
     [slot: string]: unknown;
   }>;
+  /** A page/default leaf may export a search-params schema (Standard Schema). */
+  searchSchema?: StandardSchemaV1;
 };
 
 export type RouteModuleMap = Record<string, RouteModule>;
@@ -262,7 +267,9 @@ function routeHasParams(route: string): boolean {
   return route.includes("[");
 }
 
-function renderComponent(
+/** Layouts receive `params` only (never `searchParams` — Next layouts don't
+ *  re-render on query changes). */
+function renderLayout(
   Component: ComponentType<{ params?: RouteParamsRecord }>,
   route: string,
 ): ReactElement {
@@ -270,6 +277,25 @@ function renderComponent(
     <ComponentWithParams Component={Component} route={route} />
   ) : (
     <Component />
+  );
+}
+
+/** Pages (and `default.tsx`) receive `params` + `searchParams`, mirroring
+ *  Next.js page props. A `searchSchema` makes `searchParams` typed + validated. */
+function renderPage(
+  Component: ComponentType<{
+    params?: RouteParamsRecord;
+    searchParams?: unknown;
+  }>,
+  route: string,
+  schema?: StandardSchemaV1,
+): ReactElement {
+  return (
+    <ComponentWithPageProps
+      Component={Component}
+      route={route}
+      schema={schema}
+    />
   );
 }
 
@@ -281,7 +307,7 @@ function lowerSlotToConfig(
 ): SlotConfig {
   const Default = slotNode.files.default?.default;
   const defaultElement: ReactNode | null = Default
-    ? renderComponent(Default, slotPath)
+    ? renderPage(Default, slotPath, slotNode.files.default?.searchSchema)
     : null;
   const ErrorComponent = slotNode.files.error?.default;
   const NotFoundComponent = slotNode.files["not-found"]?.default;
@@ -331,7 +357,7 @@ function lowerInterceptor(node: Node, targetKey: string): ReactNode {
   const Loading = node.files.loading?.default;
   const ErrorComponent = node.files.error?.default;
   const NotFoundComponent = node.files["not-found"]?.default;
-  const pageEl = renderComponent(Page, targetKey);
+  const pageEl = renderPage(Page, targetKey, node.files.page?.searchSchema);
   if (!Loading && !ErrorComponent && !NotFoundComponent) return pageEl;
   return (
     <SegmentBoundary
@@ -373,7 +399,9 @@ function nodeToRoute(
     );
   }
 
-  const pageEl = Page ? renderComponent(Page, path) : null;
+  const pageEl = Page
+    ? renderPage(Page, path, node.files.page?.searchSchema)
+    : null;
 
   const pageLeaf: RouteObject | null = pageEl
     ? { index: true, element: pageEl }
@@ -437,7 +465,7 @@ function nodeToRoute(
         />
       );
     }
-    return renderComponent(Layout, path);
+    return renderLayout(Layout, path);
   };
 
   const errorElement: ReactElement | undefined =

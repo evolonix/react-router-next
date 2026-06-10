@@ -50,4 +50,27 @@ describe("generate", () => {
       }),
     ).toBe("/products/shoes/red/size-10");
   });
+
+  it("appends a query string from opts.search", () => {
+    expect(generate("posts", {}, { search: { page: 2, q: "hi" } })).toBe(
+      "/posts?page=2&q=hi",
+    );
+  });
+
+  it("combines path params and search", () => {
+    expect(
+      generate("posts/[id]", { id: "1" }, { search: { tab: "comments" } }),
+    ).toBe("/posts/1?tab=comments");
+  });
+
+  it("composes catch-all params with search", () => {
+    expect(
+      generate("docs/[...slug]", { slug: ["a", "b"] }, { search: { v: 2 } }),
+    ).toBe("/docs/a/b?v=2");
+  });
+
+  it("omits the ? when search serializes to empty", () => {
+    expect(generate("posts", {}, { search: { q: undefined } })).toBe("/posts");
+    expect(generate("posts", {}, {})).toBe("/posts");
+  });
 });

@@ -1,5 +1,5 @@
 import { existsSync, readdirSync, rmdirSync, unlinkSync } from "node:fs";
-import { isAbsolute, join, relative, resolve } from "node:path";
+import { dirname, isAbsolute, join, relative, resolve } from "node:path";
 import { writeIfChanged } from "./fs-utils";
 import {
   renderAliasMap,
@@ -7,7 +7,13 @@ import {
   renderRuntimeModule,
   type AppTreeEntry,
 } from "./render";
-import { routeKeyFor, scanAppDir, scanRouteFiles, toPosix } from "./scan";
+import {
+  buildRouteSchemaMap,
+  routeKeyFor,
+  scanAppDir,
+  scanRouteFiles,
+  toPosix,
+} from "./scan";
 
 export type CodegenOptions = {
   /** Project root used to resolve relative paths. Defaults to `process.cwd()`. */
@@ -143,12 +149,22 @@ export function generateRouteModules(opts: CodegenOptions = {}): CodegenResult {
   }
   files.push(aliasesPath);
 
+  const schemaMap = buildRouteSchemaMap(appDir);
   const expectedRouteFiles = new Set<string>();
   for (const routeKey of routeKeys) {
     const dest = routeFilePath(outDir, routeKey);
     expectedRouteFiles.add(dest);
     files.push(dest);
-    if (writeIfChanged(dest, renderRuntimeModule(routeKey))) {
+    const schemaFile = schemaMap.get(routeKey);
+    // Specifier is relative to the emitted route file's directory (route keys
+    // can nest under `routes/`), and keeps its extension to match the
+    // app-tree imports webpack/Rspack already resolve.
+    let searchSpecifier: string | undefined;
+    if (schemaFile) {
+      const rel = toPosix(relative(dirname(dest), schemaFile));
+      searchSpecifier = rel.startsWith(".") ? rel : `./${rel}`;
+    }
+    if (writeIfChanged(dest, renderRuntimeModule(routeKey, searchSpecifier))) {
       writtenFiles.push(dest);
       written++;
     }

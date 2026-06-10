@@ -1,12 +1,46 @@
-import { generate } from "@evolonix/react-router-next";
+import { generate, useSearchParams } from "@evolonix/react-router-next";
+import type { StandardSchemaV1 } from "@standard-schema/spec";
 import { Link } from "react-router";
 
 import { CodeBlock } from "../_components/code-block";
 import { Explain } from "../_components/explain";
 import { usePosts } from "./_lib/use-posts";
 
+export type PostsSearch = { q: string; sort: "newest" | "oldest" };
+
+/**
+ * A route declares its query string by exporting `searchSchema` — any Standard
+ * Schema works (Zod, Valibot, ArkType…). This demo uses a tiny hand-rolled one
+ * to show the runtime only depends on the spec, not a particular validator.
+ */
+export const searchSchema: StandardSchemaV1<unknown, PostsSearch> = {
+  "~standard": {
+    version: 1,
+    vendor: "demo",
+    validate(value) {
+      const v = (value ?? {}) as Record<string, unknown>;
+      return {
+        value: {
+          q: typeof v.q === "string" ? v.q : "",
+          sort: v.sort === "oldest" ? "oldest" : "newest",
+        },
+      };
+    },
+  },
+};
+
 export default function PostsPage() {
   const posts = usePosts();
+  // No codegen here, so no typed `searchParams` page prop — but the package-level
+  // hook still gives typed, validated access: pass the route key + the schema.
+  const [{ q, sort }, setSearch] = useSearchParams("posts", searchSchema);
+
+  const visible = posts
+    .filter((post) => post.title.toLowerCase().includes(q.toLowerCase()))
+    .sort((a, b) =>
+      sort === "newest" ? b.id.localeCompare(a.id) : a.id.localeCompare(b.id),
+    );
+
   return (
     <>
       <Explain title="loading.tsx fires for Suspense" accent="data">
@@ -38,8 +72,70 @@ export function usePosts() {
 <Link to={generate("posts/[postId]", { postId: "1" })}>First post</Link>`}</CodeBlock>
       </Explain>
 
+      <Explain
+        title="Typed search params, same package-level API"
+        accent="data"
+      >
+        <p>
+          Export a <code className="font-mono">searchParams</code> schema (any{" "}
+          <a
+            href="https://standardschema.dev"
+            className="font-medium hover:underline"
+          >
+            Standard Schema
+          </a>
+          ) and the query string gets the same treatment as params:{" "}
+          <code className="font-mono">useSearchParams(routeKey, schema)</code>{" "}
+          returns a typed value, and{" "}
+          <code className="font-mono">
+            generate(routeKey, params, &#123; search &#125;)
+          </code>{" "}
+          validates and serializes it.
+        </p>
+        <CodeBlock filename="src/app/posts/page.tsx">{`import { generate, useSearchParams } from "@evolonix/react-router-next";
+
+export const searchSchema = z.object({
+  q: z.string().default(""),
+  sort: z.enum(["newest", "oldest"]).default("newest"),
+});
+
+const [{ q, sort }, setSearch] = useSearchParams("posts", searchSchema);
+<Link to={generate("posts", {}, { search: { q, sort: "oldest" } })}>Oldest</Link>`}</CodeBlock>
+      </Explain>
+
+      <div className="flex flex-wrap items-center gap-3">
+        <input
+          type="search"
+          value={q}
+          placeholder="Filter posts…"
+          onChange={(e) =>
+            setSearch(
+              { q: e.target.value, sort },
+              { replace: true, preventScrollReset: true },
+            )
+          }
+          className="flex-1 rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-900"
+        />
+        <div className="flex gap-2 text-sm">
+          {(["newest", "oldest"] as const).map((option) => (
+            <Link
+              key={option}
+              to={generate("posts", {}, { search: { q, sort: option } })}
+              preventScrollReset
+              className={`rounded-lg border px-3 py-2 font-medium transition ${
+                sort === option
+                  ? "border-zinc-900 bg-zinc-900 text-white dark:border-zinc-100 dark:bg-zinc-100 dark:text-zinc-900"
+                  : "border-zinc-300 text-zinc-700 hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
+              }`}
+            >
+              {option === "newest" ? "Newest" : "Oldest"}
+            </Link>
+          ))}
+        </div>
+      </div>
+
       <ul className="space-y-3">
-        {posts.map((post) => (
+        {visible.map((post) => (
           <li
             key={post.id}
             className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm transition hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900"
@@ -63,6 +159,20 @@ export function usePosts() {
       </ul>
 
       <Explain title="Things to try" accent="error">
+        <p>
+          <Link
+            to={generate(
+              "posts",
+              {},
+              { search: { q: "typed", sort: "newest" } },
+            )}
+            className="font-medium hover:underline"
+          >
+            /posts?q=typed
+          </Link>{" "}
+          — a typed <code className="font-mono">generate()</code> URL; the
+          filter input and sort toggle stay in sync with the query string.
+        </p>
         <p>
           <Link
             to="/posts/999"

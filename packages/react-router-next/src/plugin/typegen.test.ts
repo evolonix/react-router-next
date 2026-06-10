@@ -95,6 +95,52 @@ describe("generateRouteTypes", () => {
     expect(second.written).toBe(false);
   });
 
+  it("emits search-aware types for a route that exports a schema", () => {
+    mkdirSync(join(root, "src/app/posts"), { recursive: true });
+    writeFileSync(
+      join(root, "src/app/posts/page.tsx"),
+      "export const searchSchema = schema;\nexport default function Page() {}",
+    );
+
+    const result = generateRouteTypes({
+      root,
+      appDir: "src/app",
+      outDir: "out",
+    });
+    const shim = readFileSync(result.shimPath, "utf8");
+
+    expect(shim).toContain(
+      'import type { StandardSchemaV1 } from "@standard-schema/spec";',
+    );
+    // out/routes.d.ts -> ../src/app/posts/page (extensionless for the d.ts)
+    expect(shim).toContain(
+      'import type { searchSchema as SearchSchema } from "../src/app/posts/page";',
+    );
+    expect(shim).toContain(
+      "export type SearchParams = StandardSchemaV1.InferOutput<typeof SearchSchema>;",
+    );
+  });
+
+  it("leaves a route without a schema export free of search types", () => {
+    writePage(join(root, "src/app/about"));
+    const result = generateRouteTypes({
+      root,
+      appDir: "src/app",
+      outDir: "out",
+    });
+    const shim = readFileSync(result.shimPath, "utf8");
+    const aboutBlock = shim.match(
+      /declare module "virtual:react-router-next\/about"[\s\S]*?\n}\n/,
+    )?.[0];
+    expect(aboutBlock).toBeDefined();
+    expect(aboutBlock).not.toContain("StandardSchemaV1");
+    expect(aboutBlock).not.toContain("useSearchParams");
+    // …but it still gets RouteProps with an untyped searchParams record.
+    expect(aboutBlock).toContain(
+      "export type RouteProps = { params: RouteParams; searchParams: SearchParamsRecord };",
+    );
+  });
+
   it("resolves an absolute outDir against the filesystem, not the root", () => {
     writePage(join(root, "src/app"));
     const absoluteOut = join(root, "absolute-out");

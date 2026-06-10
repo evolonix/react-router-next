@@ -118,7 +118,7 @@ File-name conventions inside a route folder:
 
 For each route folder the plugin exposes a virtual module — `virtual:react-router-next/<route-key>` — that mirrors the folder layout, with the root represented as `_root`:
 
-The runtime renders each `page.tsx` with its `RouteProps` already wired up — `params` is parsed from the URL (typed from the folder name) and passed in as a prop, so the component can destructure it directly without calling `useParams`/`useRouteParams`. The virtual module only exports `RouteProps` (and `useRouteParams`) for routes that actually have params; paramless routes can omit the prop entirely.
+The runtime renders each `page.tsx` with its `RouteProps` already wired up — `params` is parsed from the URL (typed from the folder name) and `searchParams` from the query string, both passed in as props, so the component can destructure them directly without calling `useParams`/`useRouteParams`. Every route exports a `RouteProps` (a page always gets `params` + `searchParams`, mirroring Next); `useRouteParams` is only exported for routes that actually have params. See [Search params](#search-params) for how `searchParams` is typed.
 
 ```tsx
 // src/app/posts/[postId]/page.tsx
@@ -167,6 +167,78 @@ import { generate } from "@evolonix/react-router-next";
 ```
 
 > The previous name `generateUrl` is still exported as a deprecated alias for back-compat.
+
+## Search params
+
+Like Next.js, every page receives its query string as a **`searchParams` prop** (alongside `params`). Layouts don't — they don't re-render on query changes, matching Next.
+
+```tsx
+// src/app/posts/page.tsx — untyped, exactly like Next
+import type { RouteProps } from "virtual:react-router-next/posts";
+
+export default function PostsPage({ params, searchParams }: RouteProps) {
+  // searchParams: { [key: string]: string | string[] | undefined }
+  return <p>Filtering by {searchParams.q}</p>;
+}
+```
+
+### Typed + validated (opt-in, beyond Next.js)
+
+> **A deliberate step past Next.** Next's `searchParams` prop is **untyped** and unvalidated; its `useSearchParams()` (from `next/navigation`) is an untyped `ReadonlyURLSearchParams`. Schema-validated search lives in [TanStack Router](https://tanstack.com/router) (`validateSearch`), and React Router has an [open RFC](https://github.com/remix-run/react-router/discussions/13713) for it. This fills that gap with React Router + [Standard Schema](https://standardschema.dev). It's **opt-in**: a route gets it only by exporting a `searchSchema`. Without one, `searchParams` stays the plain Next-style record.
+
+Export a `searchSchema` (any [Standard Schema](https://standardschema.dev) — Zod, Valibot, ArkType, …) and three things become typed for that route: the **`searchParams` prop is the validated schema output**, `useSearchParams()` returns it (with a setter), and `generate` accepts a typed `search`.
+
+```tsx
+// src/app/posts/page.tsx
+import { z } from "zod";
+import type { RouteProps } from "virtual:react-router-next/posts";
+
+export const searchSchema = z.object({
+  q: z.string().default(""),
+  sort: z.enum(["newest", "oldest"]).default("newest"),
+  page: z.coerce.number().default(1),
+});
+
+// `searchParams` is now typed + validated — no hook needed to read it.
+export default function PostsPage({ searchParams }: RouteProps) {
+  const { q, sort, page } = searchParams; // q: string, sort: "newest" | "oldest", page: number
+  const [, setSearch] = useSearchParams(); // the hook is for *writing*
+  return (
+    <input
+      value={q}
+      onChange={(e) => setSearch({ q: e.target.value, sort, page })}
+    />
+  );
+}
+```
+
+```tsx
+// any other component — generate() takes a typed `search`
+import { generate as generatePosts } from "virtual:react-router-next/posts";
+
+<NavLink to={generatePosts({ search: { q: "router", sort: "oldest" } })}>
+  Oldest matching "router"
+</NavLink>;
+```
+
+`useSearchParams` and `generate` are also re-exported from the package for callers that prefer to pass the schema explicitly (handy without codegen — see below):
+
+```tsx
+import { useSearchParams, generate } from "@evolonix/react-router-next";
+import { searchSchema } from "./app/posts/page";
+
+const [search] = useSearchParams("posts", searchSchema);
+const href = generate("posts", {}, { search: { q: "hi" } });
+```
+
+Notes:
+
+- **Validation failures throw.** When the query string doesn't satisfy the schema, both the `searchParams` prop and `useSearchParams()` throw a `SearchParamsError` during render, so it lands on the nearest `error.tsx` (not `not-found.tsx`). Use `safeParseSearchParams(schema, params)` if you'd rather branch on `.issues` yourself.
+- **The setter forwards React Router's navigation options:** `setSearch(next, { replace: true, preventScrollReset: true })` — pass these for a search-as-you-type field so each keystroke doesn't reset scroll or pile up history entries.
+- **Serialization is intentionally simple (v1):** arrays become repeated keys (`?tag=a&tag=b`), primitives are stringified, and `null`/`undefined` are dropped. Coercion back to numbers/booleans is the schema's job (e.g. `z.coerce.number()`).
+- **`searchSchema` is a reserved export name** on `page.tsx` for this feature.
+- Without codegen (the package-level helpers / prop-based setup below), the `searchParams` prop is the untyped record; use `useSearchParams(routeKey, schema)` for typed access.
+- Async schemas are not supported — the hook is synchronous.
 
 ## Use without Vite
 

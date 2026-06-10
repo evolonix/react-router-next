@@ -2,7 +2,13 @@ import { isAbsolute, relative, resolve } from "node:path";
 import type { Plugin } from "vite";
 import { ROUTE_FILE_NAMES } from "../runtime/route-files";
 import { renderRuntimeModule } from "./render";
-import { ROUTE_FILE_RE, routeKeyFor, scanAppDir, toPosix } from "./scan";
+import {
+  buildRouteSchemaMap,
+  ROUTE_FILE_RE,
+  routeKeyFor,
+  scanAppDir,
+  toPosix,
+} from "./scan";
 import { generateRouteTypes } from "./typegen";
 
 export type ReactRouterNextOptions = {
@@ -36,6 +42,8 @@ export function reactRouterNext(options: ReactRouterNextOptions = {}): Plugin {
   let appDir = "";
   let outDir = "";
   let routeKeys = new Set<string>();
+  // route key -> absolute leaf file that exports a `searchParams` schema
+  let routeSchemas = new Map<string, string>();
 
   function resolvePaths(viteRoot: string): void {
     root = viteRoot;
@@ -49,11 +57,13 @@ export function reactRouterNext(options: ReactRouterNextOptions = {}): Plugin {
   function regenerate(): void {
     const result = generateRouteTypes({ root, appDir, outDir });
     routeKeys = new Set(result.routeKeys);
+    routeSchemas = buildRouteSchemaMap(appDir);
   }
 
   function refreshKnownKeys(): void {
     const { routeDirs } = scanAppDir(appDir);
     routeKeys = new Set(routeDirs.map((d) => routeKeyFor(appDir, d)));
+    routeSchemas = buildRouteSchemaMap(appDir);
   }
 
   return {
@@ -70,11 +80,37 @@ export function reactRouterNext(options: ReactRouterNextOptions = {}): Plugin {
     },
 
     configureServer(server) {
-      const onChange = (file: string): void => {
+      const onStructural = (file: string): void => {
         if (ROUTE_FILE_RE.test(file)) regenerate();
       };
-      server.watcher.on("add", onChange);
-      server.watcher.on("unlink", onChange);
+      server.watcher.on("add", onStructural);
+      server.watcher.on("unlink", onStructural);
+
+      // A `searchParams` export can be added to (or removed from) an existing
+      // file with no add/unlink event. Re-detect schemas on content changes and,
+      // only when a route's schema presence actually flips, regenerate types and
+      // invalidate that route's virtual module so `load()` re-emits the new
+      // shape. Unchanged routes fall through to normal HMR.
+      server.watcher.on("change", (file: string): void => {
+        if (!ROUTE_FILE_RE.test(file)) return;
+        const before = routeSchemas;
+        const after = buildRouteSchemaMap(appDir);
+        const changed: string[] = [];
+        for (const key of new Set([...before.keys(), ...after.keys()])) {
+          if ((before.get(key) ?? "") !== (after.get(key) ?? "")) {
+            changed.push(key);
+          }
+        }
+        if (changed.length === 0) return;
+        regenerate();
+        for (const key of changed) {
+          const id =
+            RESOLVED_PREFIX + VIRTUAL_PREFIX + (key === "" ? "_root" : key);
+          const mod = server.moduleGraph.getModuleById(id);
+          if (mod) server.moduleGraph.invalidateModule(mod);
+        }
+        server.ws.send({ type: "full-reload" });
+      });
     },
 
     resolveId(id) {
@@ -117,7 +153,13 @@ export { modules, appDir };
           );
         }
       }
-      return renderRuntimeModule(routeKey);
+      const schemaFile = routeSchemas.get(routeKey);
+      // Virtual modules have no importer path; root-relative (with extension,
+      // matching the app-tree glob keys) is the form Vite resolves here.
+      const searchSpecifier = schemaFile
+        ? "/" + toPosix(relative(root, schemaFile)).replace(/^\/+/, "")
+        : undefined;
+      return renderRuntimeModule(routeKey, searchSpecifier);
     },
   };
 }
