@@ -1,6 +1,6 @@
 {
   "name": "@evolonix/react-router-next-devtools",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Dev-only route-tree overlay for @evolonix/react-router-next — visualize the route tree, the matched route, params, and search params.",
   "license": "MIT",
   "type": "module",

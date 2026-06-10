@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-react-router-next",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "ESLint rules for @evolonix/react-router-next filesystem-routing conventions.",
   "license": "MIT",
   "type": "module",
