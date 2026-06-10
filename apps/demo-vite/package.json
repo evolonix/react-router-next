@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "lint": "eslint src",
     "build": "react-router-next typegen && tsc -b && vite build",
     "preview": "vite preview",
     "typecheck": "react-router-next typegen && tsc -b",
@@ -20,6 +21,9 @@
   "devDependencies": {
     "@evolonix/react-router-next-devtools": "*",
     "@tailwindcss/vite": "^4.3.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "eslint": "^9.18.0",
+    "eslint-plugin-react-router-next": "*",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.2",
