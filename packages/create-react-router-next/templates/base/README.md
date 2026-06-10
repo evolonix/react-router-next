@@ -32,3 +32,13 @@ optional catch-all `search/[[...query]]`. See the
 ```bash
 npm run build
 ```
+
+## Lint
+
+Route conventions are linted by
+[`eslint-plugin-react-router-next`](https://github.com/evolonix/react-router-next/tree/main/packages/eslint-plugin-react-router-next)
+(see `eslint.config.mjs`):
+
+```bash
+npm run lint
+```

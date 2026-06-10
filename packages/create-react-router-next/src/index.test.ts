@@ -67,6 +67,8 @@ describe("scaffold", () => {
     // overlay
     expect(existsSync(join(target, "vite.config.ts"))).toBe(true);
     expect(existsSync(join(target, "src/main.tsx"))).toBe(true);
+    // shared eslint config (from base)
+    expect(existsSync(join(target, "eslint.config.mjs"))).toBe(true);
 
     // _gitignore restored to .gitignore
     expect(existsSync(join(target, ".gitignore"))).toBe(true);
