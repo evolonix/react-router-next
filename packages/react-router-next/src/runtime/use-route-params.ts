@@ -1,4 +1,5 @@
 import { useParams } from "react-router";
+import type { SearchParamsRecord } from "./serialize-search";
 
 type ParseSegment<S extends string> = S extends `[[...${infer Name}]]`
   ? { [K in Name]?: string[] }
@@ -22,6 +23,12 @@ export type RouteParams<S extends string> = string extends S
 
 export type RouteProps<S extends string> = {
   params: RouteParams<S>;
+  /**
+   * The route's query string. Untyped here (mirrors Next's page prop); a route
+   * that exports a `searchSchema` gets a *typed* `searchParams` via its
+   * generated `virtual:react-router-next/<route>` `RouteProps`.
+   */
+  searchParams: SearchParamsRecord;
 };
 
 export function parseRouteParams<S extends string>(

@@ -1,4 +1,4 @@
-import { readdirSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 import { relative } from "node:path";
 import { ROUTE_FILE_NAMES } from "../runtime/route-files";
 
@@ -167,6 +167,97 @@ export function routeKeyFor(appDir: string, routeDir: string): string {
 
 export function routeHasParams(routeKey: string): boolean {
   return routeKey.includes("[");
+}
+
+/**
+ * Detects a `searchSchema` export in a route's leaf file. Covers the three
+ * forms an author might use:
+ *   - `export const searchSchema = …` (also `let`/`var`/`function`)
+ *   - `export { searchSchema }`
+ *   - `export { foo as searchSchema }`
+ * Intentionally a cheap textual check — the plugin never parses route files,
+ * and a false positive degrades to a type error on the import, not a crash.
+ */
+const SEARCH_SCHEMA_EXPORT_RE =
+  /\bexport\s+(?:const|let|var|(?:async\s+)?function)\s+searchSchema\b|\bexport\s*\{[^}]*\bas\s+searchSchema\b[^}]*\}|\bexport\s*\{[^}]*\bsearchSchema\b[^}]*\}/;
+
+/** File names that can carry a route's `searchParams` schema, by priority. */
+const LEAF_FILE_NAMES = ["page", "default", "template", "layout"] as const;
+const LEAF_FILE_EXTS = ["tsx", "ts", "jsx", "js"] as const;
+
+/**
+ * Absolute path to the leaf file of a route directory (the file most likely to
+ * carry a `searchParams` schema), or `null` if the directory has none. `page`
+ * wins over `default`/`template`/`layout`, mirroring how the runtime treats the
+ * page as the route's leaf.
+ */
+export function leafFileFor(routeDir: string): string | null {
+  let names: Set<string>;
+  try {
+    names = new Set(
+      readdirSync(routeDir, { withFileTypes: true })
+        .filter((e) => e.isFile())
+        .map((e) => e.name),
+    );
+  } catch {
+    return null;
+  }
+  for (const base of LEAF_FILE_NAMES) {
+    for (const ext of LEAF_FILE_EXTS) {
+      const name = `${base}.${ext}`;
+      if (names.has(name)) return toPosix(`${routeDir}/${name}`);
+    }
+  }
+  return null;
+}
+
+/** Whether a leaf file exports a `searchSchema`. */
+export function routeHasSearchSchema(leafFile: string | null): boolean {
+  if (!leafFile) return false;
+  try {
+    return SEARCH_SCHEMA_EXPORT_RE.test(readFileSync(leafFile, "utf8"));
+  } catch {
+    return false;
+  }
+}
+
+function isInterceptorDir(appDir: string, routeDir: string): boolean {
+  return toPosix(relative(appDir, routeDir))
+    .split("/")
+    .some((seg) => parseInterceptPrefix(seg) !== null);
+}
+
+/**
+ * Map of route key → absolute path of the leaf file that exports a
+ * `searchSchema`. Only routes that declare a schema appear. When several
+ * directories resolve to the same key (an interceptor and its target), the
+ * non-interceptor (target) leaf is preferred so the schema tracks the canonical
+ * URL.
+ */
+export function buildRouteSchemaMap(appDir: string): Map<string, string> {
+  const { routeDirs } = scanAppDir(appDir);
+  const byKey = new Map<string, { dir: string; isIntercept: boolean }[]>();
+  for (const dir of routeDirs) {
+    const key = routeKeyFor(appDir, dir);
+    const list = byKey.get(key) ?? [];
+    list.push({ dir, isIntercept: isInterceptorDir(appDir, dir) });
+    byKey.set(key, list);
+  }
+
+  const result = new Map<string, string>();
+  for (const [key, candidates] of byKey) {
+    const ordered = [...candidates].sort(
+      (a, b) => Number(a.isIntercept) - Number(b.isIntercept),
+    );
+    for (const candidate of ordered) {
+      const leaf = leafFileFor(candidate.dir);
+      if (routeHasSearchSchema(leaf)) {
+        result.set(key, leaf as string);
+        break;
+      }
+    }
+  }
+  return result;
 }
 
 /** Cross-platform variant of the runtime `ROUTE_FILE_RE` — handles backslash

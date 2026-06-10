@@ -54,6 +54,24 @@ describe("generateRouteModules", () => {
     expect(onDisk).toBe(renderRuntimeModule("posts/[id]"));
   });
 
+  it("imports the schema with a path relative to the emitted route file", () => {
+    mkdirSync(join(root, "src/app/posts"), { recursive: true });
+    writeFileSync(
+      join(root, "src/app/posts/page.tsx"),
+      "export const searchSchema = schema;\nexport default function Page() {}",
+    );
+
+    generateRouteModules({ root, appDir: "src/app", outDir: "out" });
+
+    const onDisk = readFileSync(join(root, "out/routes/posts.js"), "utf8");
+    // routes/posts.js -> ../../src/app/posts/page.tsx (extension kept for bundlers)
+    expect(onDisk).toContain(
+      'import { searchSchema as schema } from "../../src/app/posts/page.tsx";',
+    );
+    expect(onDisk).toContain("useSearchParams as useSearchParamsBase");
+    expect(onDisk).toContain("export { schema as searchSchema };");
+  });
+
   it("app-tree.js module keys match the appDir prefix the Vite plugin emits", () => {
     writePage(join(root, "src/app"));
     writePage(join(root, "src/app/posts/[id]"));

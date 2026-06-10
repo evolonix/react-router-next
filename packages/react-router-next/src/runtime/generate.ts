@@ -1,8 +1,15 @@
+import { serializeSearch, type SearchInput } from "./serialize-search";
 import type { RouteParams } from "./use-route-params";
+
+export type GenerateOptions = {
+  /** Query-string values appended to the generated pathname. */
+  search?: SearchInput;
+};
 
 export function generate<S extends string>(
   route: S,
   params?: RouteParams<S>,
+  opts?: GenerateOptions,
 ): string {
   const p = (params ?? {}) as Record<string, string | string[] | undefined>;
   const out: string[] = [];
@@ -23,7 +30,12 @@ export function generate<S extends string>(
       out.push(seg);
     }
   }
-  return "/" + out.join("/");
+  const pathname = "/" + out.join("/");
+  if (opts?.search) {
+    const qs = serializeSearch(opts.search).toString();
+    if (qs) return `${pathname}?${qs}`;
+  }
+  return pathname;
 }
 
 /** @deprecated Use {@link generate} instead. */

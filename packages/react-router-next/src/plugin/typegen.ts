@@ -1,7 +1,7 @@
-import { isAbsolute, join, resolve } from "node:path";
+import { isAbsolute, join, relative, resolve } from "node:path";
 import { writeIfChanged } from "./fs-utils";
 import { renderDtsShim } from "./render";
-import { routeKeyFor, scanAppDir } from "./scan";
+import { buildRouteSchemaMap, routeKeyFor, scanAppDir, toPosix } from "./scan";
 
 export type GenerateOptions = {
   /** Project root used to resolve relative paths. Defaults to `process.cwd()`. */
@@ -24,6 +24,15 @@ function resolveAgainst(root: string, p: string): string {
   return isAbsolute(p) ? p : resolve(root, p);
 }
 
+/** Extensionless module specifier from `fromDir` to `file`, for d.ts imports. */
+function dtsSpecifier(fromDir: string, file: string): string {
+  const rel = toPosix(relative(fromDir, file)).replace(
+    /\.(tsx|jsx|ts|js)$/,
+    "",
+  );
+  return rel.startsWith(".") ? rel : `./${rel}`;
+}
+
 export function generateRouteTypes(opts: GenerateOptions = {}): GenerateResult {
   const root = opts.root ?? process.cwd();
   const appDir = resolveAgainst(root, opts.appDir ?? "src/app");
@@ -37,8 +46,16 @@ export function generateRouteTypes(opts: GenerateOptions = {}): GenerateResult {
     ...new Set(routeDirs.map((dir) => routeKeyFor(appDir, dir))),
   ].sort((a, b) => a.localeCompare(b));
 
+  const searchSpecifiers = new Map<string, string>();
+  for (const [key, file] of buildRouteSchemaMap(appDir)) {
+    searchSpecifiers.set(key, dtsSpecifier(outDir, file));
+  }
+
   const shimPath = join(outDir, "routes.d.ts");
-  const written = writeIfChanged(shimPath, renderDtsShim(routeKeys));
+  const written = writeIfChanged(
+    shimPath,
+    renderDtsShim(routeKeys, searchSpecifiers),
+  );
 
   return { appDir, outDir, routeKeys, shimPath, written };
 }

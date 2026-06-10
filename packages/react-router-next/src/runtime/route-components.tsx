@@ -7,16 +7,20 @@ import {
   type ReactElement,
   type ReactNode,
 } from "react";
+import type { StandardSchemaV1 } from "@standard-schema/spec";
 import {
   Outlet,
   useLocation,
   useNavigation,
   useParams,
   useRouteError as rrUseRouteError,
+  useSearchParams as useRouterSearchParams,
 } from "react-router";
 import { isNotFoundError } from "./not-found";
 import { SuspensePendingMarker } from "./route-pending";
+import { deserializeSearch } from "./serialize-search";
 import { parseRouteParams } from "./use-route-params";
+import { parseSearchParams } from "./use-search-params";
 
 type RouteParamsRecord = Record<string, string | string[] | undefined>;
 
@@ -54,13 +58,17 @@ export function LoadingBoundary({
   const nav = useNavigation();
   const location = useLocation();
   if (nav.state === "loading") return <Loading />;
-  // Key the boundary by location so navigating between siblings under the same
+  // Key the boundary by pathname so navigating between siblings under the same
   // layout unmounts the previous subtree. Without this, React's transition
   // semantics keep the already-revealed content on screen while the new child
-  // suspends, and the fallback never fires.
+  // suspends, and the fallback never fires. Keying by `location.key` (which
+  // changes on *every* navigation) would also remount on search-/hash-only
+  // changes — dropping input focus and component state as the query string
+  // updates — and Next fires `loading.tsx` on path navigation, not on query
+  // changes, so `pathname` is the correct granularity.
   return (
     <Suspense
-      key={location.key}
+      key={location.pathname}
       fallback={
         <>
           <SuspensePendingMarker />
@@ -83,6 +91,35 @@ export function ComponentWithParams({
   const rrParams = useParams();
   const params = parseRouteParams(route, rrParams);
   return <C params={params} />;
+}
+
+/**
+ * Renders a **page** (or `default.tsx`) with Next.js-style props: `params`
+ * parsed from the URL, plus `searchParams` from the query string. When the
+ * route declares a `searchSchema`, `searchParams` is the validated, typed
+ * output (and an invalid query throws into the nearest `error.tsx`, exactly
+ * like the `useSearchParams()` hook); otherwise it's the raw untyped record,
+ * matching Next's page prop. Layouts use `ComponentWithParams` and never
+ * receive `searchParams` — they don't re-render on query changes in Next.
+ */
+export function ComponentWithPageProps({
+  Component: C,
+  route,
+  schema,
+}: {
+  Component: ComponentType<{
+    params?: RouteParamsRecord;
+    searchParams?: unknown;
+  }>;
+  route: string;
+  schema?: StandardSchemaV1;
+}): ReactElement {
+  const params = parseRouteParams(route, useParams());
+  const [rrSearchParams] = useRouterSearchParams();
+  const searchParams = schema
+    ? parseSearchParams(schema, rrSearchParams, route)
+    : deserializeSearch(rrSearchParams);
+  return <C params={params} searchParams={searchParams} />;
 }
 
 /**

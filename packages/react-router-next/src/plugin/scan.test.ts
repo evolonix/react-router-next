@@ -3,12 +3,15 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import {
+  buildRouteSchemaMap,
   computeRouteKey,
   isPrivateSegment,
   isRouteGroupSegment,
   isSlotSegment,
+  leafFileFor,
   parseInterceptPrefix,
   routeHasParams,
+  routeHasSearchSchema,
   routeKeyFor,
   ROUTE_FILE_RE,
   scanAppDir,
@@ -218,5 +221,89 @@ describe("ROUTE_FILE_RE", () => {
   it("matches the file kinds in the convention", () => {
     expect(ROUTE_FILE_RE.test("/src/app/posts/not-found.tsx")).toBe(true);
     expect(ROUTE_FILE_RE.test("/src/app/page.tsx")).toBe(true);
+  });
+});
+
+describe("routeHasSearchSchema / leafFileFor / buildRouteSchemaMap", () => {
+  let tmpRoot: string;
+
+  beforeEach(() => {
+    tmpRoot = mkdtempSync(join(tmpdir(), "rrn-search-"));
+  });
+
+  afterEach(() => {
+    rmSync(tmpRoot, { recursive: true, force: true });
+  });
+
+  function write(rel: string, body: string): string {
+    const full = join(tmpRoot, rel);
+    mkdirSync(join(full, ".."), { recursive: true });
+    writeFileSync(full, body);
+    return full;
+  }
+
+  it("returns false for a null leaf file", () => {
+    expect(routeHasSearchSchema(null)).toBe(false);
+  });
+
+  it("detects `export const searchSchema`", () => {
+    const f = write("a/page.tsx", "export const searchSchema = z.object({});");
+    expect(routeHasSearchSchema(f)).toBe(true);
+  });
+
+  it("detects `export function searchSchema` and async variants", () => {
+    const f = write("b/page.tsx", "export async function searchSchema() {}");
+    expect(routeHasSearchSchema(f)).toBe(true);
+  });
+
+  it("detects `export { searchSchema }`", () => {
+    const f = write(
+      "c/page.tsx",
+      "const searchSchema = s;\nexport { searchSchema };",
+    );
+    expect(routeHasSearchSchema(f)).toBe(true);
+  });
+
+  it("detects `export { foo as searchSchema }`", () => {
+    const f = write("d/page.tsx", "export { foo as searchSchema };");
+    expect(routeHasSearchSchema(f)).toBe(true);
+  });
+
+  it("returns false when there is no searchSchema export", () => {
+    const f = write("e/page.tsx", "export default function Page() {}");
+    expect(routeHasSearchSchema(f)).toBe(false);
+  });
+
+  it("prefers page over layout for the leaf file", () => {
+    mkdirSync(join(tmpRoot, "f"), { recursive: true });
+    writeFileSync(join(tmpRoot, "f", "layout.tsx"), "export default null");
+    writeFileSync(join(tmpRoot, "f", "page.tsx"), "export default null");
+    expect(leafFileFor(join(tmpRoot, "f"))).toBe(
+      toPosix(join(tmpRoot, "f", "page.tsx")),
+    );
+  });
+
+  it("maps only routes whose leaf exports a schema, keyed by route key", () => {
+    write("posts/page.tsx", "export const searchSchema = schema;");
+    write("about/page.tsx", "export default function About() {}");
+
+    const map = buildRouteSchemaMap(tmpRoot);
+    expect([...map.keys()]).toEqual(["posts"]);
+    expect(map.get("posts")).toBe(toPosix(join(tmpRoot, "posts", "page.tsx")));
+  });
+
+  it("prefers the target leaf over an interceptor for the same key", () => {
+    // gallery/[id]/page.tsx and gallery/@modal/(.)[id]/page.tsx both resolve to
+    // the key "gallery/[id]"; only the target declares the schema.
+    write("gallery/[id]/page.tsx", "export const searchSchema = schema;");
+    write(
+      "gallery/@modal/(.)[id]/page.tsx",
+      "export default function Modal() {}",
+    );
+
+    const map = buildRouteSchemaMap(tmpRoot);
+    expect(map.get("gallery/[id]")).toBe(
+      toPosix(join(tmpRoot, "gallery", "[id]", "page.tsx")),
+    );
   });
 });

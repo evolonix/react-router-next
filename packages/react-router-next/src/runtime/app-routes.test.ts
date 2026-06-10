@@ -8,7 +8,7 @@ import {
   type SlotConfig,
 } from "./parallel-routes";
 import {
-  ComponentWithParams,
+  ComponentWithPageProps,
   NotFoundBoundary,
   SegmentBoundary,
 } from "./route-components";
@@ -65,17 +65,18 @@ describe("buildRoutesFromModules — slot-owned intercepting routes", () => {
     expect(wrapper.type).toBe(InterceptedRoute);
 
     // Interceptor is the feed (parent's index element), NOT the modal Dialog.
-    // photos has no params, so the feed is rendered directly as <Feed />.
-    const interceptor = asElement<Record<string, unknown>>(
+    // Pages are wrapped in ComponentWithPageProps to receive searchParams.
+    const interceptor = asElement<{ Component: ComponentType }>(
       wrapper.props.Interceptor,
     );
-    expect(interceptor.type).toBe(Feed);
+    expect(interceptor.type).toBe(ComponentWithPageProps);
+    expect(interceptor.props.Component).toBe(Feed);
 
     // Target is the original [id]/page.tsx element.
     const target = asElement<{ Component: ComponentType; route: string }>(
       wrapper.props.Target,
     );
-    expect(target.type).toBe(ComponentWithParams);
+    expect(target.type).toBe(ComponentWithPageProps);
     expect(target.props.Component).toBe(FullPage);
     expect(target.props.route).toBe("photos/[id]");
   });
@@ -93,13 +94,16 @@ describe("buildRoutesFromModules — slot-owned intercepting routes", () => {
     // inner feed stays mounted across the soft nav.
     expect(wrapper.type).toBe(InterceptedRoute);
 
-    const interceptor = asElement<Record<string, unknown>>(
+    const interceptor = asElement<{ Component: ComponentType }>(
       wrapper.props.Interceptor,
     );
-    const target = asElement<Record<string, unknown>>(wrapper.props.Target);
-    // On the index leaf both branches resolve to the feed, regardless of nav type.
-    expect(interceptor.type).toBe(Feed);
-    expect(target.type).toBe(Feed);
+    const target = asElement<{ Component: ComponentType }>(
+      wrapper.props.Target,
+    );
+    // On the index leaf both branches resolve to the feed (wrapped to receive
+    // searchParams), regardless of nav type.
+    expect(interceptor.props.Component).toBe(Feed);
+    expect(target.props.Component).toBe(Feed);
   });
 
   it("injects an InterceptedRoute at :id into the @modal slot's routes", () => {
@@ -124,7 +128,7 @@ describe("buildRoutesFromModules — slot-owned intercepting routes", () => {
     const dialog = asElement<{ Component: ComponentType; route: string }>(
       wrapper.props.Interceptor,
     );
-    expect(dialog.type).toBe(ComponentWithParams);
+    expect(dialog.type).toBe(ComponentWithPageProps);
     expect(dialog.props.Component).toBe(ModalPage);
     expect(dialog.props.route).toBe("photos/[id]");
   });
@@ -135,10 +139,12 @@ describe("buildRoutesFromModules — slot-owned intercepting routes", () => {
     const layoutEl = asElement<{ slots: Record<string, SlotConfig> }>(
       photos.element,
     );
-    const def = asElement<Record<string, unknown>>(
+    const def = asElement<{ Component: ComponentType }>(
       layoutEl.props.slots.modal.defaultElement,
     );
-    expect(def.type).toBe(ModalDefault);
+    // default.tsx is page-like — wrapped to receive params + searchParams.
+    expect(def.type).toBe(ComponentWithPageProps);
+    expect(def.props.Component).toBe(ModalDefault);
   });
 });
 
@@ -212,7 +218,7 @@ describe("buildRoutesFromModules — legacy non-slot intercepting routes", () =>
     const interceptor = asElement<{ Component: ComponentType; route: string }>(
       wrapper.props.Interceptor,
     );
-    expect(interceptor.type).toBe(ComponentWithParams);
+    expect(interceptor.type).toBe(ComponentWithPageProps);
     expect(interceptor.props.Component).toBe(InterceptPage);
   });
 });
@@ -662,7 +668,7 @@ describe("buildRoutesFromModules — intercepted-route loading/error wiring", ()
     const page = asElement<{ Component: ComponentType; route: string }>(
       boundary.props.children,
     );
-    expect(page.type).toBe(ComponentWithParams);
+    expect(page.type).toBe(ComponentWithPageProps);
     expect(page.props.Component).toBe(ModalPage);
   });
 
@@ -695,7 +701,7 @@ describe("buildRoutesFromModules — intercepted-route loading/error wiring", ()
     const interceptor = asElement<{ Component: ComponentType }>(
       wrapper.props.Interceptor,
     );
-    expect(interceptor.type).toBe(ComponentWithParams);
+    expect(interceptor.type).toBe(ComponentWithPageProps);
     expect(interceptor.props.Component).toBe(ModalPage);
   });
 });
