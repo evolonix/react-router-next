@@ -3,6 +3,7 @@ import {
   existsSync,
   readdirSync,
   readFileSync,
+  realpathSync,
   renameSync,
   writeFileSync,
 } from "node:fs";
@@ -191,10 +192,20 @@ export async function run(argv: readonly string[]): Promise<number> {
   return 0;
 }
 
-// Invoked as a bin. import.meta.url matches the entry when run directly.
-const invokedDirectly =
-  process.argv[1] != null &&
-  import.meta.url === new URL(`file://${process.argv[1]}`).href;
+// Invoked as a bin. Compare realpaths so a symlinked bin — how npx/npm
+// expose it (node_modules/.bin) — still matches the loaded module. argv[1]
+// is the symlink; import.meta.url is already resolved to the real file.
+const invokedDirectly = (() => {
+  if (process.argv[1] == null) return false;
+  try {
+    return (
+      realpathSync(process.argv[1]) ===
+      realpathSync(fileURLToPath(import.meta.url))
+    );
+  } catch {
+    return false;
+  }
+})();
 
 if (invokedDirectly) {
   run(process.argv.slice(2)).then(
