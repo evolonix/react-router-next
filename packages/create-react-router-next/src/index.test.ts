@@ -1,7 +1,15 @@
-import { existsSync, mkdtempSync, readFileSync, rmSync } from "node:fs";
+import { execFileSync } from "node:child_process";
+import {
+  existsSync,
+  mkdtempSync,
+  readFileSync,
+  rmSync,
+  symlinkSync,
+} from "node:fs";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
+import { afterEach, beforeAll, beforeEach, describe, expect, it } from "vitest";
 import { isDirEmpty, parseArgs, scaffold, toPackageName } from "./index";
 
 describe("parseArgs", () => {
@@ -92,5 +100,43 @@ describe("scaffold", () => {
     const target = join(dir, "rs");
     scaffold({ targetDir: target, template: "rspack", packageName: "rs" });
     expect(existsSync(join(target, "rsbuild.config.ts"))).toBe(true);
+  });
+});
+
+// Regression guard: npm create / npx expose the bin as a symlink in
+// node_modules/.bin, so the entry must detect "invoked directly" by realpath,
+// not by comparing argv[1] (the symlink) to import.meta.url (the real file).
+// A naive comparison passes when run as `node dist/index.js` but silently
+// no-ops through the symlink — the bug that made 0.1.0 do nothing.
+describe("bin entry (symlinked invocation)", () => {
+  const pkgRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
+  const bin = join(pkgRoot, "dist", "index.js");
+  let dir: string;
+
+  beforeAll(() => {
+    // Build the bin from current source so the test reflects this commit.
+    execFileSync("npm", ["run", "build"], { cwd: pkgRoot, stdio: "ignore" });
+  });
+
+  beforeEach(() => {
+    dir = mkdtempSync(join(tmpdir(), "rrn-bin-"));
+  });
+
+  afterEach(() => {
+    rmSync(dir, { recursive: true, force: true });
+  });
+
+  it("scaffolds when invoked through a symlinked bin", () => {
+    const link = join(dir, "create-react-router-next");
+    symlinkSync(bin, link);
+
+    const out = execFileSync("node", [link, "app", "--template", "vite"], {
+      cwd: dir,
+      encoding: "utf8",
+    });
+
+    expect(out).toContain("Created app");
+    expect(existsSync(join(dir, "app", "vite.config.ts"))).toBe(true);
+    expect(existsSync(join(dir, "app", "src", "app", "page.tsx"))).toBe(true);
   });
 });
