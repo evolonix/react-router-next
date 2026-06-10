@@ -33,7 +33,9 @@ Pass one with `--template <name>` (`-t`), or pick interactively. Defaults to
 
 Every template ships the same `src/app/` route tree (home, a static route, a
 dynamic `[slug]` route, and a `not-found.tsx`) so the conventions are the same
-across bundlers.
+across bundlers, plus an `eslint.config.mjs` wired up with
+[`eslint-plugin-react-router-next`](https://github.com/evolonix/react-router-next/tree/main/packages/eslint-plugin-react-router-next)
+(`npm run lint`).
 
 ## Options
 
