@@ -16,7 +16,7 @@ interface BaseFieldProps {
 
 const DENSITY: Record<Density, string> = {
   comfortable: "px-3 py-2 text-base sm:text-sm",
-  compact: "px-3 py-1.5 text-sm",
+  compact: "px-3 py-1.5 text-base sm:text-sm",
 };
 
 const CONTROL_BASE =
