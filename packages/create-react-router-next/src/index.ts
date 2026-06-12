@@ -63,12 +63,15 @@ const V = {
   typesReact: "^19.2.0",
   typesReactDom: "^19.2.0",
   typescript: "~6.0.2",
+  // search params (the starter's /search route exports a Zod searchSchema)
+  zod: "^4.0.0",
   // vite
   viteReact: "^6.0.0",
   vite: "^8.0.0",
   // webpack
   swcCore: "^1.15.0",
   typesWebpackEnv: "^1.18.5",
+  copyWebpackPlugin: "^12.0.2",
   cssLoader: "^7.1.2",
   htmlWebpackPlugin: "^5.6.0",
   styleLoader: "^4.0.0",
@@ -207,6 +210,9 @@ export function buildPackageJson(
     react: V.react,
     "react-dom": V.reactDom,
     "react-router": V.reactRouter,
+    // The starter's /search route validates its query string with a Zod
+    // searchSchema; any Standard Schema library would work.
+    zod: V.zod,
   };
   const devDeps: Record<string, string> = {
     "@types/react": V.typesReact,
@@ -232,6 +238,8 @@ export function buildPackageJson(
     Object.assign(devDeps, {
       "@swc/core": V.swcCore,
       "@types/webpack-env": V.typesWebpackEnv,
+      // Copies `public/` (the logo) into the build; Vite & Rsbuild do this natively.
+      "copy-webpack-plugin": V.copyWebpackPlugin,
       "css-loader": V.cssLoader,
       "html-webpack-plugin": V.htmlWebpackPlugin,
       "style-loader": V.styleLoader,
@@ -308,7 +316,7 @@ export function layoutTsx(features: Features, template: TemplateName): string {
         : `import { RouteTreeDevtools } from "@evolonix/react-router-next-devtools";`,
     );
   }
-  imports.push(`import { NavLink, Outlet } from "react-router";`);
+  imports.push(`import { Link, NavLink, Outlet } from "react-router";`);
 
   const devtools = features.devtools ? `\n      <RouteTreeDevtools />` : "";
 
@@ -318,22 +326,44 @@ export function layoutTsx(features: Features, template: TemplateName): string {
 // \`layout.tsx\` wraps every route beneath it and renders its matched child
 // through \`<Outlet />\` — the same convention as Next.js's App Router.
 const linkClass = ({ isActive }: { isActive: boolean }) =>
-  isActive ? "font-semibold" : "opacity-70 hover:opacity-100";
+  isActive
+    ? "border-b-2 border-fuchsia-400 pb-1 font-medium text-zinc-900 dark:text-zinc-100"
+    : "border-b-2 border-transparent pb-1 font-medium text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100";
 
 export default function RootLayout() {
   return (
-    <div className="mx-auto max-w-3xl px-5 py-8">
-      <nav className="mb-6 flex gap-4 border-b border-black/10 pb-4 dark:border-white/15">
-        <NavLink to="/" end className={linkClass}>
-          Home
-        </NavLink>
-        <NavLink to="/about" className={linkClass}>
-          About
-        </NavLink>
-        <NavLink to="/blog/hello-world" className={linkClass}>
-          Blog post
-        </NavLink>
-      </nav>
+    <div className="mx-auto max-w-3xl px-5 pt-8 pb-16">
+      <header className="mb-8 flex flex-wrap items-center justify-between gap-4 border-b border-black/10 pb-4 dark:border-white/15">
+        <Link
+          to="/"
+          className="flex items-center gap-2 text-base font-semibold tracking-tight"
+        >
+          <img
+            src="/logo.svg"
+            alt=""
+            aria-hidden="true"
+            className="h-[1em] w-[1em]"
+          />
+          <span className="font-display font-bold">Evolonix</span>
+        </Link>
+        <nav className="flex flex-wrap gap-5">
+          <NavLink to="/" end className={linkClass}>
+            Home
+          </NavLink>
+          <NavLink to="/about" className={linkClass}>
+            About
+          </NavLink>
+          <NavLink to="/hello/world" className={linkClass}>
+            Hello
+          </NavLink>
+          <NavLink to="/files/docs/getting-started" className={linkClass}>
+            Files
+          </NavLink>
+          <NavLink to="/search" className={linkClass}>
+            Search
+          </NavLink>
+        </nav>
+      </header>
       <Outlet />${devtools}
     </div>
   );
@@ -344,17 +374,26 @@ export default function RootLayout() {
   return `${imports.join("\n")}
 
 // \`layout.tsx\` wraps every route beneath it and renders its matched child
-// through \`<Outlet />\` — the same convention as Next.js's App Router.
+// through \`<Outlet />\` — the same convention as Next.js's App Router. The
+// brand + nav are styled by element selectors in styles.css (class-free here).
 export default function RootLayout() {
   return (
     <>
-      <nav>
-        <NavLink to="/" end>
-          Home
-        </NavLink>
-        <NavLink to="/about">About</NavLink>
-        <NavLink to="/blog/hello-world">Blog post</NavLink>
-      </nav>
+      <header>
+        <Link to="/">
+          <img src="/logo.svg" alt="" aria-hidden="true" />
+          <span>Evolonix</span>
+        </Link>
+        <nav>
+          <NavLink to="/" end>
+            Home
+          </NavLink>
+          <NavLink to="/about">About</NavLink>
+          <NavLink to="/hello/world">Hello</NavLink>
+          <NavLink to="/files/docs/getting-started">Files</NavLink>
+          <NavLink to="/search">Search</NavLink>
+        </nav>
+      </header>
       <Outlet />${devtools}
     </>
   );

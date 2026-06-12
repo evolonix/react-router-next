@@ -20,15 +20,18 @@ This is an npm workspaces monorepo:
 ```
 .
 ├── packages/
-│   └── react-router-next/   # the published library (runtime + Vite plugin + CLI)
+│   ├── react-router-next/                  # the core library (runtime + Vite plugin + codegen CLI)
+│   ├── create-react-router-next/           # scaffolder (npm create react-router-next)
+│   ├── eslint-plugin-react-router-next/    # route-convention lint rules
+│   └── react-router-next-devtools/         # dev-only route-tree overlay
 └── apps/
-    ├── showcase/            # landing page (deployed at /)
-    ├── demo-vite/           # Vite + plugin demo
-    ├── demo-rsbuild/        # Rsbuild demo
-    └── demo-webpack/        # Webpack 5 demo
+    ├── showcase/                           # landing page (deployed at /)
+    ├── demo-vite/                          # Vite + plugin demo
+    ├── demo-rsbuild/                       # Rsbuild demo
+    └── demo-webpack/                       # Webpack 5 demo
 ```
 
-Only `packages/react-router-next` ships to npm. The `showcase` and `demo-*` apps are private workspaces used for development and excluded from the changesets release flow (see [.changeset/config.json](.changeset/config.json)).
+All four `packages/*` are published to npm (public, with provenance). The `showcase` and `demo-*` apps are private workspaces used for development — they never publish (`"private": true`), and `showcase` is also excluded from the changesets release flow (see [.changeset/config.json](.changeset/config.json)).
 
 ## Prerequisites
 
@@ -55,6 +58,32 @@ npm run build -w showcase                      # tsc -b && vite build (landing p
 npm run dev   -w demo-vite                     # vite dev server (bundler demo)
 npm run typegen -w demo-vite                   # regenerate routes.d.ts shim
 ```
+
+## Developing the create-react-router-next templates
+
+`create-react-router-next` emits a project that pins the **published** versions of `@evolonix/react-router-next` and friends, so a plain scaffold won't exercise template edits or local package source. The `scaffold` script closes that gap:
+
+```sh
+cd packages/create-react-router-next
+
+npm run scaffold                              # runs the interactive CLI wizard
+npm run scaffold -- -y                        # skip the wizard; vite + defaults
+npm run scaffold -- -t webpack --tailwind     # prompts only for unanswered options
+npm run scaffold -- -y -t vite --devtools --dev  # no prompts, then start dev
+npm run scaffold -- --no-link                 # use published versions instead
+npm run scaffold -- --out /tmp/try            # custom target dir
+```
+
+By default the script runs the create-react-router-next **wizard** (bundler + feature prompts); pass `-y`/`--yes` to take defaults non-interactively, or run in a non-TTY shell. Forwarded flags answer individual prompts up front. The directory prompt is always skipped — the script manages the scratch location (`--out` or a positional `[directory]`).
+
+It rebuilds the CLI, scaffolds into a scratch dir, rewrites the in-repo deps (`@evolonix/react-router-next`, `eslint-plugin-react-router-next`, the devtools) to `file:` links against the workspace packages, then installs. Dev-only flags handled by the wrapper — `--out <dir>`, `--no-build`, `--no-link`, `--no-install`, `--dev`, `-h`/`--help` — everything else (a positional `[directory]` plus all the CLI's feature flags) is forwarded to create-react-router-next. Run `npm run scaffold -- --help` for the full list.
+
+Two deliberate choices worth knowing:
+
+- **The scratch dir defaults to the OS temp dir, outside the repo.** A dir nested under a workspace makes npm dedupe deps against the monorepo's `node_modules`, masking the exact versions a template pins. tmpdir guarantees a clean, self-contained install.
+- **It installs with `--install-links`.** This copies the linked packages into `node_modules` as real dirs instead of symlinking them — a symlink would resolve the linked package's `react` from the monorepo (where it's a dev/peer dep), giving the app two copies of React and an "Invalid hook call" at runtime.
+
+Because the linked packages are installed as copies, **edits to a linked package's source don't apply live** — rebuild it (`npm run build -w @evolonix/react-router-next`) and re-run `npm run scaffold` to pick the change up.
 
 ## Known dev-only warnings
 
@@ -85,7 +114,7 @@ npm run format
 
 ## Changesets — required for user-facing changes
 
-Releases are automated via [changesets](https://github.com/changesets/changesets). **Any PR that changes `packages/react-router-next` in a way users will notice must include a changeset.** Examples that need one: bug fixes, new features, type changes, breaking changes, public-API tweaks. Examples that do **not** need one: README/docs-only changes, repo tooling, demo-only updates, tests, internal refactors with no behavioral change.
+Releases are automated via [changesets](https://github.com/changesets/changesets). **Any PR that changes a published `packages/*` workspace in a way users will notice must include a changeset** — this covers `@evolonix/react-router-next`, `create-react-router-next`, `eslint-plugin-react-router-next`, and `@evolonix/react-router-next-devtools`. Examples that need one: bug fixes, new features, type changes, breaking changes, public-API tweaks, scaffolder template changes. Examples that do **not** need one: README/docs-only changes, repo tooling, demo-only updates, tests, internal refactors with no behavioral change.
 
 To add a changeset:
 

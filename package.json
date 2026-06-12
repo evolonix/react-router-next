@@ -24,6 +24,7 @@
     "test": "npm run test -w @evolonix/react-router-next",
     "format:check": "prettier --check .",
     "format": "prettier --write .",
+    "scaffold": "npm run scaffold -w create-react-router-next --",
     "changeset": "changeset",
     "version": "changeset version && npm install --package-lock-only",
     "release": "npm run build -w @evolonix/react-router-next && changeset publish",

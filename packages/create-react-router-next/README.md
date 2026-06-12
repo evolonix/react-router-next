@@ -59,3 +59,18 @@ create-react-router-next [directory] [options]
   -y, --yes                              Accept defaults without prompting
   -h, --help                             Show help
 ```
+
+## Development
+
+Iterating on the CLI or the templates? `npm run scaffold` builds the CLI,
+scaffolds into a scratch dir, and links the in-repo packages so a generated app
+exercises your local source instead of the published versions:
+
+```bash
+npm run scaffold                              # vite, default features, installs
+npm run scaffold -- -t webpack --tailwind     # any template + feature flags
+npm run scaffold -- -t vite --devtools --dev  # …and start the dev server
+```
+
+See [Developing the create-react-router-next templates](../../CONTRIBUTING.md#developing-the-create-react-router-next-templates)
+for the full flag list and the rationale behind the defaults.

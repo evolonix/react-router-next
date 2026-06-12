@@ -1,12 +1,37 @@
+/* A small, cohesive design system built around the three logo colors. The
+   layout chrome (header + nav) is styled by element selectors so layout.tsx can
+   stay class-free; pages use the handful of classes below. */
 :root {
   color-scheme: light dark;
+
+  /* The logo's three bars — used as accents throughout. */
+  --c1: #a855f7;
+  --c2: #d946ef;
+  --c3: #22d3ee;
+  --grad: linear-gradient(100deg, var(--c1), var(--c2), var(--c3));
+
+  --bg: #fbfbfd;
+  --fg: #1a1a23;
+  --muted: #6b6b7b;
+  --card: #ffffff;
+  --line: color-mix(in srgb, currentColor 12%, transparent);
+
   font-family:
     system-ui,
     -apple-system,
-    Segoe UI,
+    "Segoe UI",
     Roboto,
     sans-serif;
-  line-height: 1.5;
+  line-height: 1.55;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0e0e13;
+    --fg: #ececf2;
+    --muted: #9a9aab;
+    --card: #16161e;
+  }
 }
 
 * {
@@ -15,33 +40,229 @@
 
 body {
   margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  -webkit-font-smoothing: antialiased;
 }
 
 #root {
-  max-width: 48rem;
+  max-width: 52rem;
   margin: 0 auto;
-  padding: 2rem 1.25rem;
+  padding: 2rem 1.25rem 4rem;
+}
+
+code {
+  font-family: ui-monospace, "SF Mono", "Cascadia Code", Menlo, monospace;
+  font-size: 0.9em;
+  background: color-mix(in srgb, var(--c1) 12%, transparent);
+  padding: 0.1em 0.35em;
+  border-radius: 0.35rem;
+}
+
+a {
+  color: var(--c1);
+}
+
+/* ---- header / nav (selector-styled so layout.tsx needs no classNames) ---- */
+header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--line);
+}
+
+/* The brand link (logo + wordmark) — `header > a` targets only it, not nav. */
+header > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  text-decoration: none;
+  color: inherit;
+}
+
+header img {
+  display: block;
+  width: 1em;
+  height: 1em;
+}
+
+header > a span {
+  font-family: "Manrope", system-ui, sans-serif;
+  font-weight: 700;
 }
 
 nav {
   display: flex;
-  gap: 1rem;
-  padding-bottom: 1rem;
-  margin-bottom: 1.5rem;
-  border-bottom: 1px solid color-mix(in srgb, currentColor 15%, transparent);
+  flex-wrap: wrap;
+  gap: 1.1rem;
 }
 
 nav a {
   text-decoration: none;
-  color: inherit;
-  opacity: 0.7;
+  color: var(--muted);
+  font-weight: 500;
+  padding-bottom: 0.25rem;
+  border-bottom: 2px solid transparent;
+}
+
+nav a:hover {
+  color: var(--fg);
 }
 
 nav a.active {
-  opacity: 1;
-  font-weight: 600;
+  color: var(--fg);
+  border-bottom-color: var(--c2);
 }
 
-a {
-  color: #646cff;
+/* ---- shared page bits ---- */
+h1 {
+  font-size: clamp(1.8rem, 5vw, 2.6rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin: 0.2rem 0 0.6rem;
+}
+
+.eyebrow {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  margin: 0 0 0.4rem;
+}
+
+.lede {
+  font-size: 1.05rem;
+  color: var(--muted);
+  max-width: 40rem;
+}
+
+.grad {
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ---- home cards ---- */
+.cards {
+  list-style: none;
+  padding: 0;
+  margin: 2rem 0 0;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+}
+
+.card a {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  height: 100%;
+  padding: 1.1rem 1.2rem;
+  text-decoration: none;
+  color: inherit;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--c1);
+  border-radius: 0.8rem;
+  transition:
+    transform 0.12s ease,
+    border-color 0.12s ease;
+}
+
+.card:nth-child(3n + 2) a {
+  border-top-color: var(--c2);
+}
+.card:nth-child(3n) a {
+  border-top-color: var(--c3);
+}
+
+.card a:hover {
+  transform: translateY(-2px);
+}
+
+.card-label {
+  font-weight: 700;
+}
+
+.card-file {
+  align-self: flex-start;
+  background: none;
+  padding: 0;
+  color: var(--muted);
+}
+
+.card-blurb {
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+/* ---- catch-all breadcrumbs ---- */
+.crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 1.2rem 0;
+}
+
+.crumbs code {
+  background: color-mix(in srgb, var(--c3) 18%, transparent);
+}
+
+/* ---- search ---- */
+.search {
+  display: flex;
+  gap: 0.6rem;
+  margin: 1.4rem 0 1rem;
+}
+
+.search input,
+.search select {
+  font: inherit;
+  color: inherit;
+  padding: 0.6rem 0.8rem;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 0.6rem;
+}
+
+.search input {
+  flex: 1;
+}
+
+.search input:focus,
+.search select:focus {
+  outline: 2px solid var(--c2);
+  outline-offset: 1px;
+}
+
+.results {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.results li {
+  padding: 0.6rem 0.8rem;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 0.6rem;
+}
+
+.results .empty {
+  color: var(--muted);
+  background: none;
+  border: 1px dashed var(--line);
 }

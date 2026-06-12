@@ -1,14 +1,20 @@
-import { Link } from "react-router";
+import { NavLink } from "react-router";
 
 // `not-found.tsx` renders for unmatched URLs beneath this segment, and for
-// `notFound()` thrown by a descendant.
+// `notFound()` thrown by a descendant. At the root it's the app-wide 404.
 export default function NotFound() {
   return (
     <main>
-      <h1>404</h1>
-      <p>That page doesn&apos;t exist.</p>
+      <p className="eyebrow">not-found.tsx</p>
+      <h1>
+        <span className="grad">404</span> — not found
+      </h1>
+      <p className="lede">
+        No route matched that URL. This boundary also renders whenever a page
+        calls <code>notFound()</code>.
+      </p>
       <p>
-        <Link to="/">← Home</Link>
+        <NavLink to="/">← Back home</NavLink>
       </p>
     </main>
   );

@@ -22,6 +22,7 @@
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
+    "scaffold": "node scripts/dev-scaffold.mjs",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",

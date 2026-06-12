@@ -1,23 +1,27 @@
-import { Link } from "react-router";
+import { NavLink } from "react-router";
 
 export default function AboutPage() {
   return (
-    <main className="space-y-4">
-      <h1 className="text-2xl font-bold tracking-tight">About</h1>
-      <p>
-        A static route — the folder name{" "}
-        <code className="rounded bg-black/5 px-1.5 py-0.5 font-mono text-sm dark:bg-white/10">
-          about
-        </code>{" "}
-        is the URL segment.
+    <main>
+      <p className="font-mono text-sm tracking-wide text-zinc-500 dark:text-zinc-400">
+        about/page.tsx
       </p>
-      <p>
-        <Link
-          className="text-indigo-600 underline underline-offset-2 hover:text-indigo-500 dark:text-indigo-400"
-          to="/"
-        >
-          ← Home
-        </Link>
+      <h1 className="mt-1 text-3xl font-extrabold tracking-tight md:text-4xl">
+        A static route
+      </h1>
+      <p className="mt-3 max-w-xl text-zinc-500 dark:text-zinc-400">
+        The folder <code>src/app/about/</code> maps straight to{" "}
+        <code>/about</code> — no route table, no config.
+      </p>
+      <p className="mt-3 max-w-xl">
+        Every folder with a <code>page.tsx</code> is a route. Nest folders to
+        nest URLs, and the <code>layout.tsx</code> above wraps them all through{" "}
+        <code>&lt;Outlet /&gt;</code>.
+      </p>
+      <p className="mt-6">
+        <NavLink to="/" className="text-purple-600 dark:text-purple-400">
+          ← Back home
+        </NavLink>
       </p>
     </main>
   );

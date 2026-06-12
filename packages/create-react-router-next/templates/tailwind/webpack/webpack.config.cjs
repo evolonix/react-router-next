@@ -1,4 +1,5 @@
 const path = require("node:path");
+const CopyPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = (_env, argv) => {
@@ -36,7 +37,14 @@ module.exports = (_env, argv) => {
         },
       ],
     },
-    plugins: [new HtmlWebpackPlugin({ template: "./index.html" })],
+    plugins: [
+      new HtmlWebpackPlugin({ template: "./index.html" }),
+      // Serve/emit static assets from public/ (the logo) — Vite and Rsbuild
+      // do this by convention; webpack needs it spelled out.
+      new CopyPlugin({
+        patterns: [{ from: "public", noErrorOnMissing: true }],
+      }),
+    ],
     devServer: { historyApiFallback: true, port: 8080 },
     devtool: isDev ? "eval-cheap-module-source-map" : "source-map",
   };

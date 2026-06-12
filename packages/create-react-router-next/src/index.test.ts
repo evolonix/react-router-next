@@ -116,6 +116,8 @@ describe("buildPackageJson", () => {
     const pkg = buildPackageJson("vite", ALL_OFF, "x");
     const dev = pkg.devDependencies as Record<string, string>;
     expect(pkg.dependencies).toHaveProperty("@evolonix/react-router-next");
+    // zod backs the starter's /search route, so it's a core dependency
+    expect(pkg.dependencies).toHaveProperty("zod");
     expect(dev).not.toHaveProperty("eslint");
     expect(dev).not.toHaveProperty("prettier");
     expect(dev).not.toHaveProperty("tailwindcss");
@@ -173,6 +175,18 @@ describe("buildPackageJson", () => {
     ).toHaveProperty("@evolonix/react-router-next-devtools");
   });
 
+  it("adds copy-webpack-plugin for webpack (to ship public/) but not others", () => {
+    const wp = buildPackageJson("webpack", ALL_OFF, "x")
+      .devDependencies as Record<string, string>;
+    expect(wp).toHaveProperty("copy-webpack-plugin");
+    expect(
+      buildPackageJson("vite", ALL_OFF, "x").devDependencies,
+    ).not.toHaveProperty("copy-webpack-plugin");
+    expect(
+      buildPackageJson("rspack", ALL_OFF, "x").devDependencies,
+    ).not.toHaveProperty("copy-webpack-plugin");
+  });
+
   it("omits type:module for webpack only", () => {
     expect(buildPackageJson("webpack", ALL_OFF, "x").type).toBeUndefined();
     expect(buildPackageJson("vite", ALL_OFF, "x").type).toBe("module");
@@ -183,7 +197,9 @@ describe("buildPackageJson", () => {
 describe("layoutTsx", () => {
   it("renders a plain layout without devtools", () => {
     const out = layoutTsx(ALL_OFF, "vite");
-    expect(out).toContain('import { NavLink, Outlet } from "react-router"');
+    expect(out).toContain(
+      'import { Link, NavLink, Outlet } from "react-router"',
+    );
     expect(out).not.toContain("RouteTreeDevtools");
     expect(out).not.toContain("className");
   });
@@ -235,8 +251,16 @@ describe("scaffold", () => {
     // base
     expect(existsSync(join(target, "src/app/page.tsx"))).toBe(true);
     expect(existsSync(join(target, "src/app/layout.tsx"))).toBe(true);
-    expect(existsSync(join(target, "src/app/blog/[slug]/page.tsx"))).toBe(true);
+    expect(existsSync(join(target, "src/app/hello/[name]/page.tsx"))).toBe(
+      true,
+    );
+    expect(existsSync(join(target, "src/app/files/[...path]/page.tsx"))).toBe(
+      true,
+    );
+    expect(existsSync(join(target, "src/app/search/page.tsx"))).toBe(true);
     expect(existsSync(join(target, "src/styles.css"))).toBe(true);
+    // logo shipped in public/
+    expect(existsSync(join(target, "public/logo.svg"))).toBe(true);
     // overlay
     expect(existsSync(join(target, "vite.config.ts"))).toBe(true);
     expect(existsSync(join(target, "src/main.tsx"))).toBe(true);
