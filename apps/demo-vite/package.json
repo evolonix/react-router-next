@@ -22,7 +22,7 @@
     "@evolonix/react-router-next-devtools": "*",
     "@tailwindcss/vite": "^4.3.0",
     "@typescript-eslint/parser": "^8.0.0",
-    "eslint": "^9.18.0",
+    "eslint": "^10.5.0",
     "eslint-plugin-react-router-next": "*",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
