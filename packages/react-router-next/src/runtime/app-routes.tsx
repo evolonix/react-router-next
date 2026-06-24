@@ -4,6 +4,7 @@ import type { RouteObject } from "react-router";
 import {
   InterceptedRoute,
   ParallelLayout,
+  SlotInterceptedRoute,
   TemplateRemount,
   type SlotConfig,
 } from "./parallel-routes";
@@ -138,6 +139,17 @@ function resolveInterceptTargetKey(
   if (intercept.rest) tail.push(intercept.rest);
   tail.push(...postIntercept);
   return [...prefixSegs, ...routeKeySegmentsOf(tail)].join("/");
+}
+
+/**
+ * Stable, unique route id stamped onto a slot-owned intercept's *target* route
+ * in the main tree, and referenced by the slot's `SlotInterceptedRoute` so it
+ * can tell whether the main router actually landed on that target (vs a static
+ * sibling). Derived purely from the target key so both sites agree without
+ * threading the route object across the two build passes.
+ */
+function interceptTargetRouteId(targetKey: string): string {
+  return `__rrnext_intercept_target:${targetKey}`;
 }
 
 function buildTree(modules: RouteModuleMap, appDir: string): Tree {
@@ -326,7 +338,11 @@ function lowerSlotToConfig(
   );
   // Inject slot-owned intercept routes so `useRoutes(slot.routes)` matches the
   // intercept URL pattern on soft navigation. Wrap the interceptor element in
-  // `InterceptedRoute` so hard loads (POP) fall through to the slot's default.
+  // `SlotInterceptedRoute` so (a) hard loads (POP) fall through to the slot's
+  // default, and (b) a static sibling URL that the slot's dynamic pattern would
+  // otherwise capture (e.g. `/settings` matching a sibling `:taskId`) falls
+  // through to the default too — the interceptor only shows when the main
+  // router actually landed on the target route.
   for (const intercept of slotIntercepts) {
     const interceptorEl = lowerInterceptor(intercept.node, intercept.targetKey);
     const targetSegs = routeKeyToRrSegments(intercept.targetKey);
@@ -335,7 +351,13 @@ function lowerSlotToConfig(
     if (relSegs.length === 0) continue;
     routes.push({
       path: relSegs.join("/"),
-      element: <InterceptedRoute Interceptor={interceptorEl} Target={null} />,
+      element: (
+        <SlotInterceptedRoute
+          Interceptor={interceptorEl}
+          Default={defaultElement}
+          targetRouteId={interceptTargetRouteId(intercept.targetKey)}
+        />
+      ),
     });
   }
   return { routes, defaultElement, ErrorComponent, NotFoundComponent };
@@ -712,6 +734,10 @@ function applyIntercept(
   // user navigated *from*. Sufficient for the canonical pattern; revisit if
   // freezing to deeper sibling URLs is needed.
   if (intercept.slotOwned) {
+    // Stamp a stable id on the target route so the slot's `SlotInterceptedRoute`
+    // can detect — via `useMatches()` — whether the main router actually landed
+    // here (vs a static sibling that outranks this dynamic route).
+    target.id = interceptTargetRouteId(intercept.targetKey);
     const key = intercept.parentLayoutKey;
     let originalIndexEl: ReactNode;
     if (parentIndexCache.has(key)) {

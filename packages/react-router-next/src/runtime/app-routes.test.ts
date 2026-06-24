@@ -5,6 +5,7 @@ import { buildRoutesFromModules, type RouteModuleMap } from "./app-routes";
 import {
   InterceptedRoute,
   ParallelLayout,
+  SlotInterceptedRoute,
   type SlotConfig,
 } from "./parallel-routes";
 import {
@@ -106,7 +107,7 @@ describe("buildRoutesFromModules — slot-owned intercepting routes", () => {
     expect(target.props.Component).toBe(Feed);
   });
 
-  it("injects an InterceptedRoute at :id into the @modal slot's routes", () => {
+  it("injects a SlotInterceptedRoute at :id into the @modal slot's routes", () => {
     const [root] = buildRoutesFromModules(modules, APP_DIR);
     const photos = findChild(root, (r) => r.path === "photos");
     const layoutEl = asElement<{
@@ -119,11 +120,21 @@ describe("buildRoutesFromModules — slot-owned intercepting routes", () => {
     const injected = slot.routes.find((r) => r.path === ":id");
     expect(injected).toBeDefined();
 
-    const wrapper = asElement<{ Interceptor: unknown; Target: unknown }>(
-      injected!.element,
+    const wrapper = asElement<{
+      Interceptor: unknown;
+      Default: unknown;
+      targetRouteId: string;
+    }>(injected!.element);
+    expect(wrapper.type).toBe(SlotInterceptedRoute);
+    // The gate references the target route's id; the main tree stamps the same
+    // id on the `:id` route so `useMatches()` can confirm a real target match.
+    expect(wrapper.props.targetRouteId).toBe(
+      "__rrnext_intercept_target:photos/[id]",
     );
-    expect(wrapper.type).toBe(InterceptedRoute);
-    expect(wrapper.props.Target).toBeNull();
+    const idRoute = findChild(photos, (r) => r.path === ":id");
+    expect(idRoute.id).toBe("__rrnext_intercept_target:photos/[id]");
+    // When the interceptor is not shown, the slot falls through to its default.
+    expect(wrapper.props.Default).toBe(slot.defaultElement);
 
     const dialog = asElement<{ Component: ComponentType; route: string }>(
       wrapper.props.Interceptor,
@@ -650,10 +661,10 @@ describe("buildRoutesFromModules — intercepted-route loading/error wiring", ()
     const slot = layoutEl.props.slots.modal;
     const injected = slot.routes.find((r) => r.path === ":id");
     expect(injected).toBeDefined();
-    const wrapper = asElement<{ Interceptor: unknown; Target: unknown }>(
+    const wrapper = asElement<{ Interceptor: unknown; Default: unknown }>(
       injected!.element,
     );
-    expect(wrapper.type).toBe(InterceptedRoute);
+    expect(wrapper.type).toBe(SlotInterceptedRoute);
     const boundary = asElement<{
       Loading: unknown;
       ErrorComponent: unknown;

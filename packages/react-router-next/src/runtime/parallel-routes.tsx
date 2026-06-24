@@ -1,6 +1,7 @@
 import type { ComponentType, ReactElement, ReactNode } from "react";
 import {
   useLocation,
+  useMatches,
   useNavigationType,
   useParams,
   useRoutes,
@@ -108,4 +109,36 @@ export function InterceptedRoute({
 }): ReactElement {
   const navType = useNavigationType();
   return <>{navType === "POP" ? Target : Interceptor}</>;
+}
+
+/**
+ * Slot-side counterpart to `InterceptedRoute`. A `@slot` is matched by its own
+ * `useRoutes(slot.routes)`, which is isolated from the main outlet's matcher.
+ * That isolated matcher contains only the intercept's dynamic pattern (e.g.
+ * `:id`), so it would greedily match a *static* sibling URL too — e.g. a
+ * `/projects/p1/settings` route would match a sibling `:taskId` intercept as
+ * `taskId="settings"` and wrongly open the modal (which then 404s on the
+ * non-existent task).
+ *
+ * The main data router does NOT have this problem: it ranks the static
+ * `settings` route above the dynamic `[taskId]` one, so it lands on `settings`.
+ * We delegate to that decision: render the interceptor only on soft navigation
+ * AND only when the main router actually matched the intercept's target route
+ * (identified by `targetRouteId`). Otherwise fall through to the slot's default,
+ * exactly as if the slot pattern had not matched.
+ */
+export function SlotInterceptedRoute({
+  Interceptor,
+  Default,
+  targetRouteId,
+}: {
+  Interceptor: ReactNode;
+  Default: ReactNode;
+  targetRouteId: string;
+}): ReactElement {
+  const navType = useNavigationType();
+  const matches = useMatches();
+  const mainMatchedTarget = matches.some((m) => m.id === targetRouteId);
+  const showInterceptor = navType !== "POP" && mainMatchedTarget;
+  return <>{showInterceptor ? Interceptor : Default}</>;
 }
