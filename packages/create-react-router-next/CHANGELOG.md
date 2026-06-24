@@ -1,5 +1,15 @@
 # create-react-router-next
 
+## 0.3.0
+
+### Minor Changes
+
+- [#69](https://github.com/evolonix/react-router-next/pull/69) [`2e96104`](https://github.com/evolonix/react-router-next/commit/2e9610489147b00134549f8adccc3b34c82b5056) Thanks [@jasonruesch](https://github.com/jasonruesch)! - Redesign the scaffolded starter into a simple, branded landing that demonstrates each core routing convention.
+
+  - New `src/app/` example routes: home, `about` (static), `hello/[name]` (dynamic segment), `files/[...path]` (catch-all), `search` (typed + validated `searchSchema` via Zod), and a root `not-found`.
+  - Cohesive Evolonix-branded design — `public/logo.svg` brand mark + `favicon.svg`, a Manrope wordmark, and the three-color palette — in both the plain-CSS base and the Tailwind variant.
+  - Add `zod` as a dependency (backs the `/search` route) and `copy-webpack-plugin` to the webpack template so `public/` assets ship in the build (Vite and Rsbuild serve `public/` natively).
+
 ## 0.2.0
 
 ### Minor Changes
