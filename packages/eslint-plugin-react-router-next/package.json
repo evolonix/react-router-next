@@ -41,11 +41,11 @@
     "eslint": ">=9"
   },
   "devDependencies": {
-    "@types/node": "^26.0.0",
-    "eslint": "^10.5.0",
+    "@types/node": "^26.2.0",
+    "eslint": "^10.8.1",
     "tsup": "^8.3.0",
     "typescript": "~6.0.2",
-    "vitest": "^4.1.9"
+    "vitest": "^4.1.10"
   },
   "engines": {
     "node": ">=24"
